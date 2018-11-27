@@ -1,4 +1,4 @@
-package sample;
+package SurvivalGame;
 
 public class Controller {
 }

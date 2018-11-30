@@ -24,7 +24,7 @@ Andy:
 * Tree
 
 Bill:
-..* Tools
-..* FieldObject
-..* Fence
-..* Point
+* Tools
+* FieldObject
+* Fence
+* Point

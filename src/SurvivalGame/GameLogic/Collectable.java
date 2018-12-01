@@ -1,25 +1,39 @@
 import java.util.ArrayList;
 import java.util.List;
+package SurvivalGame.GameLogic;
+
 
 public interface Collectable {
+    int total = 20;
     List<String> items = new ArrayList<>();
     private int giveitems(int i){
         return i;
     }
+    public void additems();
 
 }
 
-class Tree implements Collectable {
+abstract class Tree implements Collectable {
     int total = 20;
     int giveitems(int items){
         return items;
     }
+    public void addites(){
+        for (int i = 0; i < total; i++){
+            items.add("Sticks");
+        }
+    }
 }
 
-class Bush implements Collectable {
+abstract class Bush implements Collectable {
     int total = 10;
     int giveitems(int items){
         return items;
+    }
+    public void addites() {
+        for (int i = 0; i < total; i++) {
+            items.add("Berries");
+        }
     }
 }
 

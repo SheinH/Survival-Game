@@ -1,4 +1,6 @@
-package SurvivalGame.GameLogic;
+package SurvivalGame.GameLogic.FieldObjects;
+
+import SurvivalGame.GameLogic.Terrain;
 
 public abstract class MovingFieldObject extends FieldObject {
     private int direction;

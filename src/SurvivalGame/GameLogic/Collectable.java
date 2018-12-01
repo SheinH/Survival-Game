@@ -1,6 +1,6 @@
+package SurvivalGame.GameLogic;
 import java.util.ArrayList;
 import java.util.List;
-package SurvivalGame.GameLogic;
 
 
 public interface Collectable {

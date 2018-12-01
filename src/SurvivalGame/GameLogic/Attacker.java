@@ -1,5 +1,5 @@
 package SurvivalGame.GameLogic;
 
 public interface Attacker {
-    public abstract void attack(HealthObject target);
+    void attack(HealthObject target);
 }

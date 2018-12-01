@@ -15,6 +15,8 @@ public class Game {
         gameLock = new ReentrantLock();
         gamePauseLock = new ReentrantLock();
         gameThread = Executors.newSingleThreadScheduledExecutor();
+        paused = true;
+        gamePauseLock.lock();
         gameThread.scheduleAtFixedRate(() -> update(), 0, 33333, TimeUnit.MILLISECONDS);
     }
 
@@ -22,6 +24,7 @@ public class Game {
         gameLock.lock();
         gamePauseLock.lock();
         field.getFieldObjects().forEach((obj) -> obj.update());
+        gamePauseLock.unlock();
         gameLock.unlock();
     }
 

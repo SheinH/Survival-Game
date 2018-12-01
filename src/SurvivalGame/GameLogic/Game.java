@@ -3,6 +3,7 @@ package SurvivalGame.GameLogic;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Executors;
 
 public class Game {
     Field field;
@@ -11,7 +12,7 @@ public class Game {
     boolean paused;
     ReentrantLock gamePauseLock;
     public Game(){
-        gamelock = new ReentrantLock();
+        gameLock = new ReentrantLock();
         gamePauseLock = new ReentrantLock();
         gameThread = Executors.newSingleThreadScheduledExecutor();
         gameThread.scheduleAtFixedRate(() -> update(), 0, 33333, TimeUnit.MILLISECONDS);

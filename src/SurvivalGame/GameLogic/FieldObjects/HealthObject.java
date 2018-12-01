@@ -1,4 +1,4 @@
-package SurvivalGame.GameLogic;
+package SurvivalGame.GameLogic.FieldObjects;
 
 public interface HealthObject {
     int getHealth();

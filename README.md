@@ -9,11 +9,11 @@ Things to do:
 * put it together
 
 Shein:
-* HealthObject
-* MovingFieldObject
-* Attacker
-* Carnivore
-* Herbivore
+* ~~HealthObject~~
+* ~~MovingFieldObject~~
+* ~~Attacker~~
+* ~~Carnivore~~
+* ~~Herbivore~~
 
 Andy:
 * Collectable

@@ -1,5 +1,5 @@
 package SurvivalGame.GameLogic.FieldObjects;
-
+import SurvivalGame.GameLogic.FieldObject;
 
 public class Bush extends FieldObject implements Collectable {
     int total = 10;

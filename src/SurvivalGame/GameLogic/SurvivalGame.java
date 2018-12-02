@@ -5,13 +5,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.Executors;
 
-public class Game {
+public class SurvivalGame {
     Field field;
     ScheduledExecutorService gameThread;
     ReentrantLock gameLock;
     boolean paused;
     ReentrantLock gamePauseLock;
-    public Game(){
+    Runnable updateGui;
+    public SurvivalGame(){
         gameLock = new ReentrantLock();
         gamePauseLock = new ReentrantLock();
         gameThread = Executors.newSingleThreadScheduledExecutor();
@@ -26,6 +27,12 @@ public class Game {
         field.getFieldObjects().forEach((obj) -> obj.update());
         gamePauseLock.unlock();
         gameLock.unlock();
+        if(updateGui != null)
+            updateGui.run();
+    }
+
+    public void setUpdateGui(Runnable updateGui) {
+        this.updateGui = updateGui;
     }
 
     public void pause(){

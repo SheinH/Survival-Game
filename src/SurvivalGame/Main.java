@@ -12,11 +12,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        c = new Controller();
+        loader.setController(c);
         Parent root = loader.load();
-        c = loader.getController();
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("Survival Game");
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+        c.setText("Sample Text");
+        c.requestFocus();
     }
 
 

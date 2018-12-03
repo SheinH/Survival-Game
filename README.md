@@ -9,7 +9,7 @@ Things to do:
 * put it together
 
 Shein:
-* HealthObject
+* HealthObject change to Health interface
 * MovingFieldObject
 * Attacker
 * Carnivore
@@ -24,7 +24,8 @@ Andy:
 * Tree
 
 Bill:
-* Tools
-* FieldObject
-* Fence
-* Point
+* Tools(all the tools except Torch(90%):DONE
+* FieldObject(50%)    :DONE
+* Fence               :DONE
+* Point               :DONE
+* Capacity(Interface) :DONE

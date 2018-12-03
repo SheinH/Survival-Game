@@ -12,7 +12,7 @@ public abstract class MovingFieldObject extends FieldObject {
     protected HashMap<Terrain,Integer> moveSpeeds;
     public abstract int getMoveTime();
     private static Terrain[] moveableTerrains;
-    public int getDirection(){
+    public Direction getDirection(){
         return direction;
     };
     public void changeDirectionRandomly(){

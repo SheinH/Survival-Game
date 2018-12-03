@@ -1,5 +1,6 @@
 package SurvivalGame.GameLogic;
 
+<<<<<<< HEAD
 public class FieldObject{
     private Point point;
 
@@ -23,4 +24,10 @@ public class FieldObject{
         // not implemented yet
     }
 
+=======
+public class FieldObject {
+    public void update(){
+
+    }
+>>>>>>> origin/master
 }

@@ -1,5 +1,6 @@
 package SurvivalGame;
 
+import SurvivalGame.GameLogic.SurvivalGame;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,12 +9,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    private Controller c;
+    private SurvivalGame game;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        c = new Controller();
+        loader.setController(c);
+        Parent root = loader.load();
+        primaryStage.setTitle("Survival Game");
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+        c.setText("Sample Text");
+        c.requestFocus();
+        game = new SurvivalGame();
+        game.unPause();
     }
 
 

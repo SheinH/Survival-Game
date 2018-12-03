@@ -1,4 +1,4 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
-public class Bear {
+public abstract class Bear extends Carnivore{
 }

@@ -1,5 +1,5 @@
 package SurvivalGame.GameLogic;
 
-public Stick extends Tool {
+public class Stick extends Tool {
     super(10, 2, 3, "stick")
 }

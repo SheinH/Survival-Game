@@ -1,4 +1,4 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
-public class Horse {
+public abstract class Horse extends Herbivore{
 }

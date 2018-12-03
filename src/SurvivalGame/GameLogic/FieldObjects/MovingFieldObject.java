@@ -1,7 +1,7 @@
 package SurvivalGame.GameLogic.FieldObjects;
+import SurvivalGame.GameLogic.FieldObject;
 import SurvivalGame.GameLogic.Terrain;
 import java.util.HashMap;
-
 public abstract class MovingFieldObject extends FieldObject {
     private int direction;
     private HashMap<Terrain,Integer> moveSpeeds;

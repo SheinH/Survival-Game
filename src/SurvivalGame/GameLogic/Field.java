@@ -1,10 +1,6 @@
 package SurvivalGame.GameLogic;
-
-import SurvivalGame.GameLogic.FieldObjects.Rabbit;
-
 import java.util.List;
 
-import static SurvivalGame.GameLogic.Terrain.GRASS;
 
 public class Field extends Tile{
     private List<FieldObject> fieldObjects;
@@ -26,7 +22,7 @@ public class Field extends Tile{
                 grid[i][j]=new Tile();
             }
         }
-        
+
             }
 }
 

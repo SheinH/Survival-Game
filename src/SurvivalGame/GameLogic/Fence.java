@@ -5,7 +5,7 @@ import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 public class Fence extends FieldObject implements HealthObject {
 
     //TODO fix this
-    private int final MAX_LEVEL = 10;
+    private final int MAX_LEVEL = 10;
     private int level = 0;
     private int health = 0;
 
@@ -19,7 +19,7 @@ public class Fence extends FieldObject implements HealthObject {
     @Override
     public int getHealth() {return health;}
 
-    public void getLevel() {return level;}
+    public int getLevel() {return level;}
 
     //getter methods
 
@@ -41,7 +41,6 @@ public class Fence extends FieldObject implements HealthObject {
         this.level = this.level + difference;
     }
 
-    @Override
     public void showHealth(){
         System.out.println("Fence's health is " + health);
     }

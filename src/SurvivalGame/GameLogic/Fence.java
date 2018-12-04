@@ -1,15 +1,18 @@
 package SurvivalGame.GameLogic;
 
-public class Fence extends FieldObject implements Health{
+import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 
+public class Fence extends FieldObject implements HealthObject {
+
+    //TODO fix this
     private int final MAX_LEVEL = 10;
     private int level = 0;
     private int health = 0;
 
-    public class(Point point, ... , int level, int health) {
-        //super(Point point, ...) not clear yet
-
-    }
+//    public class(Point point, ... , int level, int health) {
+//        //super(Point point, ...) not clear yet
+//
+//    }
 
     //getter methods
 
@@ -24,7 +27,7 @@ public class Fence extends FieldObject implements Health{
     public void setHealth(int difference) {
         //when health < 0, this will be destroyed => no need for exception
         if(this.health + difference < 0){
-            health = 0
+            health = 0;
         } else{
             this.health = this.health + difference;
         }

@@ -1,14 +1,16 @@
 package SurvivalGame.GameLogic.Items;
 
 public class Hand extends Tool {
-    super(5, 1, 0, "hand");
+    public Hand(){
+        super(5, 1, 0, "hand");
+    }
 
     public void buildBase(int stick){
         if(stick <= 0){
             throw new IllegalArgumentException("stick must be > 0");
         }
 
-        base.setLevel(stick);
+        //base.setLevel(stick);
 
         //stick.reduce(stick);
     }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public abstract class MovingFieldObject extends FieldObject {
-    enum Direction{
+    public enum Direction{
         NONE,UP,DOWN,LEFT,RIGHT;
     }
     private Direction direction;

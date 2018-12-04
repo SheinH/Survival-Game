@@ -1,6 +1,6 @@
 package SurvivalGame.GameLogic;
 
-public interface Capacity() {
+public interface Capacity {
 
     //getter methods
 

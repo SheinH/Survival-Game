@@ -3,12 +3,12 @@ package SurvivalGame.GameLogic.Items;
 import SurvivalGame.GameLogic.SurvivalGame;
 
 public abstract class Tool{
-    private int damage;
-    private int range;
-    private int weight;
+    private final int damage;
+    private final int range;
+    private final int weight;
     private final String name;
 
-    public Tool(int damage, int range, String name){
+    public Tool(int damage, int range, int weight, String name) {
         if(damage < 0){
             throw new IllegalArgumentException("damage must be > 0");
         }
@@ -16,9 +16,9 @@ public abstract class Tool{
         if(range < 0){
             throw new IllegalArgumentException("range must be > 0");
         }
-
         this.damage = damage;
         this.range = range;
+        this.weight = weight;
         this.name = name;
     }
 
@@ -39,19 +39,5 @@ public abstract class Tool{
     //*setter methods
 
     //setDamage()
-    public void setDamage(int damage) {
-        if(damage < 0){
-            throw new IllegalArgumentException("damage must be > 0");
-        }
-        this.damage = damage;
-    }
-
-    //setRange()
-    public void setRange(int range){
-        if(range < 0){
-            throw new IllegalArgumentException("range must be > 0");
-        }
-        this.range = range;
-    }
 
 }

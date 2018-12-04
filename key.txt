@@ -1,0 +1,9 @@
+A - Agent
+R - Rabbit
+C - Crocidile 
+F - Fish
+L - Lion
+H - Horse
+T - Trees
+B - Bushes
+S - Stone

@@ -1,6 +1,6 @@
-package SurvivalGame.GameLogic;
+package SurvivalGame.GameLogic.Items;
 
-public class Hand extends Tool{
+public class Hand extends Tool {
     super(5, 1, 0, "hand");
 
     public void buildBase(int stick){

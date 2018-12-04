@@ -1,9 +1,11 @@
-package SurvivalGame.GameLogic;
+package SurvivalGame.GameLogic.Items;
 
-public class Tool{
+import SurvivalGame.GameLogic.SurvivalGame;
+
+public abstract class Tool{
     private int damage;
     private int range;
-    private int final weight;
+    private int weight;
     private final String name;
 
     public Tool(int damage, int range, String name){

@@ -1,4 +1,9 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
-public abstract class Crocodile extends Carnivore{
+public class Crocodile extends Carnivore{
+    @Override
+    public void attack(HealthObject target) {
+        target.lowerHealth(5);
+    }
+    publi
 }

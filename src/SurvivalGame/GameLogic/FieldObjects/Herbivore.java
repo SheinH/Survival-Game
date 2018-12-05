@@ -1,5 +1,5 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
-public abstract class Herbivore extends MovingFieldObject {
+public abstract class Herbivore extends MovingFieldObject implements HealthObject{
 
 }

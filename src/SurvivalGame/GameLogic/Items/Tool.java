@@ -2,11 +2,9 @@ package SurvivalGame.GameLogic.Items;
 
 import SurvivalGame.GameLogic.SurvivalGame;
 
-public abstract class Tool{
+public abstract class Tool extends Item{
     private final int damage;
     private final int range;
-    private final int weight;
-    private final String name;
 
     public Tool(int damage, int range, int weight, String name) {
         if(damage < 0){

@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 public abstract class MovingFieldObject extends FieldObject {
-    public enum Direction{
-        NONE,UP,DOWN,LEFT,RIGHT;
-    }
     private Direction direction;
+    private int moveTime;
     protected HashMap<Terrain,Integer> moveSpeeds;
     public abstract int getMoveTime();
     private static Terrain[] moveableTerrains;

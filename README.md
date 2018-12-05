@@ -9,9 +9,9 @@ TO DO:
 
 
 Shein:
-* Loading map
+* ~Loading map~
 * Getting objects to move
 
 Bill:
 * Items
-* 
+*

@@ -2,12 +2,9 @@ package SurvivalGame.GameLogic.FieldObjects;
 
 public class Lion extends Carnivore{
     @Override
-    public void attack(HealthObject target) {
-        target.setHealth(target.getHealth() - damage);
+    public char getChar() {
+        return 'L';
     }
 
-    @Override
-    public int getMoveTime() {
-        return 15;
-    }
+
 }

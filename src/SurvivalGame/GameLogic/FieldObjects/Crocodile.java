@@ -5,5 +5,19 @@ public class Crocodile extends Carnivore{
     public void attack(HealthObject target) {
         target.lowerHealth(5);
     }
-    publi
+
+    @Override
+    public char getChar() {
+        return 'C';
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public int getMoveTime() {
+        return 0;
+    }
 }

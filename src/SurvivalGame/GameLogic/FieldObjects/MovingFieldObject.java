@@ -8,7 +8,19 @@ public abstract class MovingFieldObject extends FieldObject {
     private Direction direction;
     private int moveTime;
     protected HashMap<Terrain,Integer> moveSpeeds;
-    public abstract int getMoveTime();
+    public int getMoveTime(){
+        return moveTime;
+    };
+
+    @Override
+    public void update() {
+        if(moveTime > 0)
+            moveTime--;
+        else{
+
+        }
+    }
+
     private static Terrain[] moveableTerrains;
     public Direction getDirection(){
         return direction;

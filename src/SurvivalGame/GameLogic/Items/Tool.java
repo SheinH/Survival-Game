@@ -16,7 +16,6 @@ public abstract class Tool extends Item{
         }
         this.damage = damage;
         this.range = range;
-        this.weight = weight;
         this.name = name;
     }
 

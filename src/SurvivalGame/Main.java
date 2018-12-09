@@ -2,6 +2,7 @@ package SurvivalGame;
 
 import SurvivalGame.GameLogic.SurvivalGame;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +21,10 @@ public class Main extends Application {
         primaryStage.setTitle("Survival Game");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+        primaryStage.setOnCloseRequest( t -> {
+            Platform.exit();
+            System.exit(0);
+        });
         c.setText("Sample Text");
         c.requestFocus();
         game = new SurvivalGame();

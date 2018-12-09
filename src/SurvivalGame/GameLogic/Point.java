@@ -13,7 +13,7 @@ public class Point{
         this(0,0);
     }
 
-    public Point(int x, int y){
+    public Point(int y, int x){
         if (x < 0){
             throw new IllegalArgumentException("x must be >=0");
         }

@@ -1,5 +1,12 @@
 package SurvivalGame.GameLogic;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.ServiceLoader;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
@@ -26,7 +33,6 @@ public class SurvivalGame {
     public void update(){
         gameLock.lock();
         gamePauseLock.lock();
-        System.out.println("TICK");
         tickCount++;
         //field.getFieldObjects().forEach((obj) -> obj.update());
         gamePauseLock.unlock();
@@ -43,6 +49,22 @@ public class SurvivalGame {
         if(!paused){
             gamePauseLock.lock();
             paused = true;
+        }
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void readFile(){
+        File file = new File("SurvivalGameLayout.txt");
+        try{
+            Scanner sc = new Scanner(file);
+            field = Loader.loadTiles(sc);
+            Loader.loadObjects(sc, field);
+        }
+        catch(FileNotFoundException e){
+            System.out.println("NOT FOUND");
         }
     }
 

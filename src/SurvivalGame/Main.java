@@ -23,7 +23,8 @@ public class Main extends Application {
         c.setText("Sample Text");
         c.requestFocus();
         game = new SurvivalGame();
-        game.unPause();
+        game.readFile();
+        c.setText(game.getField().toString());
     }
 
 

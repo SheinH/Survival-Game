@@ -23,13 +23,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         c = new Controller();
-
-        Button btn = new Button();
-        button.setLabel("Quit");
-
-        StackPane sp = new StackPane();
-        sp.getChildren().add(btn);
-
         loader.setController(c);
         Parent root = loader.load();
         primaryStage.setTitle("Survival Game");

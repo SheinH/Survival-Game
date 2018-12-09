@@ -46,5 +46,13 @@ public class Fence extends FieldObject implements HealthObject {
     }
 
 
+    @Override
+    public void update() {
 
+    }
+
+    @Override
+    public char getChar() {
+        return 0;
+    }
 }

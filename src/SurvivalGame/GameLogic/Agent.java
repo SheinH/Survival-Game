@@ -21,6 +21,11 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     }
 
     @Override
+    public char getChar() {
+        return 'A';
+    }
+
+    @Override
     public int getMoveTime() {
         return 0;
     }

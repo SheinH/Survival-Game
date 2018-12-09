@@ -2,7 +2,7 @@ package SurvivalGame.GameLogic.Items;
 
 public class Hand extends Tool {
     public Hand(){
-        super(2, 5, 1, 0);
+        super(2, 5, 1);
     }
 
 

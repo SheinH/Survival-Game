@@ -11,5 +11,15 @@ public class Bush extends FieldObject implements Collectable {
             //items.add("Berries");
         }
     }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public char getChar() {
+        return 'b';
+    }
 }
 

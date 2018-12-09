@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 
 public class SurvivalGame {
     Field field;
+    long tickCount;
     ScheduledExecutorService gameThread;
     ReentrantLock gameLock;
     boolean paused;
@@ -26,6 +27,7 @@ public class SurvivalGame {
         gameLock.lock();
         gamePauseLock.lock();
         System.out.println("TICK");
+        tickCount++;
         //field.getFieldObjects().forEach((obj) -> obj.update());
         gamePauseLock.unlock();
         gameLock.unlock();

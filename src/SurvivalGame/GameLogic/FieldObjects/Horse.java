@@ -1,4 +1,8 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
-public abstract class Horse extends Herbivore{
+public class Horse extends Herbivore{
+    @Override
+    public char getChar() {
+        return 'H';
+    }
 }

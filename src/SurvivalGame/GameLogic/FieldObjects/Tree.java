@@ -13,4 +13,14 @@ public class Tree extends FieldObject implements Collectable {
             //items.add("Sticks");
         }
     }
+
+    @Override
+    public char getChar() {
+        return 'T';
+    }
+
+    @Override
+    public void update() {
+
+    }
 }

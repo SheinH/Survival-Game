@@ -1,7 +1,9 @@
 package SurvivalGame.GameLogic;
 
-public class FieldObject {
+public abstract class FieldObject {
+    private Field field;
     private Point point;
+    private String name;
 
     //* CONSTRUCTOR(S)
     public FieldObject() {
@@ -17,12 +19,28 @@ public class FieldObject {
 
     //*update() method
 
-    public void update() {
-        //not implemented yet
-    }
+    public abstract void update();
 
     //destroy() method
-    public void destroy() {
-        // not implemented yet
+    public void destroy(){}
+
+    public abstract char getChar();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public FieldObject(Field field, Point point, String name) {
+        this.field = field;
+        this.point = point;
+        this.name = name;
+    }
+
+    public Field getField() {
+        return field;
     }
 }

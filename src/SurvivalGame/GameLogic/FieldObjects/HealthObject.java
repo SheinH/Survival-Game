@@ -2,5 +2,5 @@ package SurvivalGame.GameLogic.FieldObjects;
 
 public interface HealthObject {
     int getHealth();
-    void setHealth(int i);
+    void setHealth(int difference);
 }

@@ -2,8 +2,9 @@ package SurvivalGame.GameLogic.Items;
 
 public class Hand extends Tool {
     public Hand(){
-        super(5, 1, 0, "hand");
+        super(2, 5, 1, 0);
     }
+
 
     public void buildBase(int stick){
         if(stick <= 0){

@@ -1,4 +1,9 @@
 package SurvivalGame.GameLogic.Items;
 
-public class Berry {
+public class Berry extends Food {
+
+    public Berry() {
+        super(0.1, 1);
+    }
+
 }

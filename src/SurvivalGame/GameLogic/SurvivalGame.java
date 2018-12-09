@@ -12,6 +12,7 @@ public class SurvivalGame {
     boolean paused;
     ReentrantLock gamePauseLock;
     Runnable updateGui;
+    
     public SurvivalGame(){
         gameLock = new ReentrantLock();
         gamePauseLock = new ReentrantLock();

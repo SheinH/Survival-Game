@@ -1,24 +1,86 @@
 package SurvivalGame.GameLogic.FieldObjects;
 import SurvivalGame.GameLogic.FieldObject;
+import SurvivalGame.GameLogic.Point;
 import SurvivalGame.GameLogic.Terrain;
+import SurvivalGame.GameLogic.Tile;
+
 import java.util.HashMap;
 import java.util.Random;
 
 public abstract class MovingFieldObject extends FieldObject {
     private Direction direction;
     private int moveTime;
-    protected HashMap<Terrain,Integer> moveSpeeds;
+    private HashMap<Terrain,Integer> moveSpeeds;
     public int getMoveTime(){
         return moveTime;
     };
+
+    public MovingFieldObject() {
+        direction = Direction.NONE;
+        moveSpeeds = new HashMap<>();
+        moveTime = 0;
+    }
+
+    public void setMoveSpeed(Terrain t, int ms){
+        moveSpeeds.put(t,ms);
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public int getMoveSpeed(){
+        Terrain t = getTile().getTerrain();
+        //return moveSpeeds.get(t);
+        return 30;
+    }
 
     @Override
     public void update() {
         if(moveTime > 0)
             moveTime--;
         else{
-
+            System.out.println("MOVED");
+            moveForward();
+            moveTime += 2;
         }
+    }
+
+    public void moveForward() {
+        if(direction != Direction.NONE) {
+            int x = getPoint().getX();
+            int y = getPoint().getY();
+            switch (direction) {
+                case UP:
+                    y -= 1;
+                    break;
+                case DOWN:
+                    y += 1;
+                    break;
+                case LEFT:
+                    x -= 1;
+                    break;
+                case RIGHT:
+                    x += 1;
+                    break;
+            }
+            moveTo(new Point(y,x));
+        }
+    }
+
+    private void moveTo(Point dest){
+        if(getField().inBounds(dest)) {
+            Tile destTile = getField().getTile(dest);
+            Tile currentTile = getTile();
+            currentTile.getObjects().remove(this);
+            destTile.getObjects().add(this);
+            setPoint(dest);
+            System.out.printf("Moved to %d, %d",dest.getY(), dest.getX());
+        }
+    }
+
+    public void addMoveTime(int i){
+        moveTime += i;
     }
 
     private static Terrain[] moveableTerrains;

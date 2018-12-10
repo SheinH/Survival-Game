@@ -20,7 +20,16 @@ public class SurvivalGame {
     boolean paused;
     ReentrantLock gamePauseLock;
     Runnable updateGui;
-    
+    Agent agent;
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
     public SurvivalGame(){
         gameLock = new ReentrantLock();
         gamePauseLock = new ReentrantLock();
@@ -33,12 +42,19 @@ public class SurvivalGame {
     public void update(){
         gameLock.lock();
         gamePauseLock.lock();
+        /*tickCount++;
+        System.out.println("UPDATE");
+        agent.update();
+        if(updateGui != null)
+            updateGui.run();*/
+        updateGui.run();
         tickCount++;
-        //field.getFieldObjects().forEach((obj) -> obj.update());
         gamePauseLock.unlock();
         gameLock.unlock();
-        if(updateGui != null)
-            updateGui.run();
+    }
+
+    public long getTickCount() {
+        return tickCount;
     }
 
     public void setUpdateGui(Runnable updateGui) {
@@ -61,6 +77,7 @@ public class SurvivalGame {
         try{
             Scanner sc = new Scanner(file);
             field = Loader.loadTiles(sc);
+            field.setGame(this);
             Loader.loadObjects(sc, field);
         }
         catch(FileNotFoundException e){

@@ -27,6 +27,6 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
     @Override
     public int getMoveTime() {
-        return 0;
+        return 2;
     }
 }

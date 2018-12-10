@@ -11,10 +11,20 @@ public abstract class FieldObject {
         // not implemented yet
     }
 
-    //*getter methods
+    public void setField(Field field) {
+        this.field = field;
+    }
 
     public Point getPoint() {
         return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
+    public Tile getTile(){
+        return field.getTile(point);
     }
 
     //*update() method

@@ -22,7 +22,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
-        c = new Controller();
+        game = new SurvivalGame();
+        game.readFile();
+        c = new Controller(game);
         loader.setController(c);
         Parent root = loader.load();
         primaryStage.setTitle("Survival Game");
@@ -32,11 +34,9 @@ public class Main extends Application {
             Platform.exit();
             System.exit(0);
         });
-        c.setText("Sample Text");
         c.requestFocus();
-        game = new SurvivalGame();
-        game.readFile();
         c.setText(game.getField().toString());
+        game.update();
     }
 
 

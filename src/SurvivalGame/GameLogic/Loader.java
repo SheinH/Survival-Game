@@ -37,7 +37,9 @@ public class Loader {
                 return new Bush();
             case 'r':
                 return new Rock();
-            default:
+            case 'b':
+                return new Bear();
+                default:
                 return null;
         }
     }
@@ -81,6 +83,10 @@ public class Loader {
                 char c = lines.get(y).charAt(x);
                 Point p = new Point(y,x);
                 FieldObject obj = makeFieldObject(c);
+                if(obj instanceof  Agent){
+                    Agent a = (Agent) obj;
+                    field.getGame().setAgent(a);
+                }
                 if(obj != null)
                     field.addFieldObject(obj,p);
             }

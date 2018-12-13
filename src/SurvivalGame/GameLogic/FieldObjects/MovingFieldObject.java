@@ -42,6 +42,7 @@ public abstract class MovingFieldObject extends FieldObject {
         else{
             System.out.println("MOVED");
             moveForward();
+            changeDirection();
             moveTime += 2;
         }
     }
@@ -69,7 +70,10 @@ public abstract class MovingFieldObject extends FieldObject {
     }
 
     private void moveTo(Point dest){
-        if(getField().inBounds(dest)) {
+        if(! getField().inBounds(dest) || getField().getTile(dest).hasObject()){
+            setDirection(Direction.NONE);
+        }
+        else {
             Tile destTile = getField().getTile(dest);
             Tile currentTile = getTile();
             currentTile.getObjects().remove(this);
@@ -87,7 +91,7 @@ public abstract class MovingFieldObject extends FieldObject {
     public Direction getDirection(){
         return direction;
     };
-    public void changeDirectionRandomly(){
+    public void changeDirection(){
         int rand = new Random().nextInt();
         if(direction == Direction.NONE){
             int rand2 = Math.floorMod(rand,4);

@@ -1,5 +1,6 @@
 package SurvivalGame;
 
+import SurvivalGame.GameLogic.FieldObjects.Direction;
 import SurvivalGame.GameLogic.SurvivalGame;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,7 +37,7 @@ public class Main extends Application {
         });
         c.requestFocus();
         c.setText(game.getField().toString());
-        game.update();
+
     }
 
 

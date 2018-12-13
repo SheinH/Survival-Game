@@ -70,6 +70,7 @@ public class Controller {
 
     @FXML
     private void initialize(){
-        game.getAgent().setDirection(Direction.RIGHT);
+        textArea.setOnKeyPressed((e) -> handleKeyPress(e));
+        textArea.setOnKeyReleased((e) -> handleKeyRelease(e));
     }
 }

@@ -36,19 +36,21 @@ public class SurvivalGame {
         gameThread = Executors.newSingleThreadScheduledExecutor();
         paused = true;
         gamePauseLock.lock();
-        gameThread.scheduleAtFixedRate(() -> update(), 0, 1 , TimeUnit.SECONDS);
+        gameThread.scheduleAtFixedRate(() -> update(), 0, 50 , TimeUnit.MILLISECONDS);
     }
 
     public void update(){
         gameLock.lock();
         gamePauseLock.lock();
-        /*tickCount++;
+        //locks taken
+
         System.out.println("UPDATE");
-        agent.update();
+        field.getFieldObjects().forEach((obj) -> obj.update());
         if(updateGui != null)
-            updateGui.run();*/
-        updateGui.run();
+            updateGui.run();
         tickCount++;
+
+        //locks released
         gamePauseLock.unlock();
         gameLock.unlock();
     }

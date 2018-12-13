@@ -49,6 +49,8 @@ public class Field{
         var objects = getTile(p).getObjects();
         objects.add(obj);
         fieldObjects.add(obj);
+        obj.setPoint(p);
+        obj.setField(this);
     }
 
     public boolean inBounds(Point p){

@@ -16,6 +16,10 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         list = new ItemsList();
         this.health = health;
     }
+    public Agent(){
+        this.health = 100;
+        list = new ItemsList();
+    }
 
 
 

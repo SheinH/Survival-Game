@@ -33,7 +33,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
-        c = new Controller();
         game = new SurvivalGame();
         game.readFile();
         c = new Controller(game);

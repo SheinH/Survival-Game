@@ -4,12 +4,15 @@ import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 
 public class Torch extends Tool implements HealthObject {
     private int health;
+
+    private final String NAME = "Torch";
+
     public Torch() {
         this(100);
     }
 
     public Torch(int health) {
-        super(3, "Torch",15, 1);
+        super(3, 15, 1);
 
         if(health <= 0){
             throw new IllegalArgumentException("Health must be > 0");

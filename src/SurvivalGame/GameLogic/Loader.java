@@ -37,7 +37,9 @@ public class Loader {
                 return new Bush();
             case 'r':
                 return new Rock();
-            default:
+            case 'b':
+                return new Bear();
+                default:
                 return null;
         }
     }

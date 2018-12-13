@@ -27,6 +27,8 @@ public class Field{
         return grid[p.getY()][p.getX()];
     }
 
+    public Tile[][] getTileGrid(){ return grid;}
+
     public int getHeight() {
         return height;
     }

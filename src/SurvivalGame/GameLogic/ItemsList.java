@@ -15,6 +15,16 @@ public class ItemsList {
         bag.add(new Hand());
     }
 
+    public <T extends Item> T getItem(T findItem){
+        T result = (T) bag.stream()
+                          .filter(item->item.getName().equals(findItem.getName()) )
+                          .findFirst()
+                          .get();
+        return result;
+    }
+
+    //remove object function
+
 
     //getter methods
 

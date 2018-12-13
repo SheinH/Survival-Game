@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Item {
 
     private double weight;
+    private String name;
 
 
     public Item(){ this(0); }
@@ -20,7 +21,7 @@ public class Item {
 
     public double getweight() {return this.weight; }
 
-    //public String getName(){ return this.name; }
+    public String getName(){ return this.name; }
 
     //setter
     public void setweight(double difference) {

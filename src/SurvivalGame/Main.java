@@ -3,6 +3,8 @@ package SurvivalGame;
 import SurvivalGame.GameLogic.*;
 import SurvivalGame.GameLogic.FieldObjects.*;
 import SurvivalGame.GameLogic.Point;
+import SurvivalGame.GameLogic.FieldObjects.Direction;
+import SurvivalGame.GameLogic.SurvivalGame;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -32,6 +34,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         c = new Controller();
+        game = new SurvivalGame();
+        game.readFile();
+        c = new Controller(game);
         loader.setController(c);
         Parent root = loader.load();
         primaryStage.setTitle("Survival Game");

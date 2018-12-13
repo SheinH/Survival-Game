@@ -26,6 +26,10 @@ public class Tile {
         this.point = p;
     }
 
+    public boolean hasObject(){
+        return !objects.isEmpty();
+    }
+
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }

@@ -4,6 +4,16 @@ import java.util.List;
 
 
 public class Field{
+    private SurvivalGame game;
+
+    public SurvivalGame getGame() {
+        return game;
+    }
+
+    public void setGame(SurvivalGame game) {
+        this.game = game;
+    }
+
     private Tile[][] grid;
     private int height,width;
     private List<FieldObject> fieldObjects;
@@ -41,6 +51,13 @@ public class Field{
         var objects = getTile(p).getObjects();
         objects.add(obj);
         fieldObjects.add(obj);
+        obj.setPoint(p);
+        obj.setField(this);
+    }
+
+    public boolean inBounds(Point p){
+        return p.getX() >= 0 && p.getX() < width &&
+                p.getY() >= 0 && p.getY() < height;
     }
 
     @Override

@@ -83,6 +83,10 @@ public class Loader {
                 char c = lines.get(y).charAt(x);
                 Point p = new Point(y,x);
                 FieldObject obj = makeFieldObject(c);
+                if(obj instanceof  Agent){
+                    Agent a = (Agent) obj;
+                    field.getGame().setAgent(a);
+                }
                 if(obj != null)
                     field.addFieldObject(obj,p);
             }

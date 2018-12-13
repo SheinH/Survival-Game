@@ -2,6 +2,7 @@ package SurvivalGame.GameLogic.Items;
 
 public class Food extends Item {
     private int health;
+    private final String NAME = "Food";
 
     public Food(double weight, int health){
         super(weight);
@@ -15,4 +16,7 @@ public class Food extends Item {
 
     //getHealth(): to show the health that agent can get when eating this food
     public int getHealth() { return health; }
+
+//    @Override
+//    public String getName() {return this.NAME;}
 }

@@ -2,13 +2,12 @@ package SurvivalGame.GameLogic.Items;
 
 import java.util.ArrayList;
 
-public class Item {
+public abstract class Item {
+    private final String NAME = "Item";
 
+    private int quantity = 0;
     private double weight;
-    private String name;
 
-
-    public Item(){ this(0); }
 
     public Item(double weight) {
         if(weight < 0) {
@@ -16,18 +15,34 @@ public class Item {
         }
         this.weight = weight;
     }
+//    public Item(double weight, String name) {
+//        if(weight < 0) {
+//            throw new IllegalArgumentException("weight must be >= 0");
+//        }
+//        this.weight = weight;
+//    }
 
     //getter
 
-    public double getweight() {return this.weight; }
+    public double getWeight() {return this.weight; }
 
-    public String getName(){ return this.name; }
+    public String getName() {return this.NAME;}
+
+    public int getQuantity(){return this.quantity;}
+
+    public void changeQuantity(int change){
+        if(this.quantity + change < 0){
+            throw new IllegalArgumentException("Cannot use more than the availability");
+        }
+
+        this.quantity = this.quantity + change;
+    }
 
     //setter
-    public void setweight(double difference) {
-        if(this.weight + difference < 0) {
-            throw new IllegalArgumentException("weight must be >= 0");
-        }
-        this.weight = this.weight + difference;
-    }
+//    public void setweight(double difference) {
+//        if(this.weight + difference < 0) {
+//            throw new IllegalArgumentException("weight must be >= 0");
+//        }
+//        this.weight = this.weight + difference;
+//    }
 }

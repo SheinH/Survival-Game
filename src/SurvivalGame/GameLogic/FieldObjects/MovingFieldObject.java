@@ -9,7 +9,7 @@ import java.util.Random;
 
 public abstract class MovingFieldObject extends FieldObject {
     private Direction direction;
-    private int moveTime;
+    protected int moveTime;
     private HashMap<Terrain,Integer> moveSpeeds;
     public int getMoveTime(){
         return moveTime;
@@ -43,7 +43,7 @@ public abstract class MovingFieldObject extends FieldObject {
             System.out.println("MOVED");
             moveForward();
             changeDirection();
-            moveTime += 2;
+            addMoveTime();
         }
     }
 
@@ -83,8 +83,12 @@ public abstract class MovingFieldObject extends FieldObject {
         }
     }
 
-    public void addMoveTime(int i){
+    private void addMoveTime(int i){
         moveTime += i;
+    }
+
+    public void addMoveTime(){
+        moveTime += 2;
     }
 
     private static Terrain[] moveableTerrains;

@@ -50,7 +50,10 @@ public class Field{
     public void addFieldObject(FieldObject obj, Point p){
         var objects = getTile(p).getObjects();
         objects.add(obj);
-        fieldObjects.add(obj);
+        if(obj instanceof Agent)
+            fieldObjects.add(0,obj);
+        else
+            fieldObjects.add(obj);
         obj.setPoint(p);
         obj.setField(this);
     }

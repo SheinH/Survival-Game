@@ -36,7 +36,7 @@ public class SurvivalGame {
         gameThread = Executors.newSingleThreadScheduledExecutor();
         paused = true;
         gamePauseLock.lock();
-        gameThread.scheduleAtFixedRate(() -> update(), 0, 50 , TimeUnit.MILLISECONDS);
+        var thread = gameThread.scheduleAtFixedRate(() -> update(), 0, 100 , TimeUnit.MILLISECONDS);
     }
 
     public void update(){
@@ -46,6 +46,7 @@ public class SurvivalGame {
 
         System.out.println("UPDATE");
         field.getFieldObjects().forEach((obj) -> obj.update());
+        //agent.update();
         if(updateGui != null)
             updateGui.run();
         tickCount++;

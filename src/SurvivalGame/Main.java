@@ -41,17 +41,17 @@ public class Main extends Application {
         primaryStage.setTitle("Survival Game");
 
         GridPane gridpane = new GridPane();
-        Image grassimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Terrain_Pictures\\Grass64.png");
-        Image desertimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Terrain_Pictures\\Desert64.png");
-        Image waterimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Terrain_Pictures\\Water64.png");
-        Image bearimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Animal_Pictures\\Bear64.png");
-        Image treeimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Terrain_Pictures\\Tree64.png");
-        Image rabbitimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Animal_Pictures\\Rabbit64.png");
-        Image bushimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Terrain_Pictures\\Bush64.png");
-        Image fishimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Animal_Pictures\\Fish64.png");
-        Image crocimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Animal_Pictures\\Croc64.png");
-        Image lionimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Animal_Pictures\\Lion64.png");
-        Image rockimage = new Image("File:C:\\Users\\andyyeung122\\IdeaProjects\\Survival-Game\\Terrain_Pictures\\Rock64.png");
+        Image grassimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Terrain_Pictures/Grass64.png");
+        Image desertimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Terrain_Pictures/Desert64.png");
+        Image waterimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Terrain_Pictures/Water64.png");
+        Image bearimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Animal_Pictures/Bear64.png");
+        Image treeimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Terrain_Pictures/Tree64.png");
+        Image rabbitimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Animal_Pictures/Rabbit64.png");
+        Image bushimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Terrain_Pictures/Bush64.png");
+        Image fishimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Animal_Pictures/Fish64.png");
+        Image crocimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Animal_Pictures/Croc64.png");
+        Image lionimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Animal_Pictures/Lion64.png");
+        Image rockimage = new Image("/Users/steve/Desktop/JAVA/Survival-Game/Terrain_Pictures/Rock64.png");
 
         /*
                     if (c == 'R'){
@@ -79,6 +79,7 @@ public class Main extends Application {
             Platform.exit();
             System.exit(0);
         });
+
         c.setText("Sample Text");
         c.requestFocus();
         game = new SurvivalGame();

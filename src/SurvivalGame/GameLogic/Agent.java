@@ -1,6 +1,7 @@
 package SurvivalGame.GameLogic;
 
 import SurvivalGame.GameLogic.FieldObjects.Attacker;
+import SurvivalGame.GameLogic.FieldObjects.Direction;
 import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 import SurvivalGame.GameLogic.FieldObjects.MovingFieldObject;
 
@@ -46,6 +47,12 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     @Override
     public void changeDirection() {
 
+    }
+
+    @Override
+    public void addMoveTime() {
+        if(getDirection() != Direction.NONE)
+            moveTime += 2;
     }
 
     @Override

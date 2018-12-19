@@ -4,6 +4,7 @@ import SurvivalGame.GameLogic.FieldObjects.Attacker;
 import SurvivalGame.GameLogic.FieldObjects.Direction;
 import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 import SurvivalGame.GameLogic.FieldObjects.MovingFieldObject;
+import SurvivalGame.GameLogic.Items.Item;
 
 public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
@@ -12,6 +13,8 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     private int health ;
 
     private ItemsList list = new ItemsList();
+
+    private Item equippedItem;
 
     public Agent(int health){
         list = new ItemsList();

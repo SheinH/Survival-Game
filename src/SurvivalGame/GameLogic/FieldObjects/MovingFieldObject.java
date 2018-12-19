@@ -5,12 +5,14 @@ import SurvivalGame.GameLogic.Terrain;
 import SurvivalGame.GameLogic.Tile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public abstract class MovingFieldObject extends FieldObject {
     private Direction direction;
     protected int moveTime;
     private HashMap<Terrain,Integer> moveSpeeds;
+    private static List<Terrain> moveableTerrains;
     public int getMoveTime(){
         return moveTime;
     };
@@ -91,7 +93,6 @@ public abstract class MovingFieldObject extends FieldObject {
         moveTime += 2;
     }
 
-    private static Terrain[] moveableTerrains;
     public Direction getDirection(){
         return direction;
     };

@@ -36,7 +36,7 @@ public class ItemsList {
         return result;
     }
 
-    
+
     public <T extends Item> void showAllItem(List<Item> bag){
         for(Item item: bag){
             System.out.println("Available Item(s) and quantity in bag");

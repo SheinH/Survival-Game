@@ -150,7 +150,6 @@ public class Controller {
     }
 
 
-
     @FXML
     private void initialize(){
         loadTerrainImages();

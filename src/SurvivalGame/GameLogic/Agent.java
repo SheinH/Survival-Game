@@ -15,21 +15,31 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     private final double FOOD_CAPACITY = 20;
     private final double ITEM_CAPACITY = 30;
     private int health ;
+    Runnable onItemChange;
     public int count = 0;
-    private ArrayList<? extends Item> currentItemList = new ArrayList<>(Arrays.asList(new Hand(), new Stone(), new Spear(), new Torch(), new Berry(), new Meat(), new Stick()));
+    private ArrayList<Item> currentItemList = new ArrayList<>(Arrays.asList(new Hand(), new Stone(), new Spear(), new Torch(), new Berry(), new Meat(), new Stick()));
 
-    private ItemsList list = new ItemsList();
+    private ItemsList itemsList = new ItemsList();
 
     private Item equippedItem = new Hand();
 
     public Agent(int health){
-        list = new ItemsList();
+        itemsList = new ItemsList();
         this.health = health;
     }
     public Agent(){
         this.health = 100;
-        list = new ItemsList();
+        itemsList = new ItemsList();
     }
+
+    public Runnable getOnItemChange() {
+        return onItemChange;
+    }
+
+    public void setOnItemChange(Runnable onItemChange) {
+        this.onItemChange = onItemChange;
+    }
+
 
     public void changeequippedItem(){
         if (count < 7){
@@ -39,6 +49,11 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
             count = 0;
             equippedItem = currentItemList.get(count);
         }
+        onItemChange.run();
+    }
+
+    public ItemsList getItemsList() {
+        return itemsList;
     }
 
     @Override

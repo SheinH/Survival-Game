@@ -30,6 +30,10 @@ public abstract class Item {
 
     public int getQuantity(){return this.quantity;}
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public void changeQuantity(int change){
         if(this.quantity + change < 0){
             throw new IllegalArgumentException("Cannot use more than the availability");

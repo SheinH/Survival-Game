@@ -1,23 +1,21 @@
 package SurvivalGame.GameLogic;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.ServiceLoader;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.Executors;
 
 public class SurvivalGame {
     Field field;
     long tickCount;
     ScheduledExecutorService gameThread;
+    ScheduledFuture currentTask;
     ReentrantLock gameLock;
-    boolean paused;
+    BooleanProperty pausedProperty;
     ReentrantLock gamePauseLock;
     Runnable updateGui;
     Agent agent;
@@ -35,33 +33,41 @@ public class SurvivalGame {
     }
 
     public boolean isPaused() {
-        return paused;
+        return pausedProperty.get();
+    }
+
+    public BooleanProperty getPausedProperty() {
+        return pausedProperty;
     }
 
     public SurvivalGame(){
         gameLock = new ReentrantLock();
         gamePauseLock = new ReentrantLock();
         gameThread = Executors.newSingleThreadScheduledExecutor();
-        paused = true;
+        pausedProperty = new SimpleBooleanProperty(true);
         gamePauseLock.lock();
-        var thread = gameThread.scheduleAtFixedRate(() -> update(), 0, 100 , TimeUnit.MILLISECONDS);
     }
 
     public void update(){
         gameLock.lock();
-        gamePauseLock.lock();
-        //locks taken
-
-        System.out.println("UPDATE");
-        field.getFieldObjects().forEach((obj) -> obj.update());
-        //agent.update();
-        if(updateGui != null)
-            updateGui.run();
-        tickCount++;
-
-        //locks released
-        gamePauseLock.unlock();
-        gameLock.unlock();
+        try {
+            gamePauseLock.lock();
+            //locks taken
+            try {
+                System.out.println("UPDATE");
+                field.getFieldObjects().forEach((obj) -> obj.update());
+                //agent.update();
+                if (updateGui != null)
+                    updateGui.run();
+                tickCount++;
+            }
+            finally {
+                gamePauseLock.unlock();
+            }
+        }
+        finally{
+            gameLock.unlock();
+        }
     }
 
     public long getTickCount() {
@@ -73,9 +79,10 @@ public class SurvivalGame {
     }
 
     public void pause(){
-        if(!paused){
+        if(!pausedProperty.get()){
             gamePauseLock.lock();
-            paused = true;
+            pausedProperty.set(true);
+            currentTask.cancel(false);
         }
     }
 
@@ -97,9 +104,10 @@ public class SurvivalGame {
     }
 
     public void unPause(){
-        if(paused){
+        if(pausedProperty.get()){
             gamePauseLock.unlock();
-            paused = false;
+            pausedProperty.set(false);
+            currentTask =  gameThread.scheduleAtFixedRate(() -> update(), 0, 100 , TimeUnit.MILLISECONDS);
         }
     }
 }

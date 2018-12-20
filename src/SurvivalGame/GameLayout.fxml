@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -13,10 +14,17 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="pauseButton" mnemonicParsing="false" text="Pause" />
+            <Button fx:id="pauseButton" mnemonicParsing="false" text="Resume" />
             <Button mnemonicParsing="false" text="More Buttons" />
             <Button mnemonicParsing="false" text="Here" />
          </children>
       </VBox>
    </right>
+   <bottom>
+      <GridPane fx:id="itemGrid" prefHeight="0.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <rowConstraints>
+          <RowConstraints percentHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </bottom>
 </BorderPane>

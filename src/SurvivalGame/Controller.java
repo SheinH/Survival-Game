@@ -49,17 +49,25 @@ public class Controller {
         loadObjectImages();
         updateTileGrid();
         game.setUpdateGui(() -> updateTileGrid());
-        pauseButton.setOnMouseClicked((e) -> {
-            if(game.isPaused()) {
-                game.unPause();
+        game.getPausedProperty().addListener((o,oldV,newV) ->{
+            if(newV)
+                pauseButton.setText("Resume");
+            else
                 pauseButton.setText("Pause");
-            }
-            else {
-                game.pause();
-                pauseButton.setText("Unpause");
-            }
+        });
+        pauseButton.setOnMouseClicked((e) -> {
+            togglePause();
         });
         mainGrid.setGridLinesVisible(true);
+    }
+
+    private void togglePause(){
+        if(game.isPaused()) {
+            game.unPause();
+        }
+        else {
+            game.pause();
+        }
     }
 
 
@@ -79,6 +87,8 @@ public class Controller {
             case D:
                 game.getAgent().setDirection(Direction.RIGHT);
                 break;
+            case SPACE:
+                togglePause();
         }
         game.getGameLock().unlock();
 

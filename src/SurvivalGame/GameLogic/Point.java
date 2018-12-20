@@ -32,5 +32,8 @@ public class Point{
 
     public int getY(){return y;}
 
+    public boolean isTheSame(Point point){
+        return( this.x == point.getX() && this.y == point.getY();)
+    }
 
 }

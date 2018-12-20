@@ -13,8 +13,8 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Insert" />
-            <Button mnemonicParsing="false" text="Buttons" />
+            <Button fx:id="pauseButton" mnemonicParsing="false" text="Pause" />
+            <Button mnemonicParsing="false" text="More Buttons" />
             <Button mnemonicParsing="false" text="Here" />
          </children>
       </VBox>

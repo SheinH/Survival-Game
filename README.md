@@ -1,20 +1,25 @@
 # Survival-Game
 
 TO DO:
-* Create maps
-* Create code for loading maps
-* Make game load into JavaFX
-* Make game run with basic movement
-* Other actions, and code ui
-
+* Make data for movement damage, hp
+* Revamp movement
+* Code for attacking
+* Fix crashes
+* Add UI for items and selection
+* Change code for attacking
+* Enemey aggro function
+* Vision
 
 Shein:
-* Loading map
-* Getting objects to move
+* Make data for movement damage, hp
+* Fix crashes
+* Revamp movement
 
 Bill:
-* Items
-* Tools
+* Code for attacking
+* Enemy aggro function
 
 Andy:
-* Agent
+* Vison
+* Items
+* Other UI STUFF

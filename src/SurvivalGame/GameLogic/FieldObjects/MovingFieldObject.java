@@ -5,12 +5,16 @@ import SurvivalGame.GameLogic.Terrain;
 import SurvivalGame.GameLogic.Tile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public abstract class MovingFieldObject extends FieldObject {
     private Direction direction;
     protected int moveTime;
     private HashMap<Terrain,Integer> moveSpeeds;
+    private static List<Terrain> moveableTerrains;
+
+
     public int getMoveTime(){
         return moveTime;
     };
@@ -78,7 +82,7 @@ public abstract class MovingFieldObject extends FieldObject {
             Tile currentTile = getTile();
             currentTile.getObjects().remove(this);
             destTile.getObjects().add(this);
-            setPoint(dest);
+            setPoint(dest);                             //where did you get did function
             System.out.printf("Moved to %d, %d",dest.getY(), dest.getX());
         }
     }
@@ -91,7 +95,6 @@ public abstract class MovingFieldObject extends FieldObject {
         moveTime += 2;
     }
 
-    private static Terrain[] moveableTerrains;
     public Direction getDirection(){
         return direction;
     };

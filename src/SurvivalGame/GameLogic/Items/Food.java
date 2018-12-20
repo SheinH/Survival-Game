@@ -1,6 +1,6 @@
 package SurvivalGame.GameLogic.Items;
 
-public class Food extends Item {
+public abstract class Food extends Item {
     private int health;
     private final String NAME = "Food";
 

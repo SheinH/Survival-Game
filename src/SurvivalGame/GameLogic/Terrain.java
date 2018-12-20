@@ -11,4 +11,6 @@ public enum Terrain {
     public char getCharacter() {
         return character;
     }
+
 }
+

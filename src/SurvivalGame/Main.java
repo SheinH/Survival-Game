@@ -1,29 +1,14 @@
 package SurvivalGame;
 
-import SurvivalGame.GameLogic.*;
-import SurvivalGame.GameLogic.FieldObjects.*;
-import SurvivalGame.GameLogic.Point;
-import SurvivalGame.GameLogic.FieldObjects.Direction;
 import SurvivalGame.GameLogic.SurvivalGame;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+
 import java.awt.Button;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class Main extends Application {
 
@@ -32,7 +17,7 @@ public class Main extends Application {
     Button button;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameLayout.fxml"));
         game = new SurvivalGame();
         game.readFile();
         c = new Controller(game);
@@ -50,8 +35,6 @@ public class Main extends Application {
             System.exit(0);
         });
         c.requestFocus();
-        game.getAgent().setDirection(Direction.RIGHT);
-        game.unPause();
     }
 
 

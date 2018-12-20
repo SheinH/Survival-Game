@@ -30,6 +30,14 @@ public class SurvivalGame {
         this.agent = agent;
     }
 
+    public ReentrantLock getGameLock() {
+        return gameLock;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
     public SurvivalGame(){
         gameLock = new ReentrantLock();
         gamePauseLock = new ReentrantLock();

@@ -51,13 +51,12 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
 
     //@@@@    this has been added
-    private <T extends FieldObject> List<T> getAFieldObject(){
+    private List<FieldObject> getAFieldObject(Class<? extends FieldObject> type){
 
         Field field = getField();
-
-        field.getFieldObjects().stream()
-                .filter(x -> instanceof Rock )
-                .collecct(Collectors.toList());
+        return field.getFieldObjects().stream()
+                .filter(x -> type.isInstance(x))
+                .collect(Collectors.toList());
 
     }
 

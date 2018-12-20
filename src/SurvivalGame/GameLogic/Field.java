@@ -2,6 +2,8 @@ package SurvivalGame.GameLogic;
 import java.util.ArrayList;
 import java.util.List;
 
+import SurvivalGame.GameLogic.FieldObjects.*;
+
 
 public class Field{
     private SurvivalGame game;
@@ -14,19 +16,22 @@ public class Field{
         this.game = game;
     }
 
-    private Tile[][] grid;
-    private int height,width;
-    private List<FieldObject> fieldObjects;
-    public List<FieldObject> getFieldObjects() {
-        return fieldObjects;
-    }
-
     public Field(int height, int width) {
         this.height = height;
         this.width = width;
         grid = new Tile[height][width];
         fieldObjects = new ArrayList<>();
     }
+
+    private Tile[][] grid;
+    private int height,width;
+    private List<FieldObject> fieldObjects;
+
+    public List<FieldObject> getFieldObjects() {
+        return fieldObjects;
+    }
+
+
 
     public void setTile(Point p, Tile t){
         grid[p.getY()][p.getX()] = t;
@@ -49,6 +54,7 @@ public class Field{
 
     public void addFieldObject(FieldObject obj, Point p){
         var objects = getTile(p).getObjects();
+
         objects.add(obj);
         if(obj instanceof Agent)
             fieldObjects.add(0,obj);
@@ -58,10 +64,13 @@ public class Field{
         obj.setField(this);
     }
 
+
     public boolean inBounds(Point p){
         return p.getX() >= 0 && p.getX() < width &&
                 p.getY() >= 0 && p.getY() < height;
     }
+
+
 
     @Override
     public String toString() {

@@ -13,6 +13,8 @@ public abstract class MovingFieldObject extends FieldObject {
     protected int moveTime;
     private HashMap<Terrain,Integer> moveSpeeds;
     private static List<Terrain> moveableTerrains;
+
+
     public int getMoveTime(){
         return moveTime;
     };
@@ -80,7 +82,7 @@ public abstract class MovingFieldObject extends FieldObject {
             Tile currentTile = getTile();
             currentTile.getObjects().remove(this);
             destTile.getObjects().add(this);
-            setPoint(dest);
+            setPoint(dest);                             //where did you get did function
             System.out.printf("Moved to %d, %d",dest.getY(), dest.getX());
         }
     }

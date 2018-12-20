@@ -1,5 +1,7 @@
 package SurvivalGame.GameLogic;
 
+import SurvivalGame.GameLogic.Items.Berry;
+import SurvivalGame.GameLogic.Items.Item;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -46,6 +48,9 @@ public class SurvivalGame {
         gameThread = Executors.newSingleThreadScheduledExecutor();
         pausedProperty = new SimpleBooleanProperty(true);
         gamePauseLock.lock();
+        Item berry = new Berry();
+        berry.setQuantity(5);
+        agent.getItemsList().addItem(berry);
     }
 
     public void update(){

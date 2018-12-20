@@ -23,7 +23,6 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     private Item equippedItem = new Hand();
 
     public Agent(int health){
-
         list = new ItemsList();
         this.health = health;
     }

@@ -135,8 +135,8 @@ public class Controller {
     private void loadImages(){
         String terrainFolder = "file:res" + File.separator + "Terrain_Pictures" + File.separator;
         Image grassimage = new Image(terrainFolder + "Grass64.png",32,32,true,false);
-        Image desertimage = new Image(terrainFolder + "Desert64.png",32,32,true,false);
-        Image waterimage = new Image(terrainFolder + "Water64.png",32,32,true,false);
+        Image desertimage = new Image(terrainFolder + "desert.png",32,32,true,false);
+        Image waterimage = new Image(terrainFolder + "water.png",32,32,true,false);
         terrainImages.put(Terrain.GRASS,grassimage);
         terrainImages.put(Terrain.DESERT,desertimage);
         terrainImages.put(Terrain.WATER,waterimage);

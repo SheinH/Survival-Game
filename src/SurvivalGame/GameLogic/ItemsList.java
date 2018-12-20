@@ -1,5 +1,62 @@
 package SurvivalGame.GameLogic;
 
+import SurvivalGame.GameLogic.Items.Item;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class ItemsList extends ArrayList<Item> {
+
+    public ItemsList() {
+        super();
+        updaters = new ArrayList<>();
+    }
+
+    private ArrayList<Runnable> updaters;
+
+    public void update(){
+        for(Runnable r : updaters)
+            r.run();
+    }
+
+    public void addUpdater(Runnable r){
+        updaters.add(r);
+    }
+
+    public Item getItem(Class<? extends Item> type){
+        for(Item i : this) {
+            if (type.isInstance(i))
+                return i;
+        }
+        return null;
+    }
+
+    @Override
+    public void add(int index, Item item) {
+        if(this.contains(item)) {
+            Item content = get(indexOf(item));
+            content.setQuantity(content.getQuantity() + item.getQuantity());
+        }
+        else
+            super.add(index, item);
+    }
+
+    @Override
+    public boolean add(Item item) {
+        if(this.contains(item)) {
+            Item content = get(indexOf(item));
+            content.setQuantity(content.getQuantity() + item.getQuantity());
+            return true;
+        }
+        else
+            return super.add(item);
+    }
+}
+
+
+
+/*
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +159,10 @@ public class ItemsList {
         bagItem.changeQuantity(quantity);
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
     public void addItem(Item i){
         if(isInList(i.getClass())){
             Item target = getItem(i.getClass());
@@ -114,4 +175,4 @@ public class ItemsList {
 
 
 
-}
+}*/

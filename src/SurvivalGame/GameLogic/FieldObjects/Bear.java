@@ -4,6 +4,7 @@ import SurvivalGame.GameLogic.Terrain;
 
 public class Bear extends Carnivore{
     public Bear() {
+        super(50, 17,3);
     }
 
     @Override

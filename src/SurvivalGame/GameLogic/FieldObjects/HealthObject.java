@@ -6,4 +6,6 @@ public interface HealthObject {
     default void lowerHealth(int difference){
         setHealth(getHealth() - difference);
     }
+    default void increaseHealth(int difference) {setHealth(getHealth() + difference);}
+
 }

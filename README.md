@@ -22,4 +22,6 @@ Bill:
 Andy:
 * Vison
 * Items
+* Targets over animals in range
+* Health bars when hovering over objects
 * Other UI STUFF

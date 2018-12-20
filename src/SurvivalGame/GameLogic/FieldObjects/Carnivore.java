@@ -1,5 +1,6 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
+import SurvivalGame.GameLogic.Agent;
 import SurvivalGame.GameLogic.Field;
 import SurvivalGame.GameLogic.FieldObject;
 import SurvivalGame.GameLogic.Point;
@@ -36,6 +37,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         this.radiusAttack = radiusAttack;
     }
 
+
     //getDamage
     public int getDamage(){return damage;}
 
@@ -53,6 +55,40 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
             throw new IllegalArgumentException("health must be >= 0");
         }
         this.health = health;
+    }
+
+    //This function return the shortest path to go to the agent to attack
+    private Point findShortestPath(Point agent, Point l, Point d, Point r, Point u) {
+        double distanceL = calculateDistance(agent, l);
+        double distanceD = calculateDistance(agent, d);
+        double distanceR = calculateDistance(agent, r);
+        double distanceU = calculateDistance(agent, u);
+
+        double max = distanceL;
+        Point result = l;
+
+        if(max < distanceD){
+            max = distanceD;
+            result = d;
+        }
+
+        if(max < distanceR){
+            max = distanceR;
+            result = r;
+        }
+        if(max < distanceU){
+            max = distanceU;
+            result = u;
+        }
+        return result;
+    }
+
+
+    private void goToAgent(){
+        List<FieldObject> agent = aFieldObjectList(Agent.class);
+
+        //This can be coded based on how you want animal to run to the agent
+
     }
 
 
@@ -156,6 +192,17 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     //this function to check if a Point, whose distance to the Carnivore less than radiusAttack
     private boolean isIncluded(Point point) {
         return (calculateDistance(point) <= getRadiusAttack())? true : false;
+    }
+
+    private double calculateDistance(Point point1, Point point2){
+        double x1 = point1.getX() + 0.5;
+        double y1= point1.getY() + 0.5;
+
+        double x2 = point2.getX() + 0.5;
+        double y2= point2.getY() + 0.5;
+
+        return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2) );
+
     }
 
 

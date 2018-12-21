@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public abstract class Carnivore extends MovingFieldObject implements Attacker, HealthObject{
-    protected int health;
     protected int damage;
     private int radiusZone;
 
@@ -56,19 +55,6 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     public int getradiusZone(){ return radiusZone;}
 
-
-    @Override
-    public int getHealth() {
-        return health;
-    }
-
-    @Override
-    public void setHealth(int health) {
-        if(health < 0) {
-            throw new IllegalArgumentException("health must be >= 0");
-        }
-        this.health = health;
-    }
 
     @Override
     public void attack(HealthObject target) {

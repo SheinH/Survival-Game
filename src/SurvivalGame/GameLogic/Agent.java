@@ -15,7 +15,6 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
     private final double FOOD_CAPACITY = 20;
     private final double ITEM_CAPACITY = 30;
-    private int health ;
     private final int MAX_HEALTH = 100 ;
 
     public int count = 0;
@@ -48,17 +47,6 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
     @Override
     public int getMaxHealth(){return MAX_HEALTH;}
-
-    @Override
-    public int getHealth() { return health;}
-
-    @Override
-    public void setHealth(int health) {
-        if(health <= 0) {
-            throw new IllegalArgumentException("health must be > 0");
-        }
-        this.health = health;
-    }
 
     @Override
     public char getChar() {

@@ -9,9 +9,7 @@ public class Tile {
     private Point point;
     private List<FieldObject> objects;
 
-    public ItemsList getItemsList() {
-        return itemsList;
-    }
+
 
     private ItemsList itemsList;
     private Terrain terrain;

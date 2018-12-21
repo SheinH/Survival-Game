@@ -5,7 +5,7 @@ import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 public class Torch extends Tool implements HealthObject {
     private int health;
 
-    private final String NAME = "Torch";
+    private static final String NAME = "Torch";
 
     public Torch() {
         this(100);
@@ -30,4 +30,8 @@ public class Torch extends Tool implements HealthObject {
         this.health = this.health + difference;
     }
 
+    @Override
+    public String getName() {
+        return NAME;
+    }
 }

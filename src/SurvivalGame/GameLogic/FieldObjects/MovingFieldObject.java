@@ -4,6 +4,7 @@ import SurvivalGame.GameLogic.Point;
 import SurvivalGame.GameLogic.Terrain;
 import SurvivalGame.GameLogic.Tile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -12,7 +13,7 @@ public abstract class MovingFieldObject extends FieldObject {
     private Direction direction;
     protected int moveTime;
     private HashMap<Terrain,Integer> moveSpeeds;
-    private static List<Terrain> moveableTerrains;
+    private List<Terrain> moveableTerrains;
 
 
     public int getMoveTime(){
@@ -23,6 +24,14 @@ public abstract class MovingFieldObject extends FieldObject {
         direction = Direction.NONE;
         moveSpeeds = new HashMap<>();
         moveTime = 0;
+        moveableTerrains = new ArrayList<>(3);
+    }
+
+    public void setMoveableTerrain(Terrain t, boolean b){
+        if(b && !moveableTerrains.contains(t))
+            moveableTerrains.add(t);
+        if(!b && moveableTerrains.contains(t))
+            moveableTerrains.remove(t);
     }
 
     public void setMoveSpeed(Terrain t, int ms){
@@ -44,7 +53,6 @@ public abstract class MovingFieldObject extends FieldObject {
         if(moveTime > 0)
             moveTime--;
         else{
-            System.out.println("MOVED");
             moveForward();
             changeDirection();
             addMoveTime();

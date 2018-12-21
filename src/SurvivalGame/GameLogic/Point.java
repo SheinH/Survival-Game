@@ -32,6 +32,10 @@ public class Point{
 
     public int getY(){return y;}
 
+    public double distanceTo(Point other){
+        return Math.sqrt(Math.pow(x - other.x,2) + Math.pow(y - other.y,2));
+    }
+
 
     public boolean isTheSame(Point point){
         return( this.x == point.getX() && this.y == point.getY() );

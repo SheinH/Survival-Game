@@ -8,4 +8,13 @@ public class Berry extends Food {
         super(0.1, 1);
     }
 
+    public Berry(int quantity) {
+        this();
+        setQuantity(quantity);
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
 }

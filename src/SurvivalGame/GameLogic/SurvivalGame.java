@@ -56,7 +56,6 @@ public class SurvivalGame {
             gamePauseLock.lock();
             //locks taken
             try {
-                System.out.println("UPDATE");
                 field.getFieldObjects().forEach((obj) -> obj.update());
                 //agent.update();
                 if (updateGui != null)

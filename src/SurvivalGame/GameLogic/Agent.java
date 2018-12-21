@@ -21,6 +21,7 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     private ItemsList list;
 
     private Item equippedItem = new Hand();
+    private Tool equippedTool = new Hand();
 
     public Agent(int health){
         list = new ItemsList();
@@ -45,6 +46,9 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         return list;
     }
 
+    public Tool getEquippedTool(){
+        return equippedTool;
+    }
     @Override
     public void attack(HealthObject target) {
 

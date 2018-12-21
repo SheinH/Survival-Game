@@ -25,12 +25,9 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     public Agent(int health){
         super(health);
         list = new ItemsList();
-
     }
     public Agent(){
-        super(100);
-
-        list = new ItemsList();
+        this(100);
     }
 
     public ItemsList getItemsList() {
@@ -63,7 +60,7 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     }
     public void addMoveTime() {
         if(getDirection() != Direction.NONE)
-            moveTime += 2;
+            moveTime += getMoveSpeed();
     }
 
     @Override

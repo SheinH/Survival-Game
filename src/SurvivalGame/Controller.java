@@ -85,7 +85,7 @@ public class Controller {
         meat.setQuantity(10);
         items.add(meat);
         Lion lion = Loader.loadObject(Lion.class);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(lion));
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(game.getAgent()));
     }
 
     public void testMethod(){

@@ -61,7 +61,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     public int getMoveSpeed() {
         Terrain t = getTile().getTerrain();
         //return moveSpeeds.get(t);
-        return 30;
+        return moveSpeeds.get(t);
     }
 
     @Override
@@ -100,7 +100,11 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     private void moveTo(Point dest) {
         if (!getField().inBounds(dest) || getField().getTile(dest).hasObject()) {
             setDirection(Direction.NONE);
-        } else {
+        }
+        else if (!movableTerrains.contains(getField().getTile(dest).getTerrain())) {
+            setDirection(Direction.NONE);
+        }
+        else {
             Tile destTile = getField().getTile(dest);
             Tile currentTile = getTile();
             currentTile.getObjects().remove(this);
@@ -114,7 +118,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     }
 
     public void addMoveTime() {
-        moveTime += 2;
+        moveTime += getMoveSpeed();
     }
 
     public Direction getDirection() {

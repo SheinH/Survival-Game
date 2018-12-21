@@ -72,7 +72,7 @@
       "GRASS": 5
     },
     "movableTerrains": [
-      "DESERT",
+      "WATER",
       "GRASS"
     ]
   },
@@ -117,7 +117,7 @@
       "GRASS": 3
     },
     "movableTerrains": [
-      "GRASS"
+      "WATER"
     ]
   },
   Horse : {
@@ -136,6 +136,26 @@
     "moveSpeeds": {
       "WATER": 0,
       "DESERT": 4,
+      "GRASS": 3
+    },
+    "movableTerrains": [
+      "GRASS",
+      "DESERT"
+    ]
+  },
+  Agent : {
+    "FOOD_CAPACITY": 20.0,
+    "ITEM_CAPACITY": 30.0,
+    "MAX_HEALTH": 100,
+    "count": 0,
+    "equippedItemIndex": 0,
+    "direction": "NONE",
+    "health": 100,
+    "maxHealth": 0,
+    "moveTime": 0,
+    "moveSpeeds": {
+      "WATER": 0,
+      "DESERT": 5,
       "GRASS": 3
     },
     "movableTerrains": [

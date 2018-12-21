@@ -298,6 +298,4 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         return ((pointAngle >= rockAngle - smallAngle) && (pointAngle <= rockAngle + smallAngle) )? true : false;
 
     }
-
-
 }

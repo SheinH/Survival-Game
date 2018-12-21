@@ -33,7 +33,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         this.damage = damage;
         this.radiusZone = radiusZone;
 
-        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() - 1) );//up
+        attackZone.add(new Point );//up
         attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() + 1) );//down
         attackZone.add(getField().getFieldPoint(getPoint().getX() - 1, getPoint().getY()) ); //left
         attackZone.add(getField().getFieldPoint(getPoint().getX() + 1, getPoint().getY()) );//right
@@ -316,9 +316,9 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private boolean isInShadow(Point point, Point rock){
         double distance = calculateDistance(point);
 
-        double rockAngle = (rock.getY() + 0.5)  / (rock.getX() + 0.5); //central point
+        double rockAngle = Math.atan( (rock.getY() - getPoint().getY() )  / (rock.getX() - getPoint().getX()) ); //central point
 
-        double pointAngle = (point.getY() + 0.5) / (point.getX() + 0.5);//central point
+        double pointAngle = Math.atan( (point.getY() - getPoint().getY()) / (point.getX() - getPoint().getX()) );//central point
 
         double smallAngle = Math.asin(0.5/distance); //because the diameter for every tile is 1
 

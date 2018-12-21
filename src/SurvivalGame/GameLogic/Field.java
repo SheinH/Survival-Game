@@ -6,7 +6,21 @@ import SurvivalGame.GameLogic.FieldObjects.*;
 
 
 public class Field{
+
     private SurvivalGame game;
+    private Tile[][] grid;
+    private int height;
+    private int width;
+    private List<FieldObject> fieldObjects;
+
+
+
+    public Field(int height, int width) {
+        this.height = height;
+        this.width = width;
+        grid = new Tile[height][width];
+        fieldObjects = new ArrayList<>();
+    }
 
     public SurvivalGame getGame() {
         return game;
@@ -16,21 +30,10 @@ public class Field{
         this.game = game;
     }
 
-    public Field(int height, int width) {
-        this.height = height;
-        this.width = width;
-        grid = new Tile[height][width];
-        fieldObjects = new ArrayList<>();
-    }
 
-    private Tile[][] grid;
-    private int height,width;
-    private List<FieldObject> fieldObjects;
 
-    public List<FieldObject> getFieldObjects() {
-        return fieldObjects;
-    }
 
+    public Tile[][] getTileGrid(){ return grid;}
 
 
     public void setTile(Point p, Tile t){
@@ -42,7 +45,11 @@ public class Field{
         return grid[p.getY()][p.getX()];
     }
 
-    public Tile[][] getTileGrid(){ return grid;}
+
+    public Point getFieldPoint(int x, int y){
+        return grid[x][y].getPoint();
+    }
+
 
     public int getHeight() {
         return height;
@@ -50,6 +57,11 @@ public class Field{
 
     public int getWidth() {
         return width;
+    }
+
+
+    public List<FieldObject> getFieldObjects() {
+        return fieldObjects;
     }
 
     public void addFieldObject(FieldObject obj, Point p){

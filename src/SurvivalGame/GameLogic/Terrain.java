@@ -4,8 +4,9 @@ public enum Terrain {
     GRASS('G'),DESERT('D'), WATER('W');
 
     private char character;
-    Terrain(char c){
-        character = c;
+
+    Terrain(char character){
+        this.character = character;
     }
 
     public char getCharacter() {

@@ -12,9 +12,12 @@ import java.util.Arrays;
 
 public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
+
     private final double FOOD_CAPACITY = 20;
     private final double ITEM_CAPACITY = 30;
     private int health ;
+    private final int MAX_HEALTH = 100 ;
+
     public int count = 0;
     private ArrayList<? extends Item> currentItemList = new ArrayList<>(Arrays.asList(new Hand(), new Stone(), new Spear(), new Torch(), new Berry(), new Meat(), new Stick()));
 
@@ -24,11 +27,13 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     private Tool equippedTool = new Hand();
 
     public Agent(int health){
+        super(health);
         list = new ItemsList();
-        this.health = health;
+
     }
     public Agent(){
-        this.health = 100;
+        super(100);
+
         list = new ItemsList();
     }
 
@@ -55,13 +60,17 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     }
 
     @Override
-    public int getHealth() {
-        return 0;
-    }
+    public int getMaxHealth(){return MAX_HEALTH;}
 
     @Override
-    public void setHealth(int i) {
+    public int getHealth() { return health;}
 
+    @Override
+    public void setHealth(int health) {
+        if(health <= 0) {
+            throw new IllegalArgumentException("health must be > 0");
+        }
+        this.health = health;
     }
 
     @Override

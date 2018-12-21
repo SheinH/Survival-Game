@@ -6,6 +6,7 @@ import SurvivalGame.GameLogic.FieldObject;
 import SurvivalGame.GameLogic.Point;
 
 import java.io.ObjectInputFilter;
+import java.io.PipedReader;
 import java.lang.Math.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,34 +15,36 @@ import java.util.stream.Collectors;
 public abstract class Carnivore extends MovingFieldObject implements Attacker, HealthObject{
     protected int health;
     protected int damage;
-    private int radiusAttack;
-    private List<Point> deadZone = new ArrayList<Point>((int) Math.pow(radiusAttack, 2));
+    private int radiusZone;
+    private final int RADIUS_ATTACK = 1;
+    private List<Point> deadZone = new ArrayList<Point>((int) Math.pow(radiusZone, 2));
+    private List<Point> attackZone = new ArrayList<>(4);
 
-    public Carnivore(int health, int damage, int radiusAttack){
-        super();
+    public Carnivore(int health, int damage, int radiusZone){
+        super(health);
 
-        if(health <= 0) {
-            throw new IllegalArgumentException("health must be > 0");
-        }
         if(damage < 0) {
             throw new IllegalArgumentException("damage must be >= 0");
         }
-        if(radiusAttack <= 0) {
-            throw new IllegalArgumentException("radiusAttack must be > 0");
+        if(radiusZone <= 0) {
+            throw new IllegalArgumentException("radiusZone must be > 0");
         }
 
-
-
-        this.health = health;
         this.damage = damage;
-        this.radiusAttack = radiusAttack;
+        this.radiusZone = radiusZone;
+
+        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() - 1) );//up
+        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() + 1) );//down
+        attackZone.add(getField().getFieldPoint(getPoint().getX() - 1, getPoint().getY()) ); //left
+        attackZone.add(getField().getFieldPoint(getPoint().getX() + 1, getPoint().getY()) );//right
+
     }
 
 
     //getDamage
     public int getDamage(){return damage;}
 
-    public int getRadiusAttack(){ return radiusAttack;}
+    public int getradiusZone(){ return radiusZone;}
 
 
     @Override
@@ -57,8 +60,36 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         this.health = health;
     }
 
+    @Override
+    public void attack(Agent agent){//can make this generic
+
+
+    }
+
+    public boolean isAgentInAttackZone(Point agentPoint){
+        updateAttackZone();
+        for(Point point : attackZone){
+            if(point.isTheSame(agentPoint)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void updateAttackZone(){
+        attackZone.clear(); //get rid of all the old points
+
+        // adding new 4 points after moving to a new area
+        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() - 1) );//up
+        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() + 1) );//down
+        attackZone.add(getField().getFieldPoint(getPoint().getX() - 1, getPoint().getY()) ); //left
+        attackZone.add(getField().getFieldPoint(getPoint().getX() + 1, getPoint().getY()) );//right
+    }
+
+
     //This function return the shortest path to go to the agent to attack
-    private Point findShortestPath(Point agent, Point l, Point d, Point r, Point u) {
+    private Point findShortestSpot(Point agent, Point l, Point d, Point r, Point u) {
         double distanceL = calculateDistance(agent, l);
         double distanceD = calculateDistance(agent, d);
         double distanceR = calculateDistance(agent, r);
@@ -83,16 +114,79 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         return result;
     }
 
+    private void moveHorizontal(Point des) {
+        if(des.getX() == getPoint().getX()) {return;}
+
+        if(des.getX() > getPoint().getX()){//move to the right 1 spot
+            setPoint(getField().getTileGrid()[getPoint().getX() + 1][getPoint().getY()].getPoint());
+        }
+        else{//move to the left 1 spot
+            setPoint(getField().getTileGrid()[getPoint().getX() - 1][getPoint().getY()].getPoint());
+        }
+    }
+
+
+    private void moveVertical(Point des){
+
+        if(des.getY() == getPoint().getY()) {return;}
+
+        if(des.getY() > getPoint().getY()){ // move down down spot
+            setPoint(getField().getTileGrid()[getPoint().getX()][getPoint().getY() + 1].getPoint());
+        }
+        else { //move up 1 spot
+            setPoint(getField().getTileGrid()[getPoint().getX()][getPoint().getY() - 1].getPoint());
+        }
+    }
+
+    private boolean isAgentInDeadZone(Point agentPoint){
+//        List<FieldObject> agent = aFieldObjectList(Agent.class);
+//        Point agentPoint = agent.get(0).getPoint();
+        deadZoneArea();
+        for(Point point : deadZone){
+            if(point.isTheSame(agentPoint)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void goToAgent(){
-        List<FieldObject> agent = aFieldObjectList(Agent.class);
+        List<FieldObject> agentList = aFieldObjectList(Agent.class);
+        Point agent = agentList.get(0).getPoint();
+        int x = agent.getX();
+        int y = agent.getY();
+        while( isAgentInDeadZone(agent) ){
+            Point des = findShortestSpot(agent, getField().getFieldPoint(x - 1, y),
+                    getField().getFieldPoint(x + 1, y) ,getField().getFieldPoint(x, y + 1),
+                    getField().getFieldPoint(x, y -1) );
+
+            moveVertical(des);
+            moveHorizontal(des);
+        }
 
         //This can be coded based on how you want animal to run to the agent
 
     }
 
+    //this method will provide a list of all available points that Carnivore can find the agent
+    public void deadZoneArea(){
+        circleArea();
+        List<FieldObject> obstacle = obstacleInDeadZone();
 
-    //This is used to retrieve all the Rocks existing on the Field
+        for(int i = 0; i < obstacle.size(); ++i){
+            for(int j = 0; j < deadZone.size(); ++j) {
+
+                if(isSameAreaWithRock(deadZone.get(j), obstacle.get(i).getPoint()) &&
+                        isInShadow(deadZone.get(j), obstacle.get(i).getPoint())  ){
+                    deadZone.remove(j);
+                }
+            }
+            obstacle.remove(i); // remove the rock from the list to check other rocks;
+        }
+
+    }
+
+    //This is used to retrieve all the instance of type existing on the Field
     private List<FieldObject> aFieldObjectList(Class<? extends FieldObject> type){
 
         Field field = getField();
@@ -120,7 +214,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         return obstacle;
     }
 
-
+    //this method results in the whole circle attacking area (including rock)
     public void circleArea(){
         int xMin = (getPoint().getX() - 3 >= 0)? (getPoint().getX() - 3) : 0;
         int xMax = (getPoint().getX() + 3 >= getField().getWidth() )? getField().getWidth() : getPoint().getX() + 3;
@@ -131,9 +225,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         for(int i = xMin; i <= xMax; ++i){
             for(int j = yMin; j <= yMax; ++j){
-                Point point = new Point(i, j);
+//                Point point = new Point(i, j);
+                Point point = getField().getTileGrid()[i][j].getPoint();
                 if(isIncluded(point) ){
-                    deadZone.add(new Point(i, j));
+                    deadZone.add(point);
                 }
 
             }
@@ -141,25 +236,9 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
 
-    //this method will provide a list of all available points that Carnivore can attack agent
-    public void attackingArea(){
-        List<FieldObject> obstacle = obstacleInDeadZone();
-
-        for(int i = 0; i < obstacle.size(); ++i){
-            for(int j = 0; j < deadZone.size(); ++j) {
-
-                if(isSameAreaWithRock(deadZone.get(j), obstacle.get(i).getPoint()) &&
-                   isInShadow(deadZone.get(j), obstacle.get(i).getPoint())  ){
-                        deadZone.remove(j);
-                }
-            }
-            obstacle.remove(i); // remove the rock from the list;
-        }
-
-    }
 
 //    public List<Point> squareArea(){
-//        List<Point> attackArea = new ArrayList<>(radiusAttack * radiusAttack);
+//        List<Point> attackArea = new ArrayList<>(radiusZone * radiusZone);
 //
 //        int xMin = (getPoint().getX() - 3 >= 0)? (getPoint().getX() - 3) : 0;
 //        int xMax = (getPoint().getX() + 3 >= getField().getWidth() )? getField().getWidth() : getPoint().getX() + 3;
@@ -177,6 +256,11 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 //        return attackArea;
 //    }
 
+    //this function to check if a Point, whose distance to the Carnivore less than radiusZone
+    private boolean isIncluded(Point point) {
+        return (calculateDistance(point) <= getradiusZone())? true : false;
+    }
+
     //calculate distance to the current Point of Carnivore
     private double calculateDistance(Point point){
         double xCenter = getPoint().getX() + 0.5;
@@ -189,11 +273,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     }
 
-    //this function to check if a Point, whose distance to the Carnivore less than radiusAttack
-    private boolean isIncluded(Point point) {
-        return (calculateDistance(point) <= getRadiusAttack())? true : false;
-    }
-
+    //calculate distance between 2 random points
     private double calculateDistance(Point point1, Point point2){
         double x1 = point1.getX() + 0.5;
         double y1= point1.getY() + 0.5;

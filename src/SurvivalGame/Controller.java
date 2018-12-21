@@ -72,6 +72,17 @@ public class Controller {
         pauseButton.setOnMouseClicked((e) -> {
             togglePause();
         });
+        pickupButton.setOnMouseClicked((e) -> {
+            game.getGameLock().lock();
+            Agent agent = game.getAgent();
+            Tile tile = agent.getTile();
+            ItemsList tileItems = tile.getItemsList();
+            ItemsList agentItems = agent.getItemsList();
+            for(Item i : tileItems){
+                agentItems.add(i);
+            }
+            tileItems.clear();
+        });
         testMethod();
         ItemsList items = new ItemsList();
         Meat meat = new Meat();

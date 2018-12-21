@@ -2,18 +2,27 @@ package SurvivalGame;
 
 import SurvivalGame.GameLogic.*;
 import SurvivalGame.GameLogic.FieldObjects.*;
+import SurvivalGame.GameLogic.Items.*;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
+import javax.swing.text.AbstractDocument;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,13 +34,18 @@ public class Controller {
     @FXML
     private BorderPane mainPane;
     @FXML
+    private GridPane itemGrid;
+    @FXML
     private Button pauseButton;
     private Scene mainScene;
     private SurvivalGame game;
     private HashMap<Class<? extends FieldObject>,Image> objectImages;
     private HashMap<Terrain,Image> terrainImages;
+    private HashMap<Class<? extends Item>,Image> itemImages;
     private List<ImageView> imageViewList;
     private HashMap<FieldObject, ImageView> objectImageViews;
+    private Image itemBorderImage;
+    private HashMap<Integer, Image> targetImages;
 
     public Controller(SurvivalGame g) {
         game = g;
@@ -40,6 +54,8 @@ public class Controller {
         objectImages = new HashMap<>();
         imageViewList = new ArrayList<>();
         objectImageViews = new HashMap<>();
+        itemImages = new HashMap<>();
+        targetImages = new HashMap<>();
         loadImages();
     }
 
@@ -47,19 +63,59 @@ public class Controller {
     private void initialize(){
         loadTerrainImages();
         loadObjectImages();
+        loadItemImages();
         updateTileGrid();
         game.setUpdateGui(() -> updateTileGrid());
-        pauseButton.setOnMouseClicked((e) -> {
-            if(game.isPaused()) {
-                game.unPause();
+        game.getPausedProperty().addListener((o,oldV,newV) ->{
+            if(newV)
+                pauseButton.setText("Resume");
+            else
                 pauseButton.setText("Pause");
-            }
-            else {
-                game.pause();
-                pauseButton.setText("Unpause");
-            }
         });
-        mainGrid.setGridLinesVisible(true);
+        pauseButton.setOnMouseClicked((e) -> {
+            togglePause();
+        });
+        testMethod();
+    }
+
+    public void testMethod(){
+        StackPane sp = new StackPane();
+        sp.setPrefSize(50,50);
+        ImageView Border = new ImageView(itemBorderImage);
+        sp.getChildren().add(Border);
+        sp.getChildren().add(new ImageView(itemImages.get(Spear.class)));
+        Label label = new Label("50");
+        label.setPadding(new Insets(2,2,2,2));
+        label.setTextFill(Color.BLACK);
+        label.setStyle("-fx-font-weight:bold; -fx-font-size:12; -fx-stroke:blue; -fx-stroke-width:10;");
+        sp.getChildren().add(label);
+        StackPane.setAlignment(label,Pos.BOTTOM_RIGHT);
+        itemGrid.add(sp,0,0);
+    }
+    public void updateItemBar(){
+        updateItemGrid(itemGrid, game.getAgent().getItemsList());
+    }
+
+    public void updateItemGrid(GridPane grid, ItemsList list){
+        ItemsList items = game.getAgent().getItemsList();
+        for(Item i : items){
+            Image image = itemImages.get(i.getClass());
+            ImageView imageView = new ImageView(image);
+        }
+    }
+
+    public void updateItemGrid(GridPane grid, ItemsList list, int selectedItem){
+
+    }
+
+
+    private void togglePause(){
+        if(game.isPaused()) {
+            game.unPause();
+        }
+        else {
+            game.pause();
+        }
     }
 
 
@@ -79,6 +135,11 @@ public class Controller {
             case D:
                 game.getAgent().setDirection(Direction.RIGHT);
                 break;
+            case SPACE:
+                togglePause();
+            case E:
+                game.getAgent().changeequippedItem();
+                loadItemImages();
         }
         game.getGameLock().unlock();
 
@@ -101,8 +162,8 @@ public class Controller {
     private void loadImages(){
         String terrainFolder = "file:res" + File.separator + "Terrain_Pictures" + File.separator;
         Image grassimage = new Image(terrainFolder + "Grass64.png",32,32,true,false);
-        Image desertimage = new Image(terrainFolder + "Desert64.png",32,32,true,false);
-        Image waterimage = new Image(terrainFolder + "Water64.png",32,32,true,false);
+        Image desertimage = new Image(terrainFolder + "desert.png",32,32,true,false);
+        Image waterimage = new Image(terrainFolder + "water.png",32,32,true,false);
         terrainImages.put(Terrain.GRASS,grassimage);
         terrainImages.put(Terrain.DESERT,desertimage);
         terrainImages.put(Terrain.WATER,waterimage);
@@ -125,6 +186,9 @@ public class Controller {
         objectImages.put(Lion.class, lionimage);
         objectImages.put(Rock.class, rockimage);
         objectImages.put(Agent.class, agentImage);
+        Image targetimage = new Image(objectsFolder + "Target.png",32,32,true,false);
+        targetImages.put(0, targetimage);
+        loadItemImages();
     }
 
     public void requestFocus(){
@@ -159,8 +223,143 @@ public class Controller {
 
     }
 
+    //Setting Health Labels to each FieldObject that has a health
+    private void loadHealthLabel(){
+        List<FieldObject> objects = game.getField().getFieldObjects();
+        for(FieldObject obj : objects){
+            Text health = new Text();
+        }
+    }
+
+
+    //Reaplces Objects that can be attack with a an indicator to show that it's in range.
+    private void showTargetImage() {
+        Field field = game.getField();
+        int range = game.getAgent().getEquippedTool().getRange();
+        int x = game.getAgent().getPoint().getX();
+        int y = game.getAgent().getPoint().getY();
+        if (x - range < 0 || y - range < 0) {
+            for (int i = 0; i < x + range; i++) {
+                for (int j = 0; j < y + range; j++) {
+                    Tile tile = field.getTile(new Point(i, j));
+                    if (tile.hasObject() && !(tile.getObjects() instanceof Agent)) {
+                        ImageView imageView = new ImageView(targetImages.get(0));
+                        mainGrid.add(imageView, i, j);
+                    }
+                }
+            }
+        } else {
+            for (int i = x - range; i < x + range; i++) {
+                for (int j = y - range; j < y + range; j++) {
+                    Tile tile = field.getTile(new Point(i, j));
+                    if (tile.hasObject() && !(tile.getObjects() instanceof Agent)) {
+                        ImageView imageView = new ImageView(targetImages.get(0));
+                        mainGrid.add(imageView, i, j);
+                    }
+                }
+            }
+        }
+    }
+
+    private void loadItemImages(){
+
+        String toolFolder = "file:res" + File.separator + "Tool_Pictures" + File.separator;
+        Image berryimage = new Image(toolFolder + "Berry32.png",32,32,true,false);
+        Image fistimage = new Image(toolFolder + "Fist32.png",32,32,true,false);
+        Image meatimage = new Image(toolFolder + "Meat32.png",32,32,true,false);
+        Image spearimage = new Image(toolFolder + "Spear32.png",32,32,true,false);
+        Image stickimage = new Image(toolFolder + "Stick32.png",32,32,true,false);
+        Image stoneimage = new Image(toolFolder + "Stone32.png",32,32,true,false);
+        Image torchimage = new Image(toolFolder + "Torch32.png",32,32,true,false);
+
+        itemImages.put(Berry.class,berryimage);
+        itemImages.put(Hand.class,fistimage);
+        itemImages.put(Meat.class,meatimage);
+        itemImages.put(Spear.class,spearimage);
+        itemImages.put(Stick.class,stickimage);
+        itemImages.put(Stone.class,stoneimage);
+        itemImages.put(Torch.class,torchimage);
+
+        itemBorderImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator + "itemborder.png",50,50,true,false);
+       /*
+        Image berry2image = new Image(toolFolder + "BerryGrid.png",32,32,true,false);
+        Image fist2image = new Image(toolFolder + "FistGrid.png",32,32,true,false);
+        Image meat2image = new Image(toolFolder + "MeatGrid.png",32,32,true,false);
+        Image spear2image = new Image(toolFolder + "SpearGrid.png",32,32,true,false);
+        Image stick2image = new Image(toolFolder + "StickGrid.png",32,32,true,false);
+        Image stone2image = new Image(toolFolder + "StoneGrid.png",32,32,true,false);
+        Image torch2image = new Image(toolFolder + "TorchGrid.png",32,32,true,false);
+        Item currentitem = game.getAgent().getEquippedItem();
+
+        if (currentitem instanceof Hand) {
+            itemGrid.add(new ImageView(fist2image), 1, 0);
+            itemGrid.add(new ImageView(stoneimage), 2, 0);
+            itemGrid.add(new ImageView(spearimage), 3, 0);
+            itemGrid.add(new ImageView(torchimage), 4, 0);
+            itemGrid.add(new ImageView(berryimage), 5, 0);
+            itemGrid.add(new ImageView(meatimage), 6, 0);
+            itemGrid.add(new ImageView(stickimage), 7, 0);
+        }
+        else if (currentitem instanceof Stone) {
+            itemGrid.add(new ImageView(fistimage), 1, 0);
+            itemGrid.add(new ImageView(stone2image), 2, 0);
+            itemGrid.add(new ImageView(spearimage), 3, 0);
+            itemGrid.add(new ImageView(torchimage), 4, 0);
+            itemGrid.add(new ImageView(berryimage), 5, 0);
+            itemGrid.add(new ImageView(meatimage), 6, 0);
+            itemGrid.add(new ImageView(stickimage), 7, 0);
+        }
+        else if (currentitem instanceof Spear) {
+            itemGrid.add(new ImageView(fistimage), 1, 0);
+            itemGrid.add(new ImageView(stoneimage), 2, 0);
+            itemGrid.add(new ImageView(spear2image), 3, 0);
+            itemGrid.add(new ImageView(torchimage), 4, 0);
+            itemGrid.add(new ImageView(berryimage), 5, 0);
+            itemGrid.add(new ImageView(meatimage), 6, 0);
+            itemGrid.add(new ImageView(stickimage), 7, 0);
+        }
+        else if (currentitem instanceof Torch) {
+            itemGrid.add(new ImageView(fistimage), 1, 0);
+            itemGrid.add(new ImageView(stoneimage), 2, 0);
+            itemGrid.add(new ImageView(spearimage), 3, 0);
+            itemGrid.add(new ImageView(torch2image), 4, 0);
+            itemGrid.add(new ImageView(berryimage), 5, 0);
+            itemGrid.add(new ImageView(meatimage), 6, 0);
+            itemGrid.add(new ImageView(stickimage), 7, 0);
+        }
+        else if (currentitem instanceof Berry) {
+            itemGrid.add(new ImageView(fistimage), 1, 0);
+            itemGrid.add(new ImageView(stoneimage), 2, 0);
+            itemGrid.add(new ImageView(spearimage), 3, 0);
+            itemGrid.add(new ImageView(torchimage), 4, 0);
+            itemGrid.add(new ImageView(berry2image), 5, 0);
+            itemGrid.add(new ImageView(meatimage), 6, 0);
+            itemGrid.add(new ImageView(stickimage), 7, 0);
+        }
+        else if (currentitem instanceof Meat) {
+            itemGrid.add(new ImageView(fistimage), 1, 0);
+            itemGrid.add(new ImageView(stoneimage), 2, 0);
+            itemGrid.add(new ImageView(spearimage), 3, 0);
+            itemGrid.add(new ImageView(torchimage), 4, 0);
+            itemGrid.add(new ImageView(berryimage), 5, 0);
+            itemGrid.add(new ImageView(meat2image), 6, 0);
+            itemGrid.add(new ImageView(stickimage), 7, 0);
+        }
+        else if (currentitem instanceof Stick) {
+            itemGrid.add(new ImageView(fistimage), 1, 0);
+            itemGrid.add(new ImageView(stoneimage), 2, 0);
+            itemGrid.add(new ImageView(spearimage), 3, 0);
+            itemGrid.add(new ImageView(torchimage), 4, 0);
+            itemGrid.add(new ImageView(berryimage), 5, 0);
+            itemGrid.add(new ImageView(meatimage), 6, 0);
+            itemGrid.add(new ImageView(stick2image), 7, 0);
+        }
+        */
+    }
+
     public void loadScene(){
         mainScene = mainGrid.getScene();
+        mainScene = itemGrid.getScene();
         mainScene.setOnKeyPressed((e) -> handleKeyPress(e));
         mainScene.setOnKeyReleased((e) -> handleKeyRelease(e));
     }

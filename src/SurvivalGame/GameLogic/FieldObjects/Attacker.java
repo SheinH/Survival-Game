@@ -8,16 +8,16 @@ public interface Attacker {
     void attack(HealthObject target);
 
 
-    public List<Point> attackArea();
+//    public List<Point> attackArea();
 
 //    public boolean isRock(List<Point> attackArea);
 //
 //    public boolean isRock(Point point);
-
-    public boolean isTarget(List<Point> attackArea);
-
-    public Point placeToAttack(List<Point> attackArea);
-
-    public void goToTarget();
+//
+//    public boolean isTarget(List<Point> attackArea);
+//
+//    public Point placeToAttack(List<Point> attackArea);
+//
+//    public void goToTarget();
 
 }

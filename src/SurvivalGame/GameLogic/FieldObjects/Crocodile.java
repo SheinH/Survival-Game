@@ -1,6 +1,10 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
 public class Crocodile extends Carnivore{
+
+    public Crocodile(){
+        super(45,20, 3);
+    }
     @Override
     public void attack(HealthObject target) {
         target.lowerHealth(5);

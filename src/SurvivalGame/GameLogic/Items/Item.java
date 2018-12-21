@@ -30,12 +30,23 @@ public abstract class Item {
 
     public int getQuantity(){return this.quantity;}
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public void changeQuantity(int change){
         if(this.quantity + change < 0){
             throw new IllegalArgumentException("Cannot use more than the availability");
         }
 
         this.quantity = this.quantity + change;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return true;
     }
 
     //setter

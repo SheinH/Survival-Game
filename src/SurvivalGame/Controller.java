@@ -80,9 +80,12 @@ public class Controller {
             togglePause();
         });
         testMethod();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(
-        gson.toJson(new Lion()));
+        ItemsList items = new ItemsList();
+        Meat meat = new Meat();
+        meat.setQuantity(10);
+        items.add(meat);
+        Lion lion = Loader.loadObject(Lion.class);
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(lion));
     }
 
     public void testMethod(){

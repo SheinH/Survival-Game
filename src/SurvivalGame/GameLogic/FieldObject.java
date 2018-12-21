@@ -1,7 +1,7 @@
 package SurvivalGame.GameLogic;
 
 public abstract class FieldObject {
-    private Field field;
+    private transient Field field;
     private Point point;
     private String name;
 

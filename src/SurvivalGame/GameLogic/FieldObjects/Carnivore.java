@@ -1,10 +1,8 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
-import SurvivalGame.GameLogic.Agent;
-import SurvivalGame.GameLogic.Field;
-import SurvivalGame.GameLogic.FieldObject;
-import SurvivalGame.GameLogic.Point;
+import SurvivalGame.GameLogic.*;
 
+import java.awt.event.ItemListener;
 import java.io.ObjectInputFilter;
 import java.io.PipedReader;
 import java.lang.Math.*;
@@ -15,6 +13,16 @@ import java.util.stream.Collectors;
 public abstract class Carnivore extends MovingFieldObject implements Attacker, HealthObject{
     protected int damage;
     private int radiusZone;
+    private transient ItemsList loot;
+
+    @Override
+    public ItemsList getLoot() {
+        return loot;
+    }
+
+    public void setLoot(ItemsList loot) {
+        this.loot = loot;
+    }
 
     private List<Point> deadZone = new ArrayList<Point>((int) Math.pow(radiusZone, 2));
     private List<Point> attackZone;

@@ -2,7 +2,7 @@ package SurvivalGame.GameLogic.Items;
 
 import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 
-public class Torch extends Tool implements HealthObject {
+public class Torch extends Tool{
     private int health;
 
     private static final String NAME = "Torch";
@@ -21,20 +21,18 @@ public class Torch extends Tool implements HealthObject {
         this.health = health;
     }
 
-    @Override
     public int getHealth(){return health;}
 
     //setHealth(int difference): return the newValue = oldValue + difference;
-    @Override
+
     public void setHealth(int difference){
         this.health = this.health + difference;
     }
 
-    @Override
+
     public String getName() {
         return NAME;
     }
 
-    @Override
     public int getMaxHealth() {return 0;}
 }

@@ -1,7 +1,10 @@
 package SurvivalGame.GameLogic;
 
 import SurvivalGame.GameLogic.FieldObjects.*;
+import com.google.gson.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,15 +25,15 @@ public class Loader {
             case 'A':
                 return new Agent(100);
             case 'R':
-                return new Rabbit();
+                return loadObject(Rabbit.class);
             case 'C':
-                return new Crocodile();
+                return loadObject(Crocodile.class);
             case 'F':
-                return new Fish();
+                return loadObject(Fish.class);
             case 'L':
-                return new Lion();
+                return loadObject(Lion.class);
             case 'H':
-                return new Horse();
+                return loadObject(Horse.class);
             case 'T':
                 return new Tree();
             case 'B':
@@ -38,11 +41,53 @@ public class Loader {
             case 'r':
                 return new Rock();
             case 'b':
-                return new Bear();
+                return loadObject(Bear.class);
                 default:
                 return null;
         }
     }
+
+    public static <T extends FieldObject> T loadObject(Class<T> type){
+        String input = "";
+        try {
+            Scanner sc = new Scanner(new BufferedReader(new FileReader("TEST.json")));
+            StringBuilder builder = new StringBuilder();
+            while (sc.hasNextLine())
+                builder.append(sc.nextLine());
+            input = builder.toString();
+        }
+        catch(Exception whatever){
+
+        }
+        JsonElement element = new JsonParser().parse(input);
+        JsonObject obj = element.getAsJsonObject();
+        String typename = type.getSimpleName();
+        JsonElement jsonelement = obj.get(typename);
+        System.out.println(new Gson().toJson(jsonelement));
+        T lion = new Gson().fromJson(jsonelement, type);
+        return lion;
+    }
+    public static Lion makeLionFromGSON(){
+        String input = "";
+        try {
+            Scanner sc = new Scanner(new BufferedReader(new FileReader("TEST.json")));
+            StringBuilder builder = new StringBuilder();
+            while (sc.hasNextLine())
+                builder.append(sc.nextLine());
+            input = builder.toString();
+        }
+        catch(Exception whatever){
+
+        }
+            JsonElement element = new JsonParser().parse(input);
+            JsonObject obj = element.getAsJsonObject();
+            JsonElement jsonlion = obj.get("Lion");
+            System.out.println(new Gson().toJson(jsonlion));
+            Lion lion = new Gson().fromJson(jsonlion, Lion.class);
+            System.out.println(lion.getMaxHealth());
+            lion.setHealth(lion.getMaxHealth());
+            return lion;
+        }
 
     public static Field loadTiles(Scanner sc){
         ArrayList<String> lines = new ArrayList<>();

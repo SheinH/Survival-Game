@@ -13,16 +13,24 @@ import java.util.Random;
 public abstract class MovingFieldObject extends FieldObject implements HealthObject {
     private Direction direction;
     private int health;
+    private int maxHealth;
     protected int moveTime;
     private HashMap<Terrain, Integer> moveSpeeds;
-    private static List<Terrain> movableTerrains;
+    private List<Terrain> movableTerrains;
 
 
     public int getMoveTime() {
         return moveTime;
     }
 
-    ;
+    @Override
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    protected void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
 
     public MovingFieldObject(int health) {
         direction = Direction.NONE;
@@ -61,7 +69,6 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
         if (moveTime > 0)
             moveTime--;
         else {
-            System.out.println("MOVED");
             moveForward();
             changeDirection();
             addMoveTime();
@@ -99,7 +106,6 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
             currentTile.getObjects().remove(this);
             destTile.getObjects().add(this);
             setPoint(dest);                             //where did you get did function
-            System.out.printf("Moved to %d, %d", dest.getY(), dest.getX());
         }
     }
 

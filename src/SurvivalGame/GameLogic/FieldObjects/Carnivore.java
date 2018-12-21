@@ -316,9 +316,9 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private boolean isInShadow(Point point, Point rock){
         double distance = calculateDistance(point);
 
-        double rockAngle = Math.atan( (rock.getY() - getPoint().getY() )  / (rock.getX() - getPoint().getX()) ); //central point
+        double rockAngle = Math.atan( (rock.getY() - getPoint().getY() )  / (rock.getX() - getPoint().getX()) ); //angle of rock
 
-        double pointAngle = Math.atan( (point.getY() - getPoint().getY()) / (point.getX() - getPoint().getX()) );//central point
+        double pointAngle = Math.atan( (point.getY() - getPoint().getY()) / (point.getX() - getPoint().getX()) );//angle of a point
 
         double smallAngle = Math.asin(0.5/distance); //because the diameter for every tile is 1
 

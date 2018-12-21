@@ -5,6 +5,7 @@ import SurvivalGame.GameLogic.FieldObjects.*;
 import SurvivalGame.GameLogic.Items.*;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,6 +21,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import javax.swing.text.AbstractDocument;
@@ -64,6 +66,7 @@ public class Controller {
         loadTerrainImages();
         loadObjectImages();
         loadItemImages();
+        loadHealthLabel();
         updateTileGrid();
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
@@ -227,7 +230,10 @@ public class Controller {
     private void loadHealthLabel(){
         List<FieldObject> objects = game.getField().getFieldObjects();
         for(FieldObject obj : objects){
-            Text health = new Text();
+            Text health = new Text("100");
+            health.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
+            mainGrid.add(health, obj.getPoint().getX(), obj.getPoint().getY());
+            mainGrid.setHalignment(health, HPos.RIGHT);
         }
     }
 

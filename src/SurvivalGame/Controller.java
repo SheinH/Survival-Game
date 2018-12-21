@@ -3,29 +3,21 @@ package SurvivalGame;
 import SurvivalGame.GameLogic.*;
 import SurvivalGame.GameLogic.FieldObjects.*;
 import SurvivalGame.GameLogic.Items.*;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import javax.swing.text.AbstractDocument;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +38,7 @@ public class Controller {
     private HashMap<Terrain,Image> terrainImages;
     private HashMap<Class<? extends Item>,Image> itemImages;
     private List<ImageView> imageViewList;
-    private HashMap<FieldObject, ImageView> objectImageViews;
+    private HashMap<FieldObject, StackPane> objectStackPaneHashMap;
     private Image itemBorderImage;
     private HashMap<Integer, Image> targetImages;
 
@@ -56,7 +48,7 @@ public class Controller {
         terrainImages = new HashMap<>();
         objectImages = new HashMap<>();
         imageViewList = new ArrayList<>();
-        objectImageViews = new HashMap<>();
+        objectStackPaneHashMap = new HashMap<>();
         itemImages = new HashMap<>();
         targetImages = new HashMap<>();
         loadImages();
@@ -67,7 +59,6 @@ public class Controller {
         loadTerrainImages();
         loadObjectImages();
         loadItemImages();
-        loadHealthLabel();
         updateTileGrid();
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
@@ -150,6 +141,8 @@ public class Controller {
 
 
     private void handleKeyPress(KeyEvent key) {
+        if(key.getCode() == KeyCode.SPACE)
+            togglePause();
         game.getGameLock().lock();
         switch(key.getCode())
         {
@@ -168,9 +161,6 @@ public class Controller {
             case T:
                 if(game.isPaused())
                     game.tick();
-                break
-            case SPACE:
-                togglePause();
                 break;
         }
         game.getGameLock().unlock();
@@ -209,6 +199,7 @@ public class Controller {
         Image lionimage = new Image(objectsFolder + "Lion64.png",32,32,true,false);
         Image rockimage = new Image(objectsFolder + "Rock64.png",32,32,true,false);
         Image agentImage = new Image(objectsFolder + "Agent.png",32,32,true,false);
+        Image horseImage = new Image(objectsFolder + "Horse64.png",32,32,true,false);
         objectImages.put(Bear.class, bearimage);
         objectImages.put(Tree.class, treeimage);
         objectImages.put(Rabbit.class, rabbitimage);
@@ -218,6 +209,7 @@ public class Controller {
         objectImages.put(Lion.class, lionimage);
         objectImages.put(Rock.class, rockimage);
         objectImages.put(Agent.class, agentImage);
+        objectImages.put(Horse.class, horseImage);
         Image targetimage = new Image(objectsFolder + "Target.png",32,32,true,false);
         targetImages.put(0, targetimage);
         loadItemImages();
@@ -229,7 +221,10 @@ public class Controller {
 
     public void updateTileGrid(){
         for(FieldObject obj : game.getField().getFieldObjects()){
-            GridPane.setConstraints(objectImageViews.get(obj),obj.getPoint().getX(),obj.getPoint().getY());
+            GridPane.setConstraints(
+                    objectStackPaneHashMap.get(obj),
+                    obj.getPoint().getX(),
+                    obj.getPoint().getY());
         }
     }
 
@@ -248,9 +243,21 @@ public class Controller {
     private void loadObjectImages(){
         List<FieldObject> objects = game.getField().getFieldObjects();
         for(FieldObject o : objects){
+            StackPane stackPane = new StackPane();
             ImageView imageView = new ImageView(objectImages.get(o.getClass()));
-            mainGrid.add(imageView,o.getPoint().getX(),o.getPoint().getY());
-            objectImageViews.put(o,imageView);
+            Text healthText = new Text();
+            if(o instanceof HealthObject){
+                HealthObject moveObj = (HealthObject) o;
+                healthText.setText(String.valueOf(moveObj.getHealth()));
+                healthText.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
+                healthText.setFill(Color.RED);
+                mainGrid.add(healthText, o.getPoint().getX(), o.getPoint().getY());
+            }
+            stackPane.getChildren().add(imageView);
+            stackPane.getChildren().add(healthText);
+            StackPane.setAlignment(healthText, Pos.BOTTOM_RIGHT);
+            mainGrid.add(stackPane,o.getPoint().getX(),o.getPoint().getY());
+            objectStackPaneHashMap.put(o,stackPane);
         }
 
     }
@@ -260,8 +267,8 @@ public class Controller {
         List<FieldObject> objects = game.getField().getFieldObjects();
         for(FieldObject obj : objects){
             Text healthText = new Text();
-            if(obj instanceof MovingFieldObject){
-                MovingFieldObject moveObj = (MovingFieldObject) obj;
+            if(obj instanceof HealthObject){
+                HealthObject moveObj = (HealthObject) obj;
                 healthText.setText(String.valueOf(moveObj.getHealth()));
                 healthText.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
                 healthText.setFill(Color.RED);
@@ -303,13 +310,13 @@ public class Controller {
     private void loadItemImages(){
 
         String toolFolder = "file:res" + File.separator + "New_Tool_Pictures" + File.separator;
-        Image berryimage = new Image(toolFolder + "berry.png",32,32,true,false);
-        Image fistimage = new Image(toolFolder + "fist.png",32,32,true,false);
-        Image meatimage = new Image(toolFolder + "meat.png",32,32,true,false);
-        Image spearimage = new Image(toolFolder + "spear.png",32,32,true,false);
-        Image stickimage = new Image(toolFolder + "stick.png",32,32,true,false);
-        Image stoneimage = new Image(toolFolder + "stone.png",32,32,true,false);
-        Image torchimage = new Image(toolFolder + "torch.png",32,32,true,false);
+        Image berryimage = new Image(toolFolder + "berry.png",32,32,true,true);
+        Image fistimage = new Image(toolFolder + "fist.png",32,32,true,true);
+        Image meatimage = new Image(toolFolder + "meat.png",32,32,true,true);
+        Image spearimage = new Image(toolFolder + "spear.png",32,32,true,true);
+        Image stickimage = new Image(toolFolder + "stick.png",32,32,true,true);
+        Image stoneimage = new Image(toolFolder + "stone.png",32,32,true,true);
+        Image torchimage = new Image(toolFolder + "torch.png",32,32,true,true);
 
         itemImages.put(Berry.class,berryimage);
         itemImages.put(Hand.class,fistimage);

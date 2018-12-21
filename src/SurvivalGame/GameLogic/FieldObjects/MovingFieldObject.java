@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public abstract class MovingFieldObject extends FieldObject {
+public abstract class MovingFieldObject extends FieldObject implements HealthObject {
     private Direction direction;
+    private int health;
     protected int moveTime;
     private HashMap<Terrain,Integer> moveSpeeds;
     private static List<Terrain> moveableTerrains;
@@ -19,10 +20,15 @@ public abstract class MovingFieldObject extends FieldObject {
         return moveTime;
     };
 
-    public MovingFieldObject() {
+    public MovingFieldObject(int health) {
         direction = Direction.NONE;
         moveSpeeds = new HashMap<>();
         moveTime = 0;
+
+        if(health <= 0) {
+            throw new IllegalArgumentException("health must be > 0");
+        }
+        this.health = health;
     }
 
     public void setMoveSpeed(Terrain t, int ms){
@@ -98,6 +104,7 @@ public abstract class MovingFieldObject extends FieldObject {
     public Direction getDirection(){
         return direction;
     };
+
     public void changeDirection(){
         int rand = new Random().nextInt();
         if(direction == Direction.NONE){
@@ -137,5 +144,20 @@ public abstract class MovingFieldObject extends FieldObject {
             else
                 direction = Direction.NONE;
         }
+    }
+
+    @Override
+    public abstract int getMaxHealth();
+
+    @Override
+    public int getHealth(){ return this.health; }
+
+    @Override
+    public void setHealth(int health) {
+        if(health <= 0) {
+            throw new IllegalArgumentException("health must be > 0");
+        }
+
+        this.health = health;
     }
 }

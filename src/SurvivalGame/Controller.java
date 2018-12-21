@@ -227,7 +227,13 @@ public class Controller {
     private void loadHealthLabel(){
         List<FieldObject> objects = game.getField().getFieldObjects();
         for(FieldObject obj : objects){
-            Text health = new Text();
+            Text healthText = new Text();
+            if(obj instanceof MovingFieldObject){
+                MovingFieldObject moveObj = (MovingFieldObject) obj;
+
+                healthText.setText(String.valueOf(moveObj.getHealth()));
+            }
+
         }
     }
 

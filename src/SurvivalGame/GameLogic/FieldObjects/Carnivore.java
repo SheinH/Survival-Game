@@ -21,11 +21,8 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private List<Point> attackZone = new ArrayList<>(4);
 
     public Carnivore(int health, int damage, int radiusZone){
-        super();
+        super(health);
 
-        if(health <= 0) {
-            throw new IllegalArgumentException("health must be > 0");
-        }
         if(damage < 0) {
             throw new IllegalArgumentException("damage must be >= 0");
         }
@@ -33,7 +30,6 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
             throw new IllegalArgumentException("radiusZone must be > 0");
         }
 
-        this.health = health;
         this.damage = damage;
         this.radiusZone = radiusZone;
 

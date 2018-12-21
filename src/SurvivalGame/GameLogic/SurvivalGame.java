@@ -66,7 +66,7 @@ public class SurvivalGame {
                 gamePauseLock.unlock();
             }
         }
-        finally{
+        finally {
             gameLock.unlock();
         }
     }

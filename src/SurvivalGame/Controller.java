@@ -41,8 +41,11 @@ public class Controller {
     private HashMap<Class<? extends Item>,Image> itemImages;
     private List<ImageView> imageViewList;
     private HashMap<FieldObject, StackPane> objectStackPaneHashMap;
+    private HashMap<Tile, StackPane> tileStackPaneHashMap;
     private Image itemBorderImage;
+    private Image chestImage;
     private HashMap<Integer, Image> targetImages;
+
 
     public Controller(SurvivalGame g) {
         game = g;
@@ -53,6 +56,7 @@ public class Controller {
         objectStackPaneHashMap = new HashMap<>();
         itemImages = new HashMap<>();
         targetImages = new HashMap<>();
+        tileStackPaneHashMap = new HashMap<>();
         loadImages();
     }
 
@@ -247,6 +251,12 @@ public class Controller {
             pickupButton.setDisable(true);
     }
 
+    public void addChest(Tile t){
+        if(tileStackPaneHashMap.containsKey(t))
+            return;
+        tileStackPaneHashMap.get(t).getChildren().add(new ImageView())
+    }
+
     private void loadTerrainImages(){
         Field field = game.getField();
         for(int y = 0; y < field.getHeight(); y++){
@@ -254,7 +264,10 @@ public class Controller {
                 Tile tile = field.getTile(new Point(y,x));
                 Image terrainImage = terrainImages.get(tile.getTerrain());
                 ImageView imageView = new ImageView(terrainImage);
-                mainGrid.add(imageView,x,y);
+                StackPane stackpane = new StackPane();
+                stackpane.getChildren().add(imageView);
+                tileStackPaneHashMap.put(tile,stackpane);
+                mainGrid.add(stackpane,x,y);
             }
         }
     }
@@ -336,6 +349,7 @@ public class Controller {
         Image stickimage = new Image(toolFolder + "stick.png",32,32,true,true);
         Image stoneimage = new Image(toolFolder + "stone.png",32,32,true,true);
         Image torchimage = new Image(toolFolder + "torch.png",32,32,true,true);
+        chestImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator;
 
         itemImages.put(Berry.class,berryimage);
         itemImages.put(Hand.class,fistimage);

@@ -145,8 +145,6 @@ public class Controller {
 
 
     private void handleKeyPress(KeyEvent key) {
-        if(game.isPaused())
-            return;
         game.getGameLock().lock();
         switch(key.getCode())
         {
@@ -164,14 +162,13 @@ public class Controller {
                 break;
             case SPACE:
                 togglePause();
+                break;
         }
         game.getGameLock().unlock();
 
     }
 
     private void handleKeyRelease(KeyEvent key) {
-        if(game.isPaused())
-            return;
         switch(key.getCode())
         {
             case W:

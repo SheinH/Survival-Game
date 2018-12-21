@@ -20,7 +20,7 @@ public class Loader {
     public static FieldObject makeFieldObject(char c){
         switch(c){
             case 'A':
-                return new Agent();
+                return new Agent(100);
             case 'R':
                 return new Rabbit();
             case 'C':

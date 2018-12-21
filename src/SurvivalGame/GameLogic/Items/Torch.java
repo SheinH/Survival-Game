@@ -34,4 +34,7 @@ public class Torch extends Tool implements HealthObject {
     public String getName() {
         return NAME;
     }
+
+    @Override
+    public int getMaxHealth() {return 0;}
 }

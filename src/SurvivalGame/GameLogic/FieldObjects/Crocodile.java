@@ -24,4 +24,7 @@ public class Crocodile extends Carnivore{
     public int getMoveTime() {
         return 0;
     }
+
+    @Override
+    public int getMaxHealth(){return 0;}
 }

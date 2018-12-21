@@ -55,4 +55,7 @@ public class Fence extends FieldObject implements HealthObject {
     public char getChar() {
         return 0;
     }
+
+    @Override
+    public int getMaxHealth(){return 0;}
 }

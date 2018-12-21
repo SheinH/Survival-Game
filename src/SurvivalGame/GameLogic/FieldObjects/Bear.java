@@ -21,4 +21,6 @@ public class Bear extends Carnivore{
     public void attack(HealthObject target) {
 
     }
+    @Override
+    public int getMaxHealth(){return 0;}
 }

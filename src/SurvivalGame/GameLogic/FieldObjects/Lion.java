@@ -3,6 +3,7 @@ package SurvivalGame.GameLogic.FieldObjects;
 import SurvivalGame.GameLogic.Terrain;
 
 public class Lion extends Carnivore{
+
     public Lion(){
         super(40,20,3);
         setMoveSpeed(Terrain.DESERT, 5);
@@ -17,5 +18,6 @@ public class Lion extends Carnivore{
         return 'L';
     }
 
-
+    @Override
+    public int getMaxHealth(){return 0;}
 }

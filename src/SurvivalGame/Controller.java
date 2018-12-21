@@ -32,6 +32,8 @@ public class Controller {
     private GridPane itemGrid;
     @FXML
     private Button pauseButton;
+    @FXML
+    private Button pickupButton;
     private Scene mainScene;
     private SurvivalGame game;
     private HashMap<Class<? extends FieldObject>,Image> objectImages;
@@ -75,6 +77,7 @@ public class Controller {
         Meat meat = new Meat();
         meat.setQuantity(10);
         items.add(meat);
+        game.getField().getTile(new Point(0,1)).getItemsList().add(meat);
         Lion lion = Loader.loadObject(Lion.class);
         System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(game.getAgent()));
     }
@@ -226,6 +229,11 @@ public class Controller {
                     obj.getPoint().getX(),
                     obj.getPoint().getY());
         }
+        if(game.getAgent().getTile().hasItem()){
+            pickupButton.setDisable(false);
+        }
+        else
+            pickupButton.setDisable(true);
     }
 
     private void loadTerrainImages(){

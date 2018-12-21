@@ -168,7 +168,7 @@ public class Controller {
             case T:
                 if(game.isPaused())
                     game.tick();
-                break
+                break;
             case SPACE:
                 togglePause();
                 break;

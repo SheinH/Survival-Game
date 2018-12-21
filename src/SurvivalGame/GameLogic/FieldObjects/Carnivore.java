@@ -50,18 +50,12 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
 
-//    @Override
-//    public void update() {
-//        if (super.getMoveSpeed() > 0)
-//            super.reduceMoveTime();
-//        else {
-//            System.out.println("MOVED");
-//            goToAgent();
-//            super.moveForward();
-//            super.changeDirection();
-//            super.addMoveTime();
-//        }
-//    }
+    @Override
+    public void update() {
+
+        super.update();
+        goToAgent();
+    }
 
     //getDamage
     public int getDamage(){return damage;}

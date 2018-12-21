@@ -22,6 +22,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import javax.swing.text.AbstractDocument;
@@ -66,6 +67,7 @@ public class Controller {
         loadTerrainImages();
         loadObjectImages();
         loadItemImages();
+        loadHealthLabel();
         updateTileGrid();
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
@@ -145,8 +147,6 @@ public class Controller {
 
 
     private void handleKeyPress(KeyEvent key) {
-        if(game.isPaused())
-            return;
         game.getGameLock().lock();
         switch(key.getCode())
         {
@@ -164,14 +164,13 @@ public class Controller {
                 break;
             case SPACE:
                 togglePause();
+                break;
         }
         game.getGameLock().unlock();
 
     }
 
     private void handleKeyRelease(KeyEvent key) {
-        if(game.isPaused())
-            return;
         switch(key.getCode())
         {
             case W:
@@ -256,10 +255,11 @@ public class Controller {
             Text healthText = new Text();
             if(obj instanceof MovingFieldObject){
                 MovingFieldObject moveObj = (MovingFieldObject) obj;
-
                 healthText.setText(String.valueOf(moveObj.getHealth()));
+                healthText.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
+                healthText.setFill(Color.RED);
+                mainGrid.add(healthText, obj.getPoint().getX(), obj.getPoint().getY());
             }
-
         }
     }
 

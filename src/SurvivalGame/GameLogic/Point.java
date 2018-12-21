@@ -14,7 +14,6 @@ public class Point{
     }
 
     public Point(int y, int x){
-
         this.x  = x;
         this.y  = y;
     }

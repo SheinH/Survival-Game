@@ -79,6 +79,25 @@ public class Controller {
     }
 
     public void testMethod(){
+        ItemGridPane igp = new ItemGridPane(itemImages);
+        igp.setGridPane(itemGrid);
+        ItemsList list = new ItemsList();
+        Spear spear = new Spear();
+        spear.setQuantity(10);
+        Berry b = new Berry();
+        b.setQuantity(10);
+        Stone s = new Stone();
+        s.setQuantity(20);
+        Stick s2 = new Stick();
+        s2.setQuantity(4);
+        list.add(b);
+        list.add(spear);
+        list.add(s);
+        list.add(s2);
+        igp.showList(list);
+        igp.setHighlightIndex(0);
+
+        /*
         StackPane sp = new StackPane();
         sp.setPrefSize(50,50);
         ImageView Border = new ImageView(itemBorderImage);
@@ -91,6 +110,7 @@ public class Controller {
         sp.getChildren().add(label);
         StackPane.setAlignment(label,Pos.BOTTOM_RIGHT);
         itemGrid.add(sp,0,0);
+        */
     }
     public void updateItemBar(){
         updateItemGrid(itemGrid, game.getAgent().getItemsList());
@@ -120,6 +140,8 @@ public class Controller {
 
 
     private void handleKeyPress(KeyEvent key) {
+        if(game.isPaused())
+            return;
         game.getGameLock().lock();
         switch(key.getCode())
         {
@@ -146,6 +168,8 @@ public class Controller {
     }
 
     private void handleKeyRelease(KeyEvent key) {
+        if(game.isPaused())
+            return;
         switch(key.getCode())
         {
             case W:
@@ -263,14 +287,14 @@ public class Controller {
 
     private void loadItemImages(){
 
-        String toolFolder = "file:res" + File.separator + "Tool_Pictures" + File.separator;
-        Image berryimage = new Image(toolFolder + "Berry32.png",32,32,true,false);
-        Image fistimage = new Image(toolFolder + "Fist32.png",32,32,true,false);
-        Image meatimage = new Image(toolFolder + "Meat32.png",32,32,true,false);
-        Image spearimage = new Image(toolFolder + "Spear32.png",32,32,true,false);
-        Image stickimage = new Image(toolFolder + "Stick32.png",32,32,true,false);
-        Image stoneimage = new Image(toolFolder + "Stone32.png",32,32,true,false);
-        Image torchimage = new Image(toolFolder + "Torch32.png",32,32,true,false);
+        String toolFolder = "file:res" + File.separator + "New_Tool_Pictures" + File.separator;
+        Image berryimage = new Image(toolFolder + "berry.png",32,32,true,false);
+        Image fistimage = new Image(toolFolder + "fist.png",32,32,true,false);
+        Image meatimage = new Image(toolFolder + "meat.png",32,32,true,false);
+        Image spearimage = new Image(toolFolder + "spear.png",32,32,true,false);
+        Image stickimage = new Image(toolFolder + "stick.png",32,32,true,false);
+        Image stoneimage = new Image(toolFolder + "stone.png",32,32,true,false);
+        Image torchimage = new Image(toolFolder + "torch.png",32,32,true,false);
 
         itemImages.put(Berry.class,berryimage);
         itemImages.put(Hand.class,fistimage);

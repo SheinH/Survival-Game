@@ -84,9 +84,8 @@ public class Controller {
         Meat meat = new Meat();
         meat.setQuantity(10);
         items.add(meat);
-        Lion lion = new Lion();
-        lion.setLoot(items);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(Loader.makeLionFromGSON()));
+        Lion lion = Loader.loadObject(Lion.class);
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(lion));
     }
 
     public void testMethod(){

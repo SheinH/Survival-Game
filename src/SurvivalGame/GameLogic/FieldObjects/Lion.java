@@ -17,7 +17,4 @@ public class Lion extends Carnivore{
     public char getChar() {
         return 'L';
     }
-
-    @Override
-    public int getMaxHealth(){return 0;}
 }

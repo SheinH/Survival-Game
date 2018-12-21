@@ -4,7 +4,7 @@ import SurvivalGame.GameLogic.ItemsList;
 
 public abstract class Herbivore extends MovingFieldObject implements HealthObject{
 
-    private ItemsList loot;
+    private transient ItemsList loot;
 
     @Override
     public ItemsList getLoot() {

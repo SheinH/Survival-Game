@@ -1,11 +1,14 @@
 package SurvivalGame.GameLogic;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 import SurvivalGame.GameLogic.FieldObjects.*;
 
 
-public class Field{
+public class Field implements Iterable<Tile>{
 
     private SurvivalGame game;
     private Tile[][] grid;
@@ -100,6 +103,49 @@ public class Field{
             builder.append('\n');
         }
         return builder.toString();
+    }
+
+    @Override
+    public Iterator<Tile> iterator() {
+        return new TileIterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Tile> action) {
+        TileIterator iterator = new TileIterator();
+        while(iterator.hasNext()){
+            action.accept(iterator.next());
+        }
+    }
+
+    @Override
+    public Spliterator<Tile> spliterator() {
+        return null;
+    }
+
+    class TileIterator implements Iterator<Tile>{
+        int x, y;
+
+        public TileIterator() {
+            x = y = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if(x + 1 == width && y + 1 == height)
+                return false;
+            return true;
+        }
+
+        @Override
+        public Tile next() {
+            x++;
+            if(x == width){
+                x = 0;
+                y++;
+            }
+            return grid[y][x];
+        }
     }
 }
 

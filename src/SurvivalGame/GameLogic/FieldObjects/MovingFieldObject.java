@@ -121,6 +121,8 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
         moveTime += getMoveSpeed();
     }
 
+    public void reduceMoveTime() {moveTime -= 1;}
+
     public Direction getDirection() {
         return direction;
     }

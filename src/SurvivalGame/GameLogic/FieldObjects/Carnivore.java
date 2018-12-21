@@ -58,6 +58,13 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
 
+    @Override
+    public void update() {
+
+        super.update();
+        goToAgent();
+    }
+
     //getDamage
     public int getDamage(){return damage;}
 
@@ -92,41 +99,59 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
 
+//    private Point findShortestSpot(Point agent, Point l, Point d, Point r, Point u) {
+//        double distanceL = calculateDistance(agent, l);
+//        double distanceD = calculateDistance(agent, d);
+//        double distanceR = calculateDistance(agent, r);
+//        double distanceU = calculateDistance(agent, u);
+//
+//        double max = distanceL;
+//        Point result = l;
+//
+//        if(max < distanceD){
+//            max = distanceD;
+//            result = d;
+//        }
+//
+//        if(max < distanceR){
+//            max = distanceR;
+//            result = r;
+//        }
+//        if(max < distanceU){
+//            max = distanceU;
+//            result = u;
+//        }
+//        return result;
+//    }
+
+
     //This function return the shortest path to go to the agent to attack
-    private Point findShortestSpot(Point agent, Point l, Point d, Point r, Point u) {
-        double distanceL = calculateDistance(agent, l);
-        double distanceD = calculateDistance(agent, d);
-        double distanceR = calculateDistance(agent, r);
-        double distanceU = calculateDistance(agent, u);
+    private Point findShortestSpot(Point agentPoint, Point ... points ) {
 
-        double max = distanceL;
-        Point result = l;
+        Point result = null;
+        double max = 0;
 
-        if(max < distanceD){
-            max = distanceD;
-            result = d;
+        for(Point point : points){
+            double distance = calculateDistance(agentPoint, point);
+
+            if(max < distance){
+                max = distance;
+                result = point;
+            }
         }
 
-        if(max < distanceR){
-            max = distanceR;
-            result = r;
-        }
-        if(max < distanceU){
-            max = distanceU;
-            result = u;
-        }
         return result;
     }
 
     private void moveHorizontal(Point des) {
         if(des.getX() == getPoint().getX()) {return;}
 
-//        if(des.getX() > getPoint().getX()){//move to the right 1 spot
-//            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() + 1].getPoint());
-//        }
-//        else{//move to the left 1 spot
-//            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() - 1].getPoint());
-//        }
+        if(des.getX() > getPoint().getX()){//move to the right 1 spot
+            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() + 1].getPoint());
+        }
+        else{//move to the left 1 spot
+            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() - 1].getPoint());
+        }
     }
 
 
@@ -134,12 +159,12 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         if(des.getY() == getPoint().getY()) {return;}
 
-//        if(des.getY() > getPoint().getY()){ // move down down spot
-//            setPoint(getField().getTileGrid()[getPoint().getY() + 1][getPoint().getX()].getPoint());
-//        }
-//        else { //move up 1 spot
-//            setPoint(getField().getTileGrid()[getPoint().getY() - 1][getPoint().getX()].getPoint());
-//        }
+        if(des.getY() > getPoint().getY()){ // move down down spot
+            setPoint(getField().getTileGrid()[getPoint().getY() + 1][getPoint().getX()].getPoint());
+        }
+        else { //move up 1 spot
+            setPoint(getField().getTileGrid()[getPoint().getY() - 1][getPoint().getX()].getPoint());
+        }
     }
 
     private boolean isAgentInDeadZone(Point agentPoint){
@@ -155,12 +180,13 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
     private void goToAgent(){
-        List<FieldObject> agentList = aFieldObjectList(Agent.class);
-        Point agent = agentList.get(0).getPoint();
-        int x = agent.getX();
-        int y = agent.getY();
-        while( isAgentInDeadZone(agent) ){
-            Point des = findShortestSpot(agent, new Point(y, x - 1),
+        Agent agent = getField().getAgent();
+        Point agentPoint= agent.getPoint();
+
+        int x = agentPoint.getX();
+        int y = agentPoint.getY();
+        while( isAgentInDeadZone(agentPoint) ){
+            Point des = findShortestSpot(agentPoint, new Point(y, x - 1),
                     new Point(y, x + 1), new Point(y + 1, x),
                     new Point(y - 1, x) );
 

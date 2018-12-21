@@ -5,6 +5,7 @@ import SurvivalGame.GameLogic.Point;
 import SurvivalGame.GameLogic.Terrain;
 import SurvivalGame.GameLogic.Tile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -14,7 +15,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     private int health;
     protected int moveTime;
     private HashMap<Terrain, Integer> moveSpeeds;
-    private static List<Terrain> moveableTerrains;
+    private static List<Terrain> movableTerrains;
 
 
     public int getMoveTime() {
@@ -27,7 +28,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
         direction = Direction.NONE;
         moveSpeeds = new HashMap<>();
         moveTime = 0;
-
+        movableTerrains = new ArrayList<Terrain>();
         if (health <= 0) {
             throw new IllegalArgumentException("health must be > 0");
         }
@@ -35,10 +36,10 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     }
 
     public void setMoveableTerrain(Terrain t, boolean b) {
-        if (moveableTerrains.contains(t) && !b)
-            moveableTerrains.remove(t);
-        else if (!moveableTerrains.contains(t) && b)
-            moveableTerrains.add(t);
+        if (movableTerrains.contains(t) && !b)
+            movableTerrains.remove(t);
+        else if (!movableTerrains.contains(t) && b)
+            movableTerrains.add(t);
     }
 
     public void setMoveSpeed(Terrain t, int ms) {

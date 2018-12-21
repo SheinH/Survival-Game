@@ -21,11 +21,8 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private List<Point> attackZone = new ArrayList<>(4);
 
     public Carnivore(int health, int damage, int radiusZone){
-        super();
+        super(health);
 
-        if(health <= 0) {
-            throw new IllegalArgumentException("health must be > 0");
-        }
         if(damage < 0) {
             throw new IllegalArgumentException("damage must be >= 0");
         }
@@ -33,11 +30,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
             throw new IllegalArgumentException("radiusZone must be > 0");
         }
 
-        this.health = health;
         this.damage = damage;
         this.radiusZone = radiusZone;
 
-        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() - 1) );//up
+        attackZone.add(new Point );//up
         attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() + 1) );//down
         attackZone.add(getField().getFieldPoint(getPoint().getX() - 1, getPoint().getY()) ); //left
         attackZone.add(getField().getFieldPoint(getPoint().getX() + 1, getPoint().getY()) );//right
@@ -320,9 +316,9 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private boolean isInShadow(Point point, Point rock){
         double distance = calculateDistance(point);
 
-        double rockAngle = (rock.getY() + 0.5)  / (rock.getX() + 0.5); //central point
+        double rockAngle = Math.atan( (rock.getY() - getPoint().getY() )  / (rock.getX() - getPoint().getX()) ); //angle of rock
 
-        double pointAngle = (point.getY() + 0.5) / (point.getX() + 0.5);//central point
+        double pointAngle = Math.atan( (point.getY() - getPoint().getY()) / (point.getX() - getPoint().getX()) );//angle of a point
 
         double smallAngle = Math.asin(0.5/distance); //because the diameter for every tile is 1
 

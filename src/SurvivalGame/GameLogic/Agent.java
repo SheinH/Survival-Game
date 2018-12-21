@@ -18,9 +18,10 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     public int count = 0;
     private ArrayList<? extends Item> currentItemList = new ArrayList<>(Arrays.asList(new Hand(), new Stone(), new Spear(), new Torch(), new Berry(), new Meat(), new Stick()));
 
-    private ItemsList list = new ItemsList();
+    private ItemsList list;
 
     private Item equippedItem = new Hand();
+    private Tool equippedTool = new Hand();
 
     public Agent(int health){
         list = new ItemsList();
@@ -41,6 +42,13 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         }
     }
 
+    public ItemsList getItemsList() {
+        return list;
+    }
+
+    public Tool getEquippedTool(){
+        return equippedTool;
+    }
     @Override
     public void attack(HealthObject target) {
 

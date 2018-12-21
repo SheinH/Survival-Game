@@ -5,17 +5,24 @@ import SurvivalGame.GameLogic.FieldObjects.*;
 import SurvivalGame.GameLogic.Items.*;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
+import javax.swing.text.AbstractDocument;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +44,8 @@ public class Controller {
     private HashMap<Class<? extends Item>,Image> itemImages;
     private List<ImageView> imageViewList;
     private HashMap<FieldObject, ImageView> objectImageViews;
+    private Image itemBorderImage;
+    private HashMap<Integer, Image> targetImages;
 
     public Controller(SurvivalGame g) {
         game = g;
@@ -46,6 +55,7 @@ public class Controller {
         imageViewList = new ArrayList<>();
         objectImageViews = new HashMap<>();
         itemImages = new HashMap<>();
+        targetImages = new HashMap<>();
         loadImages();
     }
 
@@ -65,21 +75,38 @@ public class Controller {
         pauseButton.setOnMouseClicked((e) -> {
             togglePause();
         });
-        itemGrid.setGridLinesVisible(true);
-        itemGrid.setAlignment(Pos.CENTER);
-        game.getAgent().getItemsList().addUpdater(()->{
-            updateItemBar();
-        });
+        testMethod();
     }
 
+    public void testMethod(){
+        StackPane sp = new StackPane();
+        sp.setPrefSize(50,50);
+        ImageView Border = new ImageView(itemBorderImage);
+        sp.getChildren().add(Border);
+        sp.getChildren().add(new ImageView(itemImages.get(Spear.class)));
+        Label label = new Label("50");
+        label.setPadding(new Insets(2,2,2,2));
+        label.setTextFill(Color.BLACK);
+        label.setStyle("-fx-font-weight:bold; -fx-font-size:12; -fx-stroke:blue; -fx-stroke-width:10;");
+        sp.getChildren().add(label);
+        StackPane.setAlignment(label,Pos.BOTTOM_RIGHT);
+        itemGrid.add(sp,0,0);
+    }
     public void updateItemBar(){
         updateItemGrid(itemGrid, game.getAgent().getItemsList());
     }
 
     public void updateItemGrid(GridPane grid, ItemsList list){
-
+        ItemsList items = game.getAgent().getItemsList();
+        for(Item i : items){
+            Image image = itemImages.get(i.getClass());
+            ImageView imageView = new ImageView(image);
+        }
     }
 
+    public void updateItemGrid(GridPane grid, ItemsList list, int selectedItem){
+
+    }
 
 
     private void togglePause(){
@@ -159,6 +186,8 @@ public class Controller {
         objectImages.put(Lion.class, lionimage);
         objectImages.put(Rock.class, rockimage);
         objectImages.put(Agent.class, agentImage);
+        Image targetimage = new Image(objectsFolder + "Target.png",32,32,true,false);
+        targetImages.put(0, targetimage);
         loadItemImages();
     }
 
@@ -194,6 +223,44 @@ public class Controller {
 
     }
 
+    //Setting Health Labels to each FieldObject that has a health
+    private void loadHealthLabel(){
+        List<FieldObject> objects = game.getField().getFieldObjects();
+        for(FieldObject obj : objects){
+            Text health = new Text();
+        }
+    }
+
+
+    //Reaplces Objects that can be attack with a an indicator to show that it's in range.
+    private void showTargetImage() {
+        Field field = game.getField();
+        int range = game.getAgent().getEquippedTool().getRange();
+        int x = game.getAgent().getPoint().getX();
+        int y = game.getAgent().getPoint().getY();
+        if (x - range < 0 || y - range < 0) {
+            for (int i = 0; i < x + range; i++) {
+                for (int j = 0; j < y + range; j++) {
+                    Tile tile = field.getTile(new Point(i, j));
+                    if (tile.hasObject() && !(tile.getObjects() instanceof Agent)) {
+                        ImageView imageView = new ImageView(targetImages.get(0));
+                        mainGrid.add(imageView, i, j);
+                    }
+                }
+            }
+        } else {
+            for (int i = x - range; i < x + range; i++) {
+                for (int j = y - range; j < y + range; j++) {
+                    Tile tile = field.getTile(new Point(i, j));
+                    if (tile.hasObject() && !(tile.getObjects() instanceof Agent)) {
+                        ImageView imageView = new ImageView(targetImages.get(0));
+                        mainGrid.add(imageView, i, j);
+                    }
+                }
+            }
+        }
+    }
+
     private void loadItemImages(){
 
         String toolFolder = "file:res" + File.separator + "Tool_Pictures" + File.separator;
@@ -212,6 +279,8 @@ public class Controller {
         itemImages.put(Stick.class,stickimage);
         itemImages.put(Stone.class,stoneimage);
         itemImages.put(Torch.class,torchimage);
+
+        itemBorderImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator + "itemborder.png",50,50,true,false);
        /*
         Image berry2image = new Image(toolFolder + "BerryGrid.png",32,32,true,false);
         Image fist2image = new Image(toolFolder + "FistGrid.png",32,32,true,false);

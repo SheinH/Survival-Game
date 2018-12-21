@@ -48,9 +48,6 @@ public class SurvivalGame {
         gameThread = Executors.newSingleThreadScheduledExecutor();
         pausedProperty = new SimpleBooleanProperty(true);
         gamePauseLock.lock();
-        Item berry = new Berry();
-        berry.setQuantity(5);
-        agent.getItemsList().addItem(berry);
     }
 
     public void update(){
@@ -106,6 +103,10 @@ public class SurvivalGame {
         catch(FileNotFoundException e){
             System.out.println("NOT FOUND");
         }
+        Item berry = new Berry();
+        berry.setQuantity(5);
+        agent.getItemsList().add(berry);
+        agent.getItemsList().update();
     }
 
     public void unPause(){

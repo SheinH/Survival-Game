@@ -42,6 +42,13 @@ public abstract class Item {
         this.quantity = this.quantity + change;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return true;
+    }
+
     //setter
 //    public void setweight(double difference) {
 //        if(this.weight + difference < 0) {

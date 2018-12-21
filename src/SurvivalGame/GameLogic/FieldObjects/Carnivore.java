@@ -16,7 +16,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     protected int health;
     protected int damage;
     private int radiusZone;
-    private final int RADIUS_ATTACK = 1;
+
     private List<Point> deadZone = new ArrayList<Point>((int) Math.pow(radiusZone, 2));
     private List<Point> attackZone = new ArrayList<>(4);
 
@@ -33,10 +33,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         this.damage = damage;
         this.radiusZone = radiusZone;
 
-        attackZone.add(new Point );//up
-        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() + 1) );//down
-        attackZone.add(getField().getFieldPoint(getPoint().getX() - 1, getPoint().getY()) ); //left
-        attackZone.add(getField().getFieldPoint(getPoint().getX() + 1, getPoint().getY()) );//right
+        attackZone.add(new Point(getPoint().getY() - 1, getPoint().getX() ) ) ;//up
+        attackZone.add(new Point (getPoint().getY() + 1, getPoint().getX() ) );//down
+        attackZone.add(new Point(getPoint().getY(), getPoint().getX() - 1) ); //left
+        attackZone.add(new Point(getPoint().getY(), getPoint().getX() + 1) );//right
 
     }
 
@@ -61,15 +61,15 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
     @Override
-    public void attack(Agent agent){//can make this generic
+    public void attack(HealthObject target) {
 
-
+        target.lowerHealth(damage);
     }
 
     public boolean isAgentInAttackZone(Point agentPoint){
         updateAttackZone();
         for(Point point : attackZone){
-            if(point.isTheSame(agentPoint)){
+            if(point.isEqual(agentPoint)){
                 return true;
             }
         }
@@ -81,10 +81,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         attackZone.clear(); //get rid of all the old points
 
         // adding new 4 points after moving to a new area
-        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() - 1) );//up
-        attackZone.add(getField().getFieldPoint(getPoint().getX() , getPoint().getY() + 1) );//down
-        attackZone.add(getField().getFieldPoint(getPoint().getX() - 1, getPoint().getY()) ); //left
-        attackZone.add(getField().getFieldPoint(getPoint().getX() + 1, getPoint().getY()) );//right
+        attackZone.add(new Point(getPoint().getY() - 1, getPoint().getX() ) );//up
+        attackZone.add(new Point(getPoint().getY() + 1, getPoint().getX() ) );//down
+        attackZone.add(new Point(getPoint().getY(), getPoint().getX() - 1 ) ); //left
+        attackZone.add(new Point(getPoint().getY(), getPoint().getX() + 1 ) );//right
     }
 
 
@@ -118,10 +118,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         if(des.getX() == getPoint().getX()) {return;}
 
         if(des.getX() > getPoint().getX()){//move to the right 1 spot
-            setPoint(getField().getTileGrid()[getPoint().getX() + 1][getPoint().getY()].getPoint());
+            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() + 1].getPoint());
         }
         else{//move to the left 1 spot
-            setPoint(getField().getTileGrid()[getPoint().getX() - 1][getPoint().getY()].getPoint());
+            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() - 1].getPoint());
         }
     }
 
@@ -131,10 +131,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         if(des.getY() == getPoint().getY()) {return;}
 
         if(des.getY() > getPoint().getY()){ // move down down spot
-            setPoint(getField().getTileGrid()[getPoint().getX()][getPoint().getY() + 1].getPoint());
+            setPoint(getField().getTileGrid()[getPoint().getY() + 1][getPoint().getX()].getPoint());
         }
         else { //move up 1 spot
-            setPoint(getField().getTileGrid()[getPoint().getX()][getPoint().getY() - 1].getPoint());
+            setPoint(getField().getTileGrid()[getPoint().getY() - 1][getPoint().getX()].getPoint());
         }
     }
 
@@ -143,7 +143,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 //        Point agentPoint = agent.get(0).getPoint();
         deadZoneArea();
         for(Point point : deadZone){
-            if(point.isTheSame(agentPoint)){
+            if(point.isEqual(agentPoint)){
                 return true;
             }
         }
@@ -156,9 +156,9 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         int x = agent.getX();
         int y = agent.getY();
         while( isAgentInDeadZone(agent) ){
-            Point des = findShortestSpot(agent, getField().getFieldPoint(x - 1, y),
-                    getField().getFieldPoint(x + 1, y) ,getField().getFieldPoint(x, y + 1),
-                    getField().getFieldPoint(x, y -1) );
+            Point des = findShortestSpot(agent, new Point(y, x - 1),
+                    getField().getFieldPoint(y, x + 1) ,getField().getFieldPoint(y + 1, x),
+                    getField().getFieldPoint(y - 1, x) );
 
             moveVertical(des);
             moveHorizontal(des);
@@ -205,7 +205,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         for(Point point : deadZone){
             for(FieldObject fieldObject : list){
-                if(fieldObject.getPoint().isTheSame(point)){
+                if(fieldObject.getPoint().isEqual(point)){
                     obstacle.add(fieldObject);
                 }
             }
@@ -226,7 +226,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         for(int i = xMin; i <= xMax; ++i){
             for(int j = yMin; j <= yMax; ++j){
 //                Point point = new Point(i, j);
-                Point point = getField().getTileGrid()[i][j].getPoint();
+                Point point = getField().getTileGrid()[j][i].getPoint();
                 if(isIncluded(point) ){
                     deadZone.add(point);
                 }
@@ -235,26 +235,6 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         }
     }
 
-
-
-//    public List<Point> squareArea(){
-//        List<Point> attackArea = new ArrayList<>(radiusZone * radiusZone);
-//
-//        int xMin = (getPoint().getX() - 3 >= 0)? (getPoint().getX() - 3) : 0;
-//        int xMax = (getPoint().getX() + 3 >= getField().getWidth() )? getField().getWidth() : getPoint().getX() + 3;
-//
-//        int yMin = (getPoint().getY() - 3 >= 0)? (getPoint().getY() - 3) : 0;
-//        int yMax = (getPoint().getY() + 3 >= getField().getHeight() + 3)? getField().getHeight(): getPoint().getY() + 3;
-//
-//
-//        for(int i = xMin; i <= xMax; ++i){
-//            for(int j = yMin; j <= yMax; ++j){
-//
-//                deadZone.add(new Point(i, j));
-//            }
-//        }
-//        return attackArea;
-//    }
 
     //this function to check if a Point, whose distance to the Carnivore less than radiusZone
     private boolean isIncluded(Point point) {
@@ -286,19 +266,6 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
 
-//    private boolean isRock(Point point){   NON NEEDED any more
-//
-//        List<FieldObject> list = aFieldObjectList(Rock.class);
-//
-//        for(FieldObject rock : list){
-//            if(point.isTheSame(rock.getPoint())){
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
-
     private boolean isSameAreaWithRock(Point point, Point rock){
         if(rock.getX() >= getPoint().getX() && rock.getY() >= getPoint().getY()){
             return (point.getX() >= getPoint().getX() && point.getY() >= getPoint().getY());
@@ -312,6 +279,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
             return (point.getX() <= getPoint().getX() && point.getY() <= getPoint().getY());
         }
     }
+
 
     private boolean isInShadow(Point point, Point rock){
         double distance = calculateDistance(point);
@@ -327,8 +295,5 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     }
 
-    @Override
-    public void attack(HealthObject target) {
-        target.lowerHealth(damage);
-    }
+
 }

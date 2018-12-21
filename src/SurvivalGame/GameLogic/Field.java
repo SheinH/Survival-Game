@@ -46,8 +46,8 @@ public class Field{
     }
 
 
-    public Point getFieldPoint(int x, int y){
-        return grid[x][y].getPoint();
+    public Point getFieldPoint(int y, int x){
+        return grid[y][x].getPoint();
     }
 
 

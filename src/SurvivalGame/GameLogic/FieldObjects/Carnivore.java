@@ -18,7 +18,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private int radiusZone;
 
     private List<Point> deadZone = new ArrayList<Point>((int) Math.pow(radiusZone, 2));
-    private List<Point> attackZone = new ArrayList<>(4);
+    private List<Point> attackZone;
 
     public Carnivore(int health, int damage, int radiusZone){
         super(health);
@@ -33,11 +33,21 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         this.damage = damage;
         this.radiusZone = radiusZone;
 
-        attackZone.add(new Point(getPoint().getY() - 1, getPoint().getX() ) ) ;//up
-        attackZone.add(new Point (getPoint().getY() + 1, getPoint().getX() ) );//down
-        attackZone.add(new Point(getPoint().getY(), getPoint().getX() - 1) ); //left
-        attackZone.add(new Point(getPoint().getY(), getPoint().getX() + 1) );//right
+    }
 
+    //getAttackZone()
+    public List<Point> getAttackZone(){
+       return attackZone;
+    }
+
+    public void setAttackZone() {
+        List<Point> list = new ArrayList<>(4);
+        list.add(new Point(getPoint().getY() - 1, getPoint().getX() ) ) ;//up
+        list.add(new Point (getPoint().getY() + 1, getPoint().getX() ) );//down
+        list.add(new Point(getPoint().getY(), getPoint().getX() - 1) ); //left
+        list.add(new Point(getPoint().getY(), getPoint().getX() + 1) );//right
+
+        this.attackZone = list;
     }
 
 
@@ -117,12 +127,12 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private void moveHorizontal(Point des) {
         if(des.getX() == getPoint().getX()) {return;}
 
-        if(des.getX() > getPoint().getX()){//move to the right 1 spot
-            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() + 1].getPoint());
-        }
-        else{//move to the left 1 spot
-            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() - 1].getPoint());
-        }
+//        if(des.getX() > getPoint().getX()){//move to the right 1 spot
+//            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() + 1].getPoint());
+//        }
+//        else{//move to the left 1 spot
+//            setPoint(getField().getTileGrid()[getPoint().getY()][getPoint().getX() - 1].getPoint());
+//        }
     }
 
 
@@ -130,12 +140,12 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         if(des.getY() == getPoint().getY()) {return;}
 
-        if(des.getY() > getPoint().getY()){ // move down down spot
-            setPoint(getField().getTileGrid()[getPoint().getY() + 1][getPoint().getX()].getPoint());
-        }
-        else { //move up 1 spot
-            setPoint(getField().getTileGrid()[getPoint().getY() - 1][getPoint().getX()].getPoint());
-        }
+//        if(des.getY() > getPoint().getY()){ // move down down spot
+//            setPoint(getField().getTileGrid()[getPoint().getY() + 1][getPoint().getX()].getPoint());
+//        }
+//        else { //move up 1 spot
+//            setPoint(getField().getTileGrid()[getPoint().getY() - 1][getPoint().getX()].getPoint());
+//        }
     }
 
     private boolean isAgentInDeadZone(Point agentPoint){
@@ -157,8 +167,8 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         int y = agent.getY();
         while( isAgentInDeadZone(agent) ){
             Point des = findShortestSpot(agent, new Point(y, x - 1),
-                    getField().getFieldPoint(y, x + 1) ,getField().getFieldPoint(y + 1, x),
-                    getField().getFieldPoint(y - 1, x) );
+                    new Point(y, x + 1), new Point(y + 1, x),
+                    new Point(y - 1, x) );
 
             moveVertical(des);
             moveHorizontal(des);

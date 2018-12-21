@@ -14,9 +14,9 @@
    <right>
       <VBox prefHeight="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="pauseButton" mnemonicParsing="false" text="Resume" />
-            <Button mnemonicParsing="false" text="More Buttons" />
-            <Button mnemonicParsing="false" text="Here" />
+            <Button fx:id="pauseButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Resume" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Attack" />
+            <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Loot / Drop" />
          </children>
       </VBox>
    </right>

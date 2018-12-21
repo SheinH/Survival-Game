@@ -155,7 +155,7 @@
     "moveTime": 0,
     "moveSpeeds": {
       "WATER": 0,
-      "DESERT": 5,
+      "DESERT": 7,
       "GRASS": 3
     },
     "movableTerrains": [

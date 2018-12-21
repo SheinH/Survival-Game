@@ -20,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import javax.swing.text.AbstractDocument;
 import java.io.File;
@@ -44,6 +45,7 @@ public class Controller {
     private List<ImageView> imageViewList;
     private HashMap<FieldObject, ImageView> objectImageViews;
     private Image itemBorderImage;
+    private HashMap<Integer, Image> targetImages;
 
     public Controller(SurvivalGame g) {
         game = g;
@@ -53,6 +55,7 @@ public class Controller {
         imageViewList = new ArrayList<>();
         objectImageViews = new HashMap<>();
         itemImages = new HashMap<>();
+        targetImages = new HashMap<>();
         loadImages();
     }
 
@@ -183,6 +186,8 @@ public class Controller {
         objectImages.put(Lion.class, lionimage);
         objectImages.put(Rock.class, rockimage);
         objectImages.put(Agent.class, agentImage);
+        Image targetimage = new Image(objectsFolder + "Target.png",32,32,true,false);
+        targetImages.put(0, targetimage);
         loadItemImages();
     }
 
@@ -216,6 +221,44 @@ public class Controller {
             objectImageViews.put(o,imageView);
         }
 
+    }
+
+    //Setting Health Labels to each FieldObject that has a health
+    private void loadHealthLabel(){
+        List<FieldObject> objects = game.getField().getFieldObjects();
+        for(FieldObject obj : objects){
+            Text health = new Text();
+        }
+    }
+
+
+    //Reaplces Objects that can be attack with a an indicator to show that it's in range.
+    private void showTargetImage() {
+        Field field = game.getField();
+        int range = game.getAgent().getEquippedTool().getRange();
+        int x = game.getAgent().getPoint().getX();
+        int y = game.getAgent().getPoint().getY();
+        if (x - range < 0 || y - range < 0) {
+            for (int i = 0; i < x + range; i++) {
+                for (int j = 0; j < y + range; j++) {
+                    Tile tile = field.getTile(new Point(i, j));
+                    if (tile.hasObject() && !(tile.getObjects() instanceof Agent)) {
+                        ImageView imageView = new ImageView(targetImages.get(0));
+                        mainGrid.add(imageView, i, j);
+                    }
+                }
+            }
+        } else {
+            for (int i = x - range; i < x + range; i++) {
+                for (int j = y - range; j < y + range; j++) {
+                    Tile tile = field.getTile(new Point(i, j));
+                    if (tile.hasObject() && !(tile.getObjects() instanceof Agent)) {
+                        ImageView imageView = new ImageView(targetImages.get(0));
+                        mainGrid.add(imageView, i, j);
+                    }
+                }
+            }
+        }
     }
 
     private void loadItemImages(){

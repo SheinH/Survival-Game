@@ -165,6 +165,10 @@ public class Controller {
             case D:
                 game.getAgent().setDirection(Direction.RIGHT);
                 break;
+            case T:
+                if(game.isPaused())
+                    game.tick();
+                break
             case SPACE:
                 togglePause();
                 break;

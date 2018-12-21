@@ -62,7 +62,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     public void update() {
 
         super.update();
-        goToAgent();
+        //goToAgent();
     }
 
     //getDamage

@@ -54,13 +54,8 @@ public class SurvivalGame {
         gameLock.lock();
         try {
             gamePauseLock.lock();
-            //locks taken
             try {
-                field.getFieldObjects().forEach((obj) -> obj.update());
-                //agent.update();
-                if (updateGui != null)
-                    updateGui.run();
-                tickCount++;
+                tick();
             }
             finally {
                 gamePauseLock.unlock();
@@ -69,6 +64,12 @@ public class SurvivalGame {
         finally {
             gameLock.unlock();
         }
+    }
+    public void tick(){
+        field.getFieldObjects().forEach((obj) -> obj.update());
+        if (updateGui != null)
+            updateGui.run();
+        tickCount++;
     }
 
     public long getTickCount() {

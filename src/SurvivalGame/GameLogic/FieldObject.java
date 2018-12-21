@@ -30,40 +30,38 @@ public abstract class FieldObject {
         return point;
     }
 
-//    public Point getPointAt(int x, int y){
-//        if(x < 0) {
-//            throw new IllegalArgumentException("x must be >= 0");
-//        }
-//
-//        if (y < 0) {
-//            throw new IllegalArgumentException("y must be >= 0");
-//        }
-//    }
-
     public void setPoint(Point point) {
         this.point = point;
     }
+
+
 
     public Tile getTile(){
         return field.getTile(point);
     }
 
-    //*update() method
-
-    public abstract void update();
 
     //destroy() method
     public void destroy(){}
-
-    public abstract char getChar();
 
     public String getName() {
         return name;
     }
 
+    //
     public void setName(String name) {
         this.name = name;
     }
+
+
+    //*update() method
+
+    public abstract void update();
+
+
+    public abstract char getChar();
+
+
 
 
 

@@ -8,19 +8,18 @@ public class Tile {
 
     private Point point;
     private List<FieldObject> objects;
+
+    public ItemsList getItemsList() {
+        return itemsList;
+    }
+
     private ItemsList itemsList;
     private Terrain terrain;
-
-
-
-    public Tile(Terrain terrain, Point point){
-        this(terrain);
-        this.point = point;
-    }
 
     public Tile(Terrain terrain) {
         this.terrain = terrain;
         this.objects = new ArrayList<>();
+        itemsList = new ItemsList();
     }
 
     public Point getPoint() {
@@ -47,7 +46,7 @@ public class Tile {
     }
 
     public boolean hasItem(){
-        return itemsList.isEmpty();
+        return !itemsList.isEmpty();
     }
 
     public List<FieldObject> getObjects() {

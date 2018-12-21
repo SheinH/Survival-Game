@@ -41,7 +41,7 @@ public class ItemGridPane {
             itemImage = new ImageView(images.get(i.getClass()));
             stackPane.getChildren().add(itemImage);
             Label label = new Label("" + i.getQuantity());
-            label.setPadding(new Insets(4));
+            label.setPadding(new Insets(5));
             label.setTextFill(Color.BLACK);
             label.setStyle("-fx-font-weight:bold;");
             stackPane.getChildren().add(label);
@@ -55,7 +55,7 @@ public class ItemGridPane {
             border = new ImageView(itemBorderImage);
             stackPane.getChildren().add(border);
             Label label = new Label("");
-            label.setPadding(new Insets(2,2,2,5));
+            label.setPadding(new Insets(5));
             label.setTextFill(Color.BLACK);
             label.setStyle("-fx-font-weight:bold;");
             stackPane.getChildren().add(label);

@@ -5,7 +5,13 @@ public class Meat extends Food {
     public Meat() {
         super(1, 5);
     }
-//    public Meat() {
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    //    public Meat() {
 //        super(1,"Meat", 5);
 //    }
 }

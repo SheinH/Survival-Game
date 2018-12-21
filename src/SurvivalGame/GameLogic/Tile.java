@@ -8,6 +8,7 @@ public class Tile {
 
     private Point point;
     private List<FieldObject> objects;
+    private ItemsList itemsList;
     private Terrain terrain;
 
 
@@ -43,6 +44,10 @@ public class Tile {
 
     public boolean hasObject(){
         return !objects.isEmpty();
+    }
+
+    public boolean hasItem(){
+        return itemsList.isEmpty();
     }
 
     public List<FieldObject> getObjects() {

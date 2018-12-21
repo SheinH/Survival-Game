@@ -3,6 +3,8 @@ package SurvivalGame;
 import SurvivalGame.GameLogic.*;
 import SurvivalGame.GameLogic.FieldObjects.*;
 import SurvivalGame.GameLogic.Items.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -76,6 +78,9 @@ public class Controller {
             togglePause();
         });
         testMethod();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(
+        gson.toJson(new Lion()));
     }
 
     public void testMethod(){
@@ -159,9 +164,6 @@ public class Controller {
                 break;
             case SPACE:
                 togglePause();
-            case E:
-                game.getAgent().changeequippedItem();
-                loadItemImages();
         }
         game.getGameLock().unlock();
 

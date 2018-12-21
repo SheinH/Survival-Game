@@ -3,7 +3,7 @@ package SurvivalGame.GameLogic.Items;
 import SurvivalGame.GameLogic.SurvivalGame;
 
 public abstract class Tool extends Item{
-    private final String NAME = "Tool";
+
     private final int damage;
     private final int range;
 

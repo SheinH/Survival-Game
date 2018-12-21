@@ -12,6 +12,7 @@ public class Field{
     private int height;
     private int width;
     private List<FieldObject> fieldObjects;
+    private Agent agent;
 
 
 
@@ -30,8 +31,9 @@ public class Field{
         this.game = game;
     }
 
-
-
+    public Agent getAgent() {
+        return agent;
+    }
 
     public Tile[][] getTileGrid(){ return grid;}
 
@@ -68,8 +70,10 @@ public class Field{
         var objects = getTile(p).getObjects();
 
         objects.add(obj);
-        if(obj instanceof Agent)
-            fieldObjects.add(0,obj);
+        if(obj instanceof Agent) {
+            fieldObjects.add(0, obj);
+            this.agent = (Agent) obj;
+        }
         else
             fieldObjects.add(obj);
         obj.setPoint(p);

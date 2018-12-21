@@ -19,12 +19,9 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     private final int MAX_HEALTH = 100 ;
 
     public int count = 0;
-    private ArrayList<? extends Item> currentItemList = new ArrayList<>(Arrays.asList(new Hand(), new Stone(), new Spear(), new Torch(), new Berry(), new Meat(), new Stick()));
 
-    private ItemsList list;
-
-    private Item equippedItem = new Hand();
-    private Tool equippedTool = new Hand();
+    private transient ItemsList list;
+    private int equippedItemIndex;
 
     public Agent(int health){
         super(health);
@@ -37,22 +34,12 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         list = new ItemsList();
     }
 
-    public void changeequippedItem(){
-        if (count < 7){
-        equippedItem = currentItemList.get(count);
-        count++;}
-        else{
-            count = 0;
-            equippedItem = currentItemList.get(count);
-        }
-    }
-
     public ItemsList getItemsList() {
         return list;
     }
 
     public Tool getEquippedTool(){
-        return equippedTool;
+        return (Tool)list.get(equippedItemIndex);
     }
     @Override
     public void attack(HealthObject target) {
@@ -94,7 +81,4 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         return 1;
     }
 
-    public Item getEquippedItem() {
-        return equippedItem;
-    }
 }

@@ -3,7 +3,6 @@ package SurvivalGame.GameLogic.Items;
 import java.util.ArrayList;
 
 public abstract class Item {
-    private final String NAME = "Item";
 
     private int quantity = 0;
     private double weight;
@@ -26,7 +25,7 @@ public abstract class Item {
 
     public double getWeight() {return this.weight; }
 
-    public String getName() {return this.NAME;}
+    public abstract String getName();
 
     public int getQuantity(){return this.quantity;}
 

@@ -7,6 +7,10 @@ public class Stone extends Tool{
         super(2,30,2);
     }
 
+    @Override
+    public String getName() {
+        return NAME;
+    }
 //    public Stone() {
 //        super(2, "Stone",30,2);
 //    }

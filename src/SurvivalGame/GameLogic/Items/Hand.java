@@ -6,7 +6,10 @@ public class Hand extends Tool {
     public Hand(){
         super(0, 1, 1);
     }
-
+    @Override
+    public String getName() {
+        return NAME;
+    }
 //    public Hand(){
 //        super(0, "Hand",1, 1);
 //    }

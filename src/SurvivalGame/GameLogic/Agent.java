@@ -57,8 +57,10 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     public void changeDirection() {
 
     }
-
     @Override
+    public ItemsList getLoot() {
+        return null;
+    }
     public void addMoveTime() {
         if(getDirection() != Direction.NONE)
             moveTime += 2;

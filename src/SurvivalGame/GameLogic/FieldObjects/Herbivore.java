@@ -1,20 +1,21 @@
 package SurvivalGame.GameLogic.FieldObjects;
 
-public abstract class Herbivore extends MovingFieldObject implements HealthObject{
-    protected int health;
+import SurvivalGame.GameLogic.ItemsList;
 
+public abstract class Herbivore extends MovingFieldObject implements HealthObject{
+
+    private ItemsList loot;
+
+    @Override
+    public ItemsList getLoot() {
+        return loot;
+    }
+
+    public void setLoot(ItemsList loot) {
+        this.loot = loot;
+    }
     public Herbivore(int health){
         super(health);
-    }
-
-    @Override
-    public int getHealth() {
-        return health;
-    }
-
-    @Override
-    public void setHealth(int i) {
-        health = i;
     }
 
     @Override

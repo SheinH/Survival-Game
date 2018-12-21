@@ -1,7 +1,10 @@
 package SurvivalGame.GameLogic;
 
 import SurvivalGame.GameLogic.FieldObjects.*;
+import com.google.gson.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -43,6 +46,27 @@ public class Loader {
                 return null;
         }
     }
+
+    public static Lion makeLionFromGSON(){
+        String input = "";
+        try {
+            Scanner sc = new Scanner(new BufferedReader(new FileReader("TEST.json")));
+            StringBuilder builder = new StringBuilder();
+            while (sc.hasNextLine())
+                builder.append(sc.nextLine());
+            input = builder.toString();
+        }
+        catch(Exception whatever){
+
+        }
+            JsonElement element = new JsonParser().parse(input);
+            JsonObject obj = element.getAsJsonObject();
+            JsonElement jsonlion = obj.get("Lion");
+            System.out.println(new Gson().toJson(jsonlion));
+            Lion lion = new Gson().fromJson(jsonlion, Lion.class);
+            lion.setHealth(lion.getMaxHealth());
+            return lion;
+        }
 
     public static Field loadTiles(Scanner sc){
         ArrayList<String> lines = new ArrayList<>();

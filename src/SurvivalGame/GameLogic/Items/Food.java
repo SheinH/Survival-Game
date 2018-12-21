@@ -2,7 +2,6 @@ package SurvivalGame.GameLogic.Items;
 
 public abstract class Food extends Item {
     private int health;
-    private final String NAME = "Food";
 
     public Food(double weight, int health){
         super(weight);

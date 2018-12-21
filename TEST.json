@@ -1,0 +1,123 @@
+{
+  Lion : {
+    "damage": 20,
+    "radiusZone": 3,
+    "loot": [
+      {
+        "NAME": "Meat",
+        "health": 5,
+        "quantity": 10,
+        "weight": 1.0
+      }
+    ],
+    "deadZone": [],
+    "direction": "NONE",
+    "health": 40,
+    "maxHealth": 0,
+    "moveTime": 0,
+    "moveSpeeds": {
+      "DESERT": 5,
+      "WATER": 0,
+      "GRASS": 3
+    },
+    "movableTerrains": [
+      "DESERT",
+      "GRASS"
+    ]
+  },
+  Bear : {
+    "damage": 15,
+    "radiusZone": 3,
+    "loot": [
+      {
+        "NAME": "Meat",
+        "health": 5,
+        "quantity": 5,
+        "weight": 1.0
+      }
+    ],
+    "deadZone": [],
+    "direction": "NONE",
+    "health": 70,
+    "maxHealth": 70,
+    "moveTime": 0,
+    "moveSpeeds": {
+      "WATER": 0,
+      "DESERT": 0,
+      "GRASS": 4
+    },
+    "movableTerrains": [
+      "GRASS"
+    ]
+  },
+  Crocodile : {
+    "damage": 20,
+    "radiusZone": 3,
+    "loot": [
+      {
+        "NAME": "Meat",
+        "health": 5,
+        "quantity": 4,
+        "weight": 1.0
+      }
+    ],
+    "deadZone": [],
+    "direction": "NONE",
+    "health": 50,
+    "maxHealth": 50,
+    "moveTime": 0,
+    "moveSpeeds": {
+      "WATER": 3,
+      "DESERT": 0,
+      "GRASS": 5
+    },
+    "movableTerrains": [
+      "DESERT",
+      "GRASS"
+    ]
+  },
+  Rabbit : {
+    "direction": "NONE",
+    "health": 20,
+    "loot": [
+      {
+        "NAME": "Meat",
+        "health": 5,
+        "quantity": 3,
+        "weight": 1.0
+      }
+    ],
+    "maxHealth": 20,
+    "moveTime": 0,
+    "moveSpeeds": {
+      "WATER": 0,
+      "DESERT": 0,
+      "GRASS": 3
+    },
+    "movableTerrains": [
+      "GRASS"
+    ]
+  },
+  Fish : {
+    "direction": "NONE",
+    "health": 20,
+    "loot": [
+      {
+        "NAME": "Meat",
+        "health": 5,
+        "quantity": 3,
+        "weight": 1.0
+      }
+    ],
+    "maxHealth": 20,
+    "moveTime": 0,
+    "moveSpeeds": {
+      "WATER": 0,
+      "DESERT": 0,
+      "GRASS": 3
+    },
+    "movableTerrains": [
+      "GRASS"
+    ]
+  }
+}

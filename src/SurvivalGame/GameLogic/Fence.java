@@ -14,6 +14,11 @@ public class Fence extends FieldObject implements HealthObject {
 //
 //    }
 
+    @Override
+    public ItemsList getLoot() {
+        return new ItemsList();
+    }
+
     //getter methods
 
     @Override

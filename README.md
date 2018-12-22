@@ -1,27 +1,5 @@
 # Survival-Game
 
-TO DO:
-* Make data for movement damage, hp
-* Revamp movement
-* Code for attacking
-* Fix crashes
-* Add UI for items and selection
-* Change code for attacking
-* Enemey aggro function
-* Vision
+![Survival Game](https://i.imgur.com/sJVJc39.png)
 
-Shein:
-* Make data for movement damage, hp
-* Fix crashes
-* Revamp movement
-
-Bill:
-* Code for attacking
-* Enemy aggro function
-
-Andy:
-* Vison
-* Items
-* Targets over animals in range
-* Health bars when hovering over objects
-* Other UI STUFF
+This is survival game. It is two thousand lines of code and a labor of love made by three CS students.

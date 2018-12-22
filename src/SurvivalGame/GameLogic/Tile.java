@@ -9,12 +9,11 @@ public class Tile {
 
     private Point point;
     private List<FieldObject> objects;
-
-
-
     private ItemsList itemsList;
     private Terrain terrain;
     private List<Consumer<Tile>> updaters;
+
+
 
     public Tile(Terrain terrain) {
         this.terrain = terrain;

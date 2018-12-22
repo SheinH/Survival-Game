@@ -58,18 +58,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
 
-    @Override
-    public void update() {
-
-        super.update();
-        goToAgent();
-    }
-
     //getDamage
     public int getDamage(){return damage;}
 
     public int getradiusZone(){ return radiusZone;}
-
 
     @Override
     public void attack(HealthObject target) {
@@ -77,16 +69,40 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         target.lowerHealth(damage);
     }
 
+    public void doAttack(){
+        if(isAgentInDeadZone(getField().getAgent().getPoint())){
+            attack(getField().getAgent());
+        } else{
+            return;
+        }
+    }
+
+    public void doAttack(Agent agent){
+        if(isAgentInAttackZone(agent)){
+            attack(agent);
+        } else{
+            return;
+        }
+    }
+    
+
     public boolean isAgentInAttackZone(Point agentPoint){
         updateAttackZone();
         for(Point point : attackZone){
-            if(point.isEqual(agentPoint)){
+            if(point.equals(agentPoint)){
                 return true;
             }
         }
         return false;
     }
 
+    public boolean isAgentInAttackZone(Agent agent){
+        updateAttackZone();
+        if(attackZone.contains(agent.getPoint())){
+            return true;
+        }
+        return false;
+    }
 
     public void updateAttackZone(){
         attackZone.clear(); //get rid of all the old points
@@ -179,9 +195,16 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         return false;
     }
 
-    private void goToAgent(){
+    public void update_test(){
+        super.update();
+        goToAgent();
+    }
+
+    @Override
+    public void goToAgent(){
         Agent agent = getField().getAgent();
         Point agentPoint= agent.getPoint();
+        if(!isAgentInDeadZone(agentPoint)) return;
 
         int x = agentPoint.getX();
         int y = agentPoint.getY();

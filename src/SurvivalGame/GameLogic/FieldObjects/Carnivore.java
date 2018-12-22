@@ -61,6 +61,9 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     @Override
     public void update(){
+        Agent agent = getField().getAgent();
+        Boolean bool = isAgentInAttackZone(agent);
+        
         if(isAgentInAttackZone(getField().getAgent())){
             attack(getField().getAgent());
         }
@@ -79,7 +82,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     @Override
     public void attack(MovingFieldObject agent) {
         if(agent instanceof Agent){
-            addMoveTime(10);
+            addMoveTime(5);
             agent.lowerHealth(getDamage());
         } else {
             return;
@@ -160,15 +163,13 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     //This function return the shortest path to go to the agent to attack
     private Point findShortestSpot(Point agentPoint, Point ... points ) {
-
-        Point result = null;
-        double max = 0;
+        double min = calculateDistance(agentPoint, points[0]);
+        Point result = points[0];
 
         for(Point point : points){
             double distance = calculateDistance(agentPoint, point);
-
-            if(max < distance){
-                max = distance;
+            if(min > distance){
+                min = distance;
                 result = point;
             }
         }

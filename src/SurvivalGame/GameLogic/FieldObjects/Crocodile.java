@@ -22,7 +22,7 @@ public class Crocodile extends Carnivore{
     }
 
     @Override
-    public int getMoveTime() {
+    public int getActionTime() {
         return 0;
     }
 

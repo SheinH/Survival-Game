@@ -5,10 +5,8 @@ import SurvivalGame.GameLogic.FieldObjects.Direction;
 import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 import SurvivalGame.GameLogic.FieldObjects.MovingFieldObject;
 import SurvivalGame.GameLogic.Items.*;
-import SurvivalGame.GameLogic.Items.Item;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Agent extends MovingFieldObject implements Attacker, HealthObject {
@@ -80,11 +78,11 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     }
     public void addMoveTime() {
         if(getDirection() != Direction.NONE)
-            moveTime += getMoveSpeed();
+            actionTime += getMoveSpeed();
     }
 
     @Override
-    public int getMoveTime() {
+    public int getActionTime() {
         return 1;
     }
 

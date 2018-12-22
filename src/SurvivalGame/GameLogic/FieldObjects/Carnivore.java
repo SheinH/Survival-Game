@@ -2,10 +2,6 @@ package SurvivalGame.GameLogic.FieldObjects;
 
 import SurvivalGame.GameLogic.*;
 
-import java.awt.event.ItemListener;
-import java.io.ObjectInputFilter;
-import java.io.PipedReader;
-import java.lang.Math.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -71,8 +67,8 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         else if(isAgentInDeadZone(getField().getAgent().getPoint())){
             goToAgent();
         }
-        else if (moveTime > 0)
-            moveTime--;
+        else if (actionTime > 0)
+            actionTime--;
         else {
             moveForward();
             changeDirection();

@@ -14,13 +14,13 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     private Direction direction;
     private int health;
     private int maxHealth;
-    protected int moveTime;
+    protected int actionTime;
     private HashMap<Terrain, Integer> moveSpeeds;
     private List<Terrain> movableTerrains;
 
 
-    public int getMoveTime() {
-        return moveTime;
+    public int getActionTime() {
+        return actionTime;
     }
 
     @Override
@@ -35,7 +35,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     public MovingFieldObject(int health) {
         direction = Direction.NONE;
         moveSpeeds = new HashMap<>();
-        moveTime = 0;
+        actionTime = 0;
         movableTerrains = new ArrayList<Terrain>();
         if (health <= 0) {
             throw new IllegalArgumentException("health must be > 0");
@@ -66,8 +66,8 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
 
     @Override
     public void update() {
-        if (moveTime > 0)
-            moveTime--;
+        if (actionTime > 0)
+            actionTime--;
         else {
             moveForward();
             changeDirection();
@@ -115,14 +115,15 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     }
 
     protected void addMoveTime(int i) {
-        moveTime += i;
+        actionTime += i;
     }
 
     public void addMoveTime() {
-        moveTime += getMoveSpeed();
+        actionTime += getMoveSpeed();
     }
 
-    public void reduceMoveTime() {moveTime -= 1;}
+    public void reduceMoveTime() {
+        actionTime -= 1;}
 
     public Direction getDirection() {
         return direction;

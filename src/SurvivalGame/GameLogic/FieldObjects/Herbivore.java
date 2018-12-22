@@ -20,4 +20,7 @@ public abstract class Herbivore extends MovingFieldObject implements HealthObjec
 
     @Override
     public int getMaxHealth(){return 0;}
+
+    @Override // test Added 5:15AM
+    public void goToAgent(){return;}
 }

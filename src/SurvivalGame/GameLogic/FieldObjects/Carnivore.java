@@ -84,7 +84,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
             return;
         }
     }
-    
+
 
     public boolean isAgentInAttackZone(Point agentPoint){
         updateAttackZone();

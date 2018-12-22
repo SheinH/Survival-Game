@@ -68,4 +68,7 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         return 1;
     }
 
+    @Override
+    public void goToAgent(){return ;}
+
 }

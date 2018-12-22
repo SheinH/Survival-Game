@@ -42,7 +42,10 @@ public class ItemGridPane {
             stackPane.getChildren().add(border);
             itemImage = new ImageView(images.get(i.getClass()));
             stackPane.getChildren().add(itemImage);
-            Label label = new Label("" + i.getQuantity());
+            Label label = new Label();
+            if(i.getQuantity() > 1){
+                label.setText("" + i.getQuantity());
+            }
             label.setPadding(new Insets(5));
             label.setTextFill(Color.BLACK);
             label.setStyle("-fx-font-weight:bold;");

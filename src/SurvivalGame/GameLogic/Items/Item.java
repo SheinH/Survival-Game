@@ -1,5 +1,7 @@
 package SurvivalGame.GameLogic.Items;
 
+import javafx.beans.Observable;
+
 import java.util.ArrayList;
 
 public abstract class Item {
@@ -47,6 +49,10 @@ public abstract class Item {
         if (o == null || getClass() != o.getClass()) return false;
         return true;
     }
+
+
+
+
 
     //setter
 //    public void setweight(double difference) {

@@ -200,7 +200,6 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         goToAgent();
     }
 
-    @Override
     public void goToAgent(){
         Agent agent = getField().getAgent();
         Point agentPoint= agent.getPoint();

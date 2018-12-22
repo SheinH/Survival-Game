@@ -46,6 +46,7 @@ public class Controller {
     private Image itemBorderImage;
     private Image chestImage;
     private HashMap<Integer, Image> targetImages;
+    private ItemGridPane itembar;
 
 
     public Controller(SurvivalGame g) {
@@ -69,6 +70,9 @@ public class Controller {
         loadItemImages();
         updateTileGrid();
         addUpdatersToTiles();
+        initializeItemBar();
+        game.getAgent().addObserver(() ->
+        itembar.showList(game.getAgent().getItemsList()));
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
             if(newV)
@@ -89,37 +93,22 @@ public class Controller {
                 agentItems.add(i);
             }
             tileItems.clear();
+            agent.updateItems();
+            tile.update();
             game.getGameLock().unlock();
         });
-        testMethod();
         ItemsList items = new ItemsList();
         Meat meat = new Meat();
         meat.setQuantity(10);
         items.add(meat);
         game.getField().getTile(new Point(0,1)).getItemsList().add(meat);
         game.getField().getTile(new Point(0,1)).update();
-        Lion lion = Loader.loadObject(Lion.class);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(game.getAgent()));
     }
 
-    public void testMethod(){
-        ItemGridPane igp = new ItemGridPane(itemImages);
-        igp.setGridPane(itemGrid);
-        ItemsList list = new ItemsList();
-        Spear spear = new Spear();
-        spear.setQuantity(10);
-        Berry b = new Berry();
-        b.setQuantity(10);
-        Stone s = new Stone();
-        s.setQuantity(20);
-        Stick s2 = new Stick();
-        s2.setQuantity(4);
-        list.add(b);
-        list.add(spear);
-        list.add(s);
-        list.add(s2);
-        igp.showList(list);
-        igp.setHighlightIndex(0);
+    public void initializeItemBar(){
+        itembar = new ItemGridPane(itemImages);
+        itembar.setGridPane(itemGrid);
+        itembar.showList(game.getAgent().getItemsList());
 
         /*
         StackPane sp = new StackPane();

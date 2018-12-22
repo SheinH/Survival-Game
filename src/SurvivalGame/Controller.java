@@ -77,12 +77,6 @@ public class Controller {
         updateTileGrid();
         addUpdatersToTiles();
         initializeItemBar();
-        Berry berry = new Berry();
-        berry.setQuantity(20);
-        Spear spear = new Spear();
-        spear.setQuantity(1);
-        game.getAgent().getItemsList().add(berry);
-        game.getAgent().getItemsList().add(spear);
         //game.getAgent().addObserver(() -> Platform.runLater(() ->
         //        itembar.showList(game.getAgent().getItemsList())));
         game.getAgent().getItemsList().addListener(il -> Platform.runLater(() ->
@@ -135,7 +129,9 @@ public class Controller {
                 catch(Exception neverhappening){}
             }
         });
+        //
         itembar.showList(game.getAgent().getItemsList());
+        game.getAgent().equippedItemIndexProperty().addListener((o,old,neww) -> itembar.setHighlightIndex((int)neww));
 
         /*
         StackPane sp = new StackPane();
@@ -195,6 +191,12 @@ public class Controller {
                 break;
             case D:
                 game.getAgent().setDirection(Direction.RIGHT);
+                break;
+            case E:
+                game.getAgent().offsetItemIndex(1);
+                break;
+            case Q:
+                game.getAgent().offsetItemIndex(-1);
                 break;
             case T:
                 if(game.isPaused())

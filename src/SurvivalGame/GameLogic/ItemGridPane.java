@@ -101,12 +101,13 @@ public class ItemGridPane {
     }
 
     public void setHighlightIndex(int highlightIndex) {
+        if(!(highlightIndex < itemDisplays.size()))
+            return;
         ItemDisplay before = itemDisplays.get(this.highlightIndex);
         ItemDisplay after = itemDisplays.get(highlightIndex);
         if(before != after)
             before.setHighlight(false);
-        boolean hl = after.isHighlighted();
-        after.setHighlight(!hl);
+        after.setHighlight(true);
         this.highlightIndex = highlightIndex;
     }
 
@@ -123,6 +124,7 @@ public class ItemGridPane {
             StackPane sp = display.stackPane;
             sp.setOnMouseClicked((e) -> onClickConsumer.accept(n));
         });
+        setHighlightIndex(highlightIndex);
     }
 
     public void setOnClickConsumer(Consumer<Integer> onClickConsumer) {

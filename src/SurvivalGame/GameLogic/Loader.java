@@ -1,6 +1,8 @@
 package SurvivalGame.GameLogic;
 
 import SurvivalGame.GameLogic.FieldObjects.*;
+import SurvivalGame.GameLogic.Items.Berry;
+import SurvivalGame.GameLogic.Items.Spear;
 import com.google.gson.*;
 
 import java.io.BufferedReader;
@@ -23,7 +25,15 @@ public class Loader {
     public static FieldObject makeFieldObject(char c){
         switch(c){
             case 'A':
-                return loadObject(Agent.class);
+                Agent a = loadObject(Agent.class);
+                a.makeIntegerProperty();
+                Berry berry = new Berry();
+                berry.setQuantity(20);
+                Spear spear = new Spear();
+                spear.setQuantity(1);
+                a.getItemsList().add(berry);
+                a.getItemsList().add(spear);
+                return a;
             case 'R':
                 return loadObject(Rabbit.class);
             case 'C':
@@ -63,7 +73,6 @@ public class Loader {
         JsonObject obj = element.getAsJsonObject();
         String typename = type.getSimpleName();
         JsonElement jsonelement = obj.get(typename);
-        System.out.println(new Gson().toJson(jsonelement));
         T lion = new Gson().fromJson(jsonelement, type);
         return lion;
     }
@@ -82,9 +91,7 @@ public class Loader {
             JsonElement element = new JsonParser().parse(input);
             JsonObject obj = element.getAsJsonObject();
             JsonElement jsonlion = obj.get("Lion");
-            System.out.println(new Gson().toJson(jsonlion));
             Lion lion = new Gson().fromJson(jsonlion, Lion.class);
-            System.out.println(lion.getMaxHealth());
             lion.setHealth(lion.getMaxHealth());
             return lion;
         }

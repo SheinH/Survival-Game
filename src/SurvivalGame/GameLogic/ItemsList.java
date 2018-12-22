@@ -1,6 +1,7 @@
 package SurvivalGame.GameLogic;
 
 import SurvivalGame.GameLogic.Items.Item;
+import SurvivalGame.GameLogic.Items.Tool;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -63,7 +64,11 @@ public class ItemsList extends ArrayList<Item> implements Observable<ItemsList> 
             return true;
         } else {
             addObserver(item);
-            boolean b = super.add(item);
+            boolean b = true;
+            if(item instanceof Tool)
+                super.add(0,item);
+            else
+                b = super.add(item);
             update();
             return b;
         }

@@ -5,6 +5,8 @@ import SurvivalGame.GameLogic.FieldObjects.Direction;
 import SurvivalGame.GameLogic.FieldObjects.HealthObject;
 import SurvivalGame.GameLogic.FieldObjects.MovingFieldObject;
 import SurvivalGame.GameLogic.Items.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,14 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     public int count = 0;
 
     private transient ItemsList list;
-    private int equippedItemIndex;
+    private SimpleIntegerProperty equippedItemIndex;
 
     public Agent(int health){
         super(health);
         list = new ItemsList();
+        equippedItemIndex = new SimpleIntegerProperty();
     }
+
     public Agent(){
         this(100);
     }
@@ -34,7 +38,7 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     }
 
     public Tool getEquippedTool(){
-        return (Tool)list.get(equippedItemIndex);
+        return (Tool)list.get(equippedItemIndex.get());
     }
     @Override
     public void attack(MovingFieldObject object) {
@@ -73,11 +77,22 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
     }
 
     @Override
-    public int getActionTime() {
-        return 1;
-    }
-
-    @Override
     public void goToAgent(){return ;}
 
+    public void makeIntegerProperty(){
+        equippedItemIndex = new SimpleIntegerProperty();
+    }
+    public int getEquippedItemIndex() {
+        return equippedItemIndex.get();
+    }
+
+    public SimpleIntegerProperty equippedItemIndexProperty() {
+        return equippedItemIndex;
+    }
+
+    public void offsetItemIndex(int offset){
+        int index = equippedItemIndex.get() + offset;
+        index = Math.floorMod(index,getItemsList().size());
+        equippedItemIndex.set(index);
+    }
 }

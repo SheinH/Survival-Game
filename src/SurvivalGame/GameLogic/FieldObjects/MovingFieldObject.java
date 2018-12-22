@@ -17,11 +17,13 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
     protected int actionTime;
     private HashMap<Terrain, Integer> moveSpeeds;
     private List<Terrain> movableTerrains;
+    protected List<Runnable> observers;
 
 
     public int getActionTime() {
         return actionTime;
     }
+
 
     @Override
     public int getMaxHealth() {
@@ -41,6 +43,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
             throw new IllegalArgumentException("health must be > 0");
         }
         this.health = health;
+        observers = new ArrayList<>();
     }
 
     public void setMoveableTerrain(Terrain t, boolean b) {
@@ -74,6 +77,14 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
             addMoveTime();
 //            goToAgent(); //added 5:15 test
         }
+    }
+
+    public void updateObservers(){
+        observers.forEach(r -> r.run());
+    }
+
+    public void addObserver(Runnable r){
+        observers.add(r);
     }
 
     public void moveForward() {
@@ -184,5 +195,6 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
         }
 
         this.health = health;
+        updateObservers();
     }
 }

@@ -3,7 +3,7 @@ package SurvivalGame;
 import SurvivalGame.GameLogic.*;
 import SurvivalGame.GameLogic.FieldObjects.*;
 import SurvivalGame.GameLogic.Items.*;
-import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -74,8 +74,8 @@ public class Controller {
         updateTileGrid();
         addUpdatersToTiles();
         initializeItemBar();
-        game.getAgent().addObserver(() ->
-        itembar.showList(game.getAgent().getItemsList()));
+        game.getAgent().addObserver(() -> Platform.runLater(() ->
+                itembar.showList(game.getAgent().getItemsList())));
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
             if(newV)
@@ -96,7 +96,7 @@ public class Controller {
                 agentItems.add(i);
             }
             tileItems.clear();
-            agent.updateItems();
+            agent.updateObservers();
             tile.update();
             game.getGameLock().unlock();
         });
@@ -121,7 +121,7 @@ public class Controller {
                     item.setQuantity(item.getQuantity() - 1);
                     Tile tile = game.getAgent().getTile();
                     tile.getItemsList().add(newItem);
-                    game.getAgent().updateItems();
+                    game.getAgent().updateObservers();
                     tile.update();
                 }
                 catch(Exception neverhappening){}
@@ -316,11 +316,14 @@ public class Controller {
             StackPane stackPane = new StackPane();
             ImageView imageView = new ImageView(objectImages.get(o.getClass()));
             Text healthText = new Text();
-            if(o instanceof HealthObject){
-                HealthObject moveObj = (HealthObject) o;
-                healthText.setText(String.valueOf(moveObj.getHealth()));
+            if(o instanceof MovingFieldObject){
+                MovingFieldObject moveObj = (MovingFieldObject) o;
+                moveObj.addObserver(() -> {
+                    healthText.setText(String.valueOf(moveObj.getHealth()));
+                });
                 healthText.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
                 healthText.setFill(Color.RED);
+                moveObj.updateObservers();
                 mainGrid.add(healthText, o.getPoint().getX(), o.getPoint().getY());
             }
             stackPane.getChildren().add(imageView);

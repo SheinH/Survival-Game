@@ -139,49 +139,49 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     }
 
 
-//    private Point findShortestSpot(Point agent, Point l, Point d, Point r, Point u) {
-//        double distanceL = calculateDistance(agent, l);
-//        double distanceD = calculateDistance(agent, d);
-//        double distanceR = calculateDistance(agent, r);
-//        double distanceU = calculateDistance(agent, u);
-//
-//        double max = distanceL;
-//        Point result = l;
-//
-//        if(max < distanceD){
-//            max = distanceD;
-//            result = d;
-//        }
-//
-//        if(max < distanceR){
-//            max = distanceR;
-//            result = r;
-//        }
-//        if(max < distanceU){
-//            max = distanceU;
-//            result = u;
-//        }
-//        return result;
-//    }
+    private Point findShortestSpot(Point agent, Point l, Point d, Point r, Point u) {
+        double distanceL = calculateDistance(agent, l);
+        double distanceD = calculateDistance(agent, d);
+        double distanceR = calculateDistance(agent, r);
+        double distanceU = calculateDistance(agent, u);
+
+        double min = distanceL;
+        Point result = l;
+
+        if(min > distanceD){
+            min = distanceD;
+            result = d;
+        }
+
+        if(min > distanceR){
+            min = distanceR;
+            result = r;
+        }
+        if(min > distanceU){
+            min = distanceU;
+            result = u;
+        }
+        return result;
+    }
 
 
     //This function return the shortest path to go to the agent to attack
-    private Point findShortestSpot(Point agentPoint, Point ... points ) {
-
-        Point result = points[0];
-        double min = calculateDistance(getField().getAgent().getPoint(), result);
-
-        for(Point point : points){
-            double distance = calculateDistance(agentPoint, point);
-
-            if(min > distance){
-                min = distance;
-                result = point;
-            }
-        }
-
-        return result;
-    }
+//    private Point findShortestSpot(Point agentPoint, Point ... points ) {
+//
+//        Point result = points[0];
+//        double min = calculateDistance(getField().getAgent().getPoint(), result);
+//
+//        for(Point point : points){
+//            double distance = calculateDistance(agentPoint, point);
+//
+//            if(min > distance){
+//                min = distance;
+//                result = point;
+//            }
+//        }
+//
+//        return result;
+//    }
 
     private void moveHorizontal(Point des) {
         if(des.getX() == getPoint().getX()) {return;}
@@ -299,8 +299,8 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         int yMax = (getPoint().getY() + 3 >= getField().getHeight() + 3)? getField().getHeight(): getPoint().getY() + 3;
 
 
-        for(int i = xMin; i <= xMax; ++i){
-            for(int j = yMin; j <= yMax; ++j){
+        for(int i = xMin; i < xMax; ++i){
+            for(int j = yMin; j < yMax; ++j){
 //                Point point = new Point(i, j);
                 Point point = getField().getTileGrid()[j][i].getPoint();
                 if(isIncluded(point) ){

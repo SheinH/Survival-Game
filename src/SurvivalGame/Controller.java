@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -35,6 +36,8 @@ public class Controller {
     private Button pauseButton;
     @FXML
     private Button pickupButton;
+    @FXML
+    private ToggleButton dropButton;
     private Scene mainScene;
     private SurvivalGame game;
     private HashMap<Class<? extends FieldObject>,Image> objectImages;
@@ -108,6 +111,22 @@ public class Controller {
     public void initializeItemBar(){
         itembar = new ItemGridPane(itemImages);
         itembar.setGridPane(itemGrid);
+        itembar.setOnClickConsumer(i -> {
+            if(dropButton.isSelected()){
+                try {
+                    ItemsList list = game.getAgent().getItemsList();
+                    Item item = list.get(i);
+                    Item newItem = item.getClass().getConstructor().newInstance();
+                    newItem.setQuantity(1);
+                    item.setQuantity(item.getQuantity() - 1);
+                    Tile tile = game.getAgent().getTile();
+                    tile.getItemsList().add(newItem);
+                    game.getAgent().updateItems();
+                    tile.update();
+                }
+                catch(Exception neverhappening){}
+            }
+        });
         itembar.showList(game.getAgent().getItemsList());
 
         /*

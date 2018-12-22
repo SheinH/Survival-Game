@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ToggleButton?>
 <BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <GridPane fx:id="mainGrid" gridLinesVisible="true" BorderPane.alignment="CENTER">
@@ -14,9 +15,10 @@
    <right>
       <VBox prefHeight="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="pauseButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Resume" />
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Attack" />
-            <Button fx:id="pickupButton" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Loot / Drop" />
+             <Button fx:id="pauseButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Resume" focusTraversable="false"/>
+             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Attack" focusTraversable="false"/>
+             <Button fx:id="pickupButton" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Loot" focusTraversable="false"/>
+             <ToggleButton fx:id="dropButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Drop Items" focusTraversable="false"/>
          </children>
       </VBox>
    </right>

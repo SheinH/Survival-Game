@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 public class ItemGridPane {
@@ -23,6 +24,7 @@ public class ItemGridPane {
     ImageView border;
     HashMap<Class<? extends Item>, Image> images;
     List<ItemDisplay> itemDisplays;
+    Consumer<Integer> onClickConsumer;
     static Image itemBorderImage = new Image("file:res" +File.separator + "New_Tool_Pictures" + File.separator + "itemborder.png",50,50,true,false);
     static Image highlightBorderImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator + "itemborderselected.png",50,50,true,false);
 
@@ -115,7 +117,13 @@ public class ItemGridPane {
             ItemDisplay display = new ItemDisplay(list.get(n));
             itemDisplays.add(display);
             gridPane.add(display.getStackPane(),n,0);
+            StackPane sp = display.stackPane;
+            sp.setOnMouseClicked((e) -> onClickConsumer.accept(n));
         });
+    }
+
+    public void setOnClickConsumer(Consumer<Integer> onClickConsumer) {
+        this.onClickConsumer = onClickConsumer;
     }
 
     public void clearList(){

@@ -112,15 +112,9 @@ public class Field implements Iterable<Tile>{
 
     @Override
     public void forEach(Consumer<? super Tile> action) {
-        TileIterator iterator = new TileIterator();
-        while(iterator.hasNext()){
-            action.accept(iterator.next());
-        }
-    }
-
-    @Override
-    public Spliterator<Tile> spliterator() {
-        return null;
+        TileIterator it = new TileIterator();
+        while(it.hasNext())
+            action.accept(it.next());
     }
 
     class TileIterator implements Iterator<Tile>{
@@ -139,12 +133,13 @@ public class Field implements Iterable<Tile>{
 
         @Override
         public Tile next() {
+            Tile t =  grid[y][x];
             x++;
             if(x == width){
                 x = 0;
                 y++;
             }
-            return grid[y][x];
+            return t;
         }
     }
 }

@@ -3,21 +3,23 @@ import SurvivalGame.GameLogic.FieldObjects.MovingFieldObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Tile {
 
     private Point point;
     private List<FieldObject> objects;
-
-
-
     private ItemsList itemsList;
     private Terrain terrain;
+    private List<Consumer<Tile>> updaters;
+
+
 
     public Tile(Terrain terrain) {
         this.terrain = terrain;
         this.objects = new ArrayList<>();
         itemsList = new ItemsList();
+        updaters = new ArrayList<>();
     }
 
     public Point getPoint() {
@@ -53,6 +55,13 @@ public class Tile {
         return objects;
     }
 
+    public void addUpdateRunnable(Consumer<Tile> r){
+        updaters.add(r);
+    }
+
+    public void update(){
+        updaters.forEach(r -> r.accept(this));
+    }
 
     //
     public char toChar(){

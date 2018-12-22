@@ -59,6 +59,7 @@ public class Controller {
         targetImages = new HashMap<>();
         tileStackPaneHashMap = new HashMap<>();
         loadImages();
+        chestImage = new Image("file:res" + File.separator + "Terrain_Pictures" + File.separator + "Chest.png",32,32,true,false);
     }
 
     @FXML
@@ -66,8 +67,8 @@ public class Controller {
         loadTerrainImages();
         loadObjectImages();
         loadItemImages();
-        setVisionGrid();
         updateTileGrid();
+        addUpdatersToTiles();
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
             if(newV)
@@ -95,6 +96,7 @@ public class Controller {
         meat.setQuantity(10);
         items.add(meat);
         game.getField().getTile(new Point(0,1)).getItemsList().add(meat);
+        game.getField().getTile(new Point(0,1)).update();
         Lion lion = Loader.loadObject(Lion.class);
         System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(game.getAgent()));
     }
@@ -235,6 +237,17 @@ public class Controller {
         loadItemImages();
     }
 
+    public void addUpdatersToTiles(){
+        for(Tile t : game.getField()){
+            t.addUpdateRunnable((tile) -> {
+                if(tile.hasItem())
+                    addChest(tile);
+                else
+                    removeChest(tile);
+            });
+        }
+    }
+
     public void requestFocus(){
         mainGrid.requestFocus();
     }
@@ -254,9 +267,23 @@ public class Controller {
     }
 
     public void addChest(Tile t){
-        if(tileStackPaneHashMap.containsKey(t))
+        StackPane sp = tileStackPaneHashMap.get(t);
+        if(sp.getChildren().size() == 2)
             return;
-        tileStackPaneHashMap.get(t).getChildren().add(new ImageView());
+        else
+            sp.getChildren().add(new ImageView(chestImage));
+    }
+
+    public boolean hasChest(Tile t){
+        return tileStackPaneHashMap.get(t).getChildren().size() > 1;
+    }
+
+    public void removeChest(Tile t){
+        StackPane sp = tileStackPaneHashMap.get(t);
+        if(sp.getChildren().size() == 1)
+            return;
+        else
+            sp.getChildren().remove(1);
     }
 
     private void loadTerrainImages(){
@@ -365,7 +392,6 @@ public class Controller {
         Image stickimage = new Image(toolFolder + "stick.png",32,32,true,true);
         Image stoneimage = new Image(toolFolder + "stone.png",32,32,true,true);
         Image torchimage = new Image(toolFolder + "torch.png",32,32,true,true);
-        chestImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator);
 
         itemImages.put(Berry.class,berryimage);
         itemImages.put(Hand.class,fistimage);

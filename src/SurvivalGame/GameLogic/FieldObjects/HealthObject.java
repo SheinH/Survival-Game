@@ -9,7 +9,7 @@ public interface HealthObject {
     ItemsList getLoot();
 
 
-    default void lowerHealth(int difference){setHealth(Math.max(getHealth() - difference,0); }
+    default void lowerHealth(int difference){setHealth(Math.max(getHealth() - difference,0)); }
 
     default void boostHealth(int difference) {setHealth(getHealth() + difference);}
 

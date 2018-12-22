@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -41,8 +42,11 @@ public class Controller {
     private HashMap<Class<? extends Item>,Image> itemImages;
     private List<ImageView> imageViewList;
     private HashMap<FieldObject, StackPane> objectStackPaneHashMap;
+    private HashMap<Tile, StackPane> tileStackPaneHashMap;
     private Image itemBorderImage;
+    private Image chestImage;
     private HashMap<Integer, Image> targetImages;
+
 
     public Controller(SurvivalGame g) {
         game = g;
@@ -53,6 +57,7 @@ public class Controller {
         objectStackPaneHashMap = new HashMap<>();
         itemImages = new HashMap<>();
         targetImages = new HashMap<>();
+        tileStackPaneHashMap = new HashMap<>();
         loadImages();
     }
 
@@ -61,6 +66,7 @@ public class Controller {
         loadTerrainImages();
         loadObjectImages();
         loadItemImages();
+        setVisionGrid();
         updateTileGrid();
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
@@ -247,6 +253,12 @@ public class Controller {
             pickupButton.setDisable(true);
     }
 
+    public void addChest(Tile t){
+        if(tileStackPaneHashMap.containsKey(t))
+            return;
+        tileStackPaneHashMap.get(t).getChildren().add(new ImageView())
+    }
+
     private void loadTerrainImages(){
         Field field = game.getField();
         for(int y = 0; y < field.getHeight(); y++){
@@ -254,7 +266,10 @@ public class Controller {
                 Tile tile = field.getTile(new Point(y,x));
                 Image terrainImage = terrainImages.get(tile.getTerrain());
                 ImageView imageView = new ImageView(terrainImage);
-                mainGrid.add(imageView,x,y);
+                StackPane stackpane = new StackPane();
+                stackpane.getChildren().add(imageView);
+                tileStackPaneHashMap.put(tile,stackpane);
+                mainGrid.add(stackpane,x,y);
             }
         }
     }
@@ -281,19 +296,33 @@ public class Controller {
 
     }
 
-    //Setting Health Labels to each FieldObject that has a health
-    private void loadHealthLabel(){
-        List<FieldObject> objects = game.getField().getFieldObjects();
-        for(FieldObject obj : objects){
-            Text healthText = new Text();
-            if(obj instanceof HealthObject){
-                HealthObject moveObj = (HealthObject) obj;
-                healthText.setText(String.valueOf(moveObj.getHealth()));
-                healthText.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
-                healthText.setFill(Color.RED);
-                mainGrid.add(healthText, obj.getPoint().getX(), obj.getPoint().getY());
-            }
-        }
+    private final int TILE_WIDTH = 32;
+    private final int TILE_HEIGHT = 32;
+
+    public int WIDTH;
+    public int HEIGHT;
+
+    public void setVisionGrid() {
+        int rows = game.getAgent().getPoint().getY()+6;
+        int columns = game.getAgent().getPoint().getX()+6;
+        WIDTH = columns * TILE_WIDTH;
+        HEIGHT = rows * TILE_HEIGHT;
+
+        clipChildren(mainGrid);
+        mainGrid.setMinSize(WIDTH, HEIGHT);
+        mainGrid.setPrefSize(WIDTH, HEIGHT);
+        mainGrid.setMaxSize(WIDTH, HEIGHT);
+
+    }
+
+    public void clipChildren(Region region) {
+        Rectangle clipPane = new Rectangle();
+        region.setClip(clipPane);
+
+        region.layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
+            clipPane.setWidth(newValue.getWidth());
+            clipPane.setHeight(newValue.getHeight());
+        });
     }
 
 
@@ -336,6 +365,7 @@ public class Controller {
         Image stickimage = new Image(toolFolder + "stick.png",32,32,true,true);
         Image stoneimage = new Image(toolFolder + "stone.png",32,32,true,true);
         Image torchimage = new Image(toolFolder + "torch.png",32,32,true,true);
+        chestImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator;
 
         itemImages.put(Berry.class,berryimage);
         itemImages.put(Hand.class,fistimage);
@@ -346,80 +376,6 @@ public class Controller {
         itemImages.put(Torch.class,torchimage);
 
         itemBorderImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator + "itemborder.png",50,50,true,false);
-       /*
-        Image berry2image = new Image(toolFolder + "BerryGrid.png",32,32,true,false);
-        Image fist2image = new Image(toolFolder + "FistGrid.png",32,32,true,false);
-        Image meat2image = new Image(toolFolder + "MeatGrid.png",32,32,true,false);
-        Image spear2image = new Image(toolFolder + "SpearGrid.png",32,32,true,false);
-        Image stick2image = new Image(toolFolder + "StickGrid.png",32,32,true,false);
-        Image stone2image = new Image(toolFolder + "StoneGrid.png",32,32,true,false);
-        Image torch2image = new Image(toolFolder + "TorchGrid.png",32,32,true,false);
-        Item currentitem = game.getAgent().getEquippedItem();
-
-        if (currentitem instanceof Hand) {
-            itemGrid.add(new ImageView(fist2image), 1, 0);
-            itemGrid.add(new ImageView(stoneimage), 2, 0);
-            itemGrid.add(new ImageView(spearimage), 3, 0);
-            itemGrid.add(new ImageView(torchimage), 4, 0);
-            itemGrid.add(new ImageView(berryimage), 5, 0);
-            itemGrid.add(new ImageView(meatimage), 6, 0);
-            itemGrid.add(new ImageView(stickimage), 7, 0);
-        }
-        else if (currentitem instanceof Stone) {
-            itemGrid.add(new ImageView(fistimage), 1, 0);
-            itemGrid.add(new ImageView(stone2image), 2, 0);
-            itemGrid.add(new ImageView(spearimage), 3, 0);
-            itemGrid.add(new ImageView(torchimage), 4, 0);
-            itemGrid.add(new ImageView(berryimage), 5, 0);
-            itemGrid.add(new ImageView(meatimage), 6, 0);
-            itemGrid.add(new ImageView(stickimage), 7, 0);
-        }
-        else if (currentitem instanceof Spear) {
-            itemGrid.add(new ImageView(fistimage), 1, 0);
-            itemGrid.add(new ImageView(stoneimage), 2, 0);
-            itemGrid.add(new ImageView(spear2image), 3, 0);
-            itemGrid.add(new ImageView(torchimage), 4, 0);
-            itemGrid.add(new ImageView(berryimage), 5, 0);
-            itemGrid.add(new ImageView(meatimage), 6, 0);
-            itemGrid.add(new ImageView(stickimage), 7, 0);
-        }
-        else if (currentitem instanceof Torch) {
-            itemGrid.add(new ImageView(fistimage), 1, 0);
-            itemGrid.add(new ImageView(stoneimage), 2, 0);
-            itemGrid.add(new ImageView(spearimage), 3, 0);
-            itemGrid.add(new ImageView(torch2image), 4, 0);
-            itemGrid.add(new ImageView(berryimage), 5, 0);
-            itemGrid.add(new ImageView(meatimage), 6, 0);
-            itemGrid.add(new ImageView(stickimage), 7, 0);
-        }
-        else if (currentitem instanceof Berry) {
-            itemGrid.add(new ImageView(fistimage), 1, 0);
-            itemGrid.add(new ImageView(stoneimage), 2, 0);
-            itemGrid.add(new ImageView(spearimage), 3, 0);
-            itemGrid.add(new ImageView(torchimage), 4, 0);
-            itemGrid.add(new ImageView(berry2image), 5, 0);
-            itemGrid.add(new ImageView(meatimage), 6, 0);
-            itemGrid.add(new ImageView(stickimage), 7, 0);
-        }
-        else if (currentitem instanceof Meat) {
-            itemGrid.add(new ImageView(fistimage), 1, 0);
-            itemGrid.add(new ImageView(stoneimage), 2, 0);
-            itemGrid.add(new ImageView(spearimage), 3, 0);
-            itemGrid.add(new ImageView(torchimage), 4, 0);
-            itemGrid.add(new ImageView(berryimage), 5, 0);
-            itemGrid.add(new ImageView(meat2image), 6, 0);
-            itemGrid.add(new ImageView(stickimage), 7, 0);
-        }
-        else if (currentitem instanceof Stick) {
-            itemGrid.add(new ImageView(fistimage), 1, 0);
-            itemGrid.add(new ImageView(stoneimage), 2, 0);
-            itemGrid.add(new ImageView(spearimage), 3, 0);
-            itemGrid.add(new ImageView(torchimage), 4, 0);
-            itemGrid.add(new ImageView(berryimage), 5, 0);
-            itemGrid.add(new ImageView(meatimage), 6, 0);
-            itemGrid.add(new ImageView(stick2image), 7, 0);
-        }
-        */
     }
 
     public void loadScene(){

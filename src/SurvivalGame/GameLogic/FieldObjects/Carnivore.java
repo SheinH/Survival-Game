@@ -168,14 +168,14 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     //This function return the shortest path to go to the agent to attack
     private Point findShortestSpot(Point agentPoint, Point ... points ) {
 
-        Point result = null;
-        double max = 0;
+        Point result = points[0];
+        double min = calculateDistance(getField().getAgent().getPoint(), result);
 
         for(Point point : points){
             double distance = calculateDistance(agentPoint, point);
 
-            if(max < distance){
-                max = distance;
+            if(min > distance){
+                min = distance;
                 result = point;
             }
         }

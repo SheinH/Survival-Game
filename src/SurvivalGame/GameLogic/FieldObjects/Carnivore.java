@@ -35,6 +35,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         this.damage = damage;
         this.radiusZone = radiusZone;
+        attackZone = new ArrayList<>();
 
     }
 
@@ -62,13 +63,16 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     @Override
     public void update(){
         Agent agent = getField().getAgent();
-        Boolean bool = isAgentInAttackZone(agent);
-        
-        if(isAgentInAttackZone(getField().getAgent())){
+        boolean bool = isAgentInAttackZone(agent);
+        if(bool){
+            System.out.println("ATTACKING");
             attack(getField().getAgent());
+            System.out.println("ATTACK SUCCESSFUL");
         }
         else if(isAgentInDeadZone(getField().getAgent().getPoint())){
+            System.out.println("GOING TO AGENT");
             goToAgent();
+            System.out.println("SUCCESSFULLY WENT TO AGENT");
         }
         else if (actionTime > 0)
             actionTime--;
@@ -82,7 +86,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     @Override
     public void attack(MovingFieldObject agent) {
         if(agent instanceof Agent){
-            addMoveTime(5);
+            addMoveTime(10);
             agent.lowerHealth(getDamage());
         } else {
             return;
@@ -163,13 +167,15 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     //This function return the shortest path to go to the agent to attack
     private Point findShortestSpot(Point agentPoint, Point ... points ) {
-        double min = calculateDistance(agentPoint, points[0]);
-        Point result = points[0];
+
+        Point result = null;
+        double max = 0;
 
         for(Point point : points){
             double distance = calculateDistance(agentPoint, point);
-            if(min > distance){
-                min = distance;
+
+            if(max < distance){
+                max = distance;
                 result = point;
             }
         }

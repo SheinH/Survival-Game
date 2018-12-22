@@ -238,7 +238,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
         int dx = x-myX;
         int dy = y-myY;
 
-        if(Math.abs(dx) >= Math.abs(dy)){
+        if(Math.abs(dx) > Math.abs(dy) || (Math.abs(dx) == Math.abs(dy) && Math.random() > 0.5) ){
             if(dx > 0)
                 setDirection(Direction.RIGHT);
             else if(dx < 0)

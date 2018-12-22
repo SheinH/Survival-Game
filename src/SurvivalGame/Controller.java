@@ -83,8 +83,10 @@ public class Controller {
         spear.setQuantity(1);
         game.getAgent().getItemsList().add(berry);
         game.getAgent().getItemsList().add(spear);
-        game.getAgent().addObserver(() -> Platform.runLater(() ->
-                itembar.showList(game.getAgent().getItemsList())));
+        //game.getAgent().addObserver(() -> Platform.runLater(() ->
+        //        itembar.showList(game.getAgent().getItemsList())));
+        game.getAgent().getItemsList().addListener(il -> Platform.runLater(() ->
+                itembar.showList(il)));
         game.setUpdateGui(() -> updateTileGrid());
         game.getPausedProperty().addListener((o,oldV,newV) ->{
             if(newV)
@@ -105,8 +107,6 @@ public class Controller {
                 agentItems.add(i);
             }
             tileItems.clear();
-            agent.updateObservers();
-            tile.update();
             game.getGameLock().unlock();
         });
         ItemsList items = new ItemsList();
@@ -114,8 +114,6 @@ public class Controller {
         meat.setQuantity(10);
         items.add(meat);
         game.getField().getTile(new Point(0,1)).getItemsList().add(meat);
-        game.getField().getTile(new Point(0,1)).update();
-        game.getAgent().updateObservers();
     }
 
     public void initializeItemBar(){
@@ -133,8 +131,6 @@ public class Controller {
                     tile.getItemsList().add(newItem);
                     if(item.getQuantity() == 0)
                         game.getAgent().getItemsList().remove(item);
-                    game.getAgent().updateObservers();
-                    tile.update();
                 }
                 catch(Exception neverhappening){}
             }
@@ -204,6 +200,8 @@ public class Controller {
                 if(game.isPaused())
                     game.tick();
                 break;
+            case SHIFT:
+                dropButton.selectedProperty().set(true);
         }
         game.getGameLock().unlock();
 
@@ -219,6 +217,10 @@ public class Controller {
                 game.getGameLock().lock();
                 game.getAgent().setDirection(Direction.NONE);
                 game.getGameLock().unlock();
+                break;
+            case SHIFT:
+                dropButton.selectedProperty().set(false);
+                break;
         }
 
     }
@@ -259,7 +261,7 @@ public class Controller {
 
     public void addUpdatersToTiles(){
         for(Tile t : game.getField()){
-            t.addUpdateRunnable((tile) -> {
+            t.addListener((tile) -> {
                 if(tile.hasItem())
                     addChest(tile);
                 else
@@ -329,12 +331,11 @@ public class Controller {
             Text healthText = new Text();
             if(o instanceof MovingFieldObject){
                 MovingFieldObject moveObj = (MovingFieldObject) o;
-                moveObj.addObserver(() -> {
+                moveObj.addListener((x) -> {
                     healthText.setText(String.valueOf(moveObj.getHealth()));
                 });
                 healthText.setFont(Font.font("Tahoma", FontWeight.BOLD, 10));
                 healthText.setFill(Color.RED);
-                moveObj.updateObservers();
                 mainGrid.add(healthText, o.getPoint().getX(), o.getPoint().getY());
             }
             stackPane.getChildren().add(imageView);

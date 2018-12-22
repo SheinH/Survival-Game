@@ -5,15 +5,18 @@ import SurvivalGame.GameLogic.Items.Item;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class ItemsList extends ArrayList<Item> implements Observable<ItemsList> {
 
     private ObservableWrapper<ItemsList> observers;
+    private HashMap<Item,Consumer<Item>> consumers;
 
     public ItemsList() {
         super();
         observers = new ObservableWrapper<>(this);
+        consumers = new HashMap<>();
     }
 
     public void update() {
@@ -29,7 +32,15 @@ public class ItemsList extends ArrayList<Item> implements Observable<ItemsList> 
     }
 
     private void addObserver(Item i){
-        i.addListener(it -> update());
+        Consumer<Item> c = it -> update();
+        consumers.put(i,c);
+        i.addListener(c);
+    }
+
+
+    private void removeObserver(Item i){
+        Consumer<Item> c = consumers.get(i);
+        i.removeListener(c);
     }
 
     @Override
@@ -40,6 +51,7 @@ public class ItemsList extends ArrayList<Item> implements Observable<ItemsList> 
         } else {
             addObserver(item);
             super.add(index, item);
+            update();
         }
     }
 
@@ -51,8 +63,33 @@ public class ItemsList extends ArrayList<Item> implements Observable<ItemsList> 
             return true;
         } else {
             addObserver(item);
-            return super.add(item);
+            boolean b = super.add(item);
+            update();
+            return b;
         }
+    }
+
+    @Override
+    public Item remove(int index) {
+        removeObserver(get(index));
+        var v = super.remove(index);
+        update();
+        return v;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        Item item = get(indexOf(o));
+        removeObserver(item);
+        var v = super.remove(o);
+        update();
+        return v;
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        update();
     }
 
     @Override

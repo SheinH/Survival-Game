@@ -5,14 +5,17 @@ import SurvivalGame.GameLogic.FieldObjects.MovingFieldObject;
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class FieldObject{
+public abstract class FieldObject implements Observable<FieldObject>{
     private transient Field field;
     private Point point;
     private String name;
+    private ObservableWrapper<FieldObject> observers;
+
     //* CONSTRUCTOR(S)
     public FieldObject() {
 
         // not implemented yet
+        observers = new ObservableWrapper<>(this);
     }
 
     public FieldObject(Field field, Point point, String name) {
@@ -62,6 +65,20 @@ public abstract class FieldObject{
 
     public abstract void update();
 
+    public void updateListeners(){
+        observers.update();
+    }
+
 
     public abstract char getChar();
+
+    @Override
+    public void addListener(Consumer<FieldObject> listener) {
+        observers.addListener(listener);
+    }
+
+    @Override
+    public void removeListener(Consumer<FieldObject> listener) {
+        observers.removeListener(listener);
+    }
 }

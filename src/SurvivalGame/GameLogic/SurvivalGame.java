@@ -71,7 +71,7 @@ public class SurvivalGame {
 
 
     public void tick(){
-        field.getFieldObjects().forEach((obj) -> obj.update());
+        field.getFieldObjects().forEach((obj) -> {obj.update(); obj.updateListeners();});
         if (updateGui != null)
             updateGui.run();
         tickCount++;

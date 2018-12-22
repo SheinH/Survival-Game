@@ -16,6 +16,7 @@ public class ObservableWrapper<T> implements Observable<T>{
     @Override
     public void addListener(Consumer<T> listener) {
         listenerList.add(listener);
+        listener.accept(object);
     }
 
     @Override

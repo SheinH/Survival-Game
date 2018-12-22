@@ -114,7 +114,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
         }
     }
 
-    private void addMoveTime(int i) {
+    protected void addMoveTime(int i) {
         moveTime += i;
     }
 
@@ -128,7 +128,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
         return direction;
     }
 
-    ;
+
 
     public void changeDirection() {
         int rand = new Random().nextInt();

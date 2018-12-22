@@ -41,7 +41,12 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         return (Tool)list.get(equippedItemIndex);
     }
     @Override
-    public void attack(HealthObject target) {
+    public void attack(MovingFieldObject object) {
+        if(object instanceof Agent){
+            object.lowerHealth(50); // this will be modified later
+        } else {
+            return;
+        }
 
     }
 

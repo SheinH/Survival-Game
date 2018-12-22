@@ -17,10 +17,10 @@ public class Bear extends Carnivore{
 
     }
 
-    @Override
-    public void attack(HealthObject target) {
-
-    }
+//    @Override
+//    public void attack(HealthObject target) {
+//
+//    }
     @Override
     public int getMaxHealth(){return 0;}
 }

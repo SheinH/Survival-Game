@@ -64,13 +64,33 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     public int getradiusZone(){ return radiusZone;}
 
     @Override
-    public void attack(HealthObject target) {
+    public void update(){
+        if(isAgentInDeadZone(getField().getAgent().getPoint())){
+            goToAgent();
+            if(isAgentInAttackZone(getField().getAgent())){
+                attack(getField().getAgent());
+            }
+        }
+        else if (moveTime > 0)
+            moveTime--;
+        else {
+            moveForward();
+            changeDirection();
+            addMoveTime();
+        }
+    }
 
-        target.lowerHealth(damage);
+    @Override
+    public void attack(MovingFieldObject agent) {
+        if(agent instanceof Agent){
+            agent.lowerHealth(damage);
+        } else {
+            return;
+        }
     }
 
     public void doAttack(){
-        if(isAgentInDeadZone(getField().getAgent().getPoint())){
+        if(isAgentInAttackZone(getField().getAgent().getPoint())){
             attack(getField().getAgent());
         } else{
             return;

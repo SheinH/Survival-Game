@@ -57,6 +57,9 @@ public class SurvivalGame {
             try {
                 tick();
             }
+            catch(Exception e){
+                e.printStackTrace();
+            }
             finally {
                 gamePauseLock.unlock();
             }
@@ -65,6 +68,8 @@ public class SurvivalGame {
             gameLock.unlock();
         }
     }
+
+
     public void tick(){
         field.getFieldObjects().forEach((obj) -> obj.update());
         if (updateGui != null)

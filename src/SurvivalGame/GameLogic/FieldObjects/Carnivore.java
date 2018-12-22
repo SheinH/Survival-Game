@@ -35,6 +35,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         this.damage = damage;
         this.radiusZone = radiusZone;
+        attackZone = new ArrayList<>();
 
     }
 
@@ -61,11 +62,17 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     @Override
     public void update(){
-        if(isAgentInAttackZone(getField().getAgent())){
+        Agent agent = getField().getAgent();
+        boolean bool = isAgentInAttackZone(agent);
+        if(bool){
+            System.out.println("ATTACKING");
             attack(getField().getAgent());
+            System.out.println("ATTACK SUCCESSFUL");
         }
         else if(isAgentInDeadZone(getField().getAgent().getPoint())){
+            System.out.println("GOING TO AGENT");
             goToAgent();
+            System.out.println("SUCCESSFULLY WENT TO AGENT");
         }
         else if (actionTime > 0)
             actionTime--;

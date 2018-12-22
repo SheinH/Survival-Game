@@ -41,7 +41,7 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
     //getAttackZone()
     public List<Point> getAttackZone(){
-       return attackZone;
+        return attackZone;
     }
 
     public void setAttackZone() {
@@ -311,9 +311,8 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         for(int i = xMin; i < xMax; ++i){
             for(int j = yMin; j < yMax; ++j){
-//                Point point = new Point(i, j);
-                Point point = getField().getTileGrid()[j][i].getPoint();
-                if(isIncluded(point) ){
+                Point point = new Point(i, j);
+                if(isIncluded(point) && getField().inBounds(point)){
                     deadZone.add(point);
                 }
             }
@@ -369,9 +368,33 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     private boolean isInShadow(Point point, Point rock){
         double distance = calculateDistance(point);
 
-        double rockAngle = Math.atan( (rock.getY() - getPoint().getY() )  / (rock.getX() - getPoint().getX()) ); //angle of rock
+        double rockAngle;
+        double pointAngle;
 
-        double pointAngle = Math.atan( (point.getY() - getPoint().getY()) / (point.getX() - getPoint().getX()) );//angle of a point
+        double rockX = rock.getX() - getPoint().getX();
+        double rockY = rock.getY() - getPoint().getY();
+        double pointX = point.getX() - getPoint().getX();
+        double pointY = point.getY() - getPoint().getY();
+
+
+        if(rockX == 0 && rockY < 0){
+            rockAngle = -Math.PI/2;
+        } else if (rockX == 0 & rockY > 0){
+            rockAngle = Math.PI/2;
+        }
+        else{
+            rockAngle = Math.atan(rockY / rockX);
+        }
+
+        if(pointX == 0 && pointY < 0){
+            pointAngle = -Math.PI/2;
+        } else if (pointX == 0 & pointY > 0){
+            pointAngle = Math.PI/2;
+        }
+        else{
+            pointAngle = Math.atan(pointY / pointX);
+        }
+
 
         double smallAngle = Math.asin(0.5/distance); //because the diameter for every tile is 1
 

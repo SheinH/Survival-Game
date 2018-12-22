@@ -5,52 +5,64 @@ import SurvivalGame.GameLogic.Items.Item;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Consumer;
 
-public class ItemsList extends ArrayList<Item> {
+public class ItemsList extends ArrayList<Item> implements Observable<ItemsList> {
+
+    private ObservableWrapper<ItemsList> observers;
 
     public ItemsList() {
         super();
-        updaters = new ArrayList<>();
+        observers = new ObservableWrapper<>(this);
     }
 
-    private ArrayList<Runnable> updaters;
-
-    public void update(){
-        for(Runnable r : updaters)
-            r.run();
+    public void update() {
+        observers.update();
     }
 
-    public void addUpdater(Runnable r){
-        updaters.add(r);
-    }
-
-    public Item getItem(Class<? extends Item> type){
-        for(Item i : this) {
+    public Item getItem(Class<? extends Item> type) {
+        for (Item i : this) {
             if (type.isInstance(i))
                 return i;
         }
         return null;
     }
 
+    private void addObserver(Item i){
+        i.addListener(it -> update());
+    }
+
     @Override
     public void add(int index, Item item) {
-        if(this.contains(item)) {
+        if (this.contains(item)) {
             Item content = get(indexOf(item));
             content.setQuantity(content.getQuantity() + item.getQuantity());
-        }
-        else
+        } else {
+            addObserver(item);
             super.add(index, item);
+        }
     }
 
     @Override
     public boolean add(Item item) {
-        if(this.contains(item)) {
+        if (this.contains(item)) {
             Item content = get(indexOf(item));
             content.setQuantity(content.getQuantity() + item.getQuantity());
             return true;
-        }
-        else
+        } else {
+            addObserver(item);
             return super.add(item);
+        }
+    }
+
+    @Override
+    public void addListener(Consumer<ItemsList> listener) {
+        observers.addListener(listener);
+    }
+
+    @Override
+    public void removeListener(Consumer<ItemsList> listener) {
+        observers.removeListener(listener);
     }
 }
 

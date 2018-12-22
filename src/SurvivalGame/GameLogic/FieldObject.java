@@ -1,21 +1,25 @@
 package SurvivalGame.GameLogic;
 
-public abstract class FieldObject {
+import SurvivalGame.GameLogic.FieldObjects.MovingFieldObject;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+public abstract class FieldObject{
     private transient Field field;
     private Point point;
     private String name;
-
     //* CONSTRUCTOR(S)
     public FieldObject() {
 
         // not implemented yet
     }
+
     public FieldObject(Field field, Point point, String name) {
         this.field = field;
         this.point = point;
         this.name = name;
     }
-
 
 
     public Field getField() {
@@ -35,14 +39,14 @@ public abstract class FieldObject {
     }
 
 
-
-    public Tile getTile(){
+    public Tile getTile() {
         return field.getTile(point);
     }
 
 
     //destroy() method
-    public void destroy(){}
+    public void destroy() {
+    }
 
     public String getName() {
         return name;
@@ -60,9 +64,4 @@ public abstract class FieldObject {
 
 
     public abstract char getChar();
-
-
-
-
-
 }

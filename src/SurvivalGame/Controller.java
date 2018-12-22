@@ -26,6 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Controller {
+    private final int TILE_WIDTH = 32;
+    private final int TILE_HEIGHT = 32;
+    public int WIDTH;
+    public int HEIGHT;
     @FXML
     private GridPane mainGrid;
     @FXML
@@ -50,7 +54,6 @@ public class Controller {
     private Image chestImage;
     private HashMap<Integer, Image> targetImages;
     private ItemGridPane itembar;
-
 
     public Controller(SurvivalGame g) {
         game = g;
@@ -153,6 +156,7 @@ public class Controller {
         itemGrid.add(sp,0,0);
         */
     }
+
     public void updateItemBar(){
         updateItemGrid(itemGrid, game.getAgent().getItemsList());
     }
@@ -169,7 +173,6 @@ public class Controller {
 
     }
 
-
     private void togglePause(){
         if(game.isPaused()) {
             game.unPause();
@@ -178,7 +181,6 @@ public class Controller {
             game.pause();
         }
     }
-
 
     private void handleKeyPress(KeyEvent key) {
         if(key.getCode() == KeyCode.SPACE)
@@ -343,12 +345,6 @@ public class Controller {
         }
 
     }
-
-    private final int TILE_WIDTH = 32;
-    private final int TILE_HEIGHT = 32;
-
-    public int WIDTH;
-    public int HEIGHT;
 
     public void setVisionGrid() {
         int rows = game.getAgent().getPoint().getY()+6;

@@ -1,29 +1,23 @@
 package SurvivalGame.GameLogic.Items;
 
-import javafx.beans.Observable;
+import SurvivalGame.GameLogic.Observable;
+import SurvivalGame.GameLogic.ObservableWrapper;
 
-import java.util.ArrayList;
+import java.util.function.Consumer;
 
-public abstract class Item {
+public abstract class Item implements Observable<Item> {
 
     private int quantity = 0;
     private double weight;
-
+    private ObservableWrapper<Item> observers;
 
     public Item(double weight) {
         if(weight < 0) {
             throw new IllegalArgumentException("weight must be >= 0");
         }
         this.weight = weight;
+        observers = new ObservableWrapper<>(this);
     }
-//    public Item(double weight, String name) {
-//        if(weight < 0) {
-//            throw new IllegalArgumentException("weight must be >= 0");
-//        }
-//        this.weight = weight;
-//    }
-
-    //getter
 
     public double getWeight() {return this.weight; }
 
@@ -33,6 +27,7 @@ public abstract class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+        observers.update();
     }
 
     public void changeQuantity(int change){
@@ -40,7 +35,7 @@ public abstract class Item {
             throw new IllegalArgumentException("Cannot use more than the availability");
         }
 
-        this.quantity = this.quantity + change;
+        setQuantity(quantity + change);
     }
 
     @Override
@@ -50,15 +45,13 @@ public abstract class Item {
         return true;
     }
 
+    @Override
+    public void addListener(Consumer<Item> listener) {
+        observers.addListener(listener);
+    }
 
-
-
-
-    //setter
-//    public void setweight(double difference) {
-//        if(this.weight + difference < 0) {
-//            throw new IllegalArgumentException("weight must be >= 0");
-//        }
-//        this.weight = this.weight + difference;
-//    }
+    @Override
+    public void removeListener(Consumer<Item> listener) {
+        observers.removeListener(listener);
+    }
 }

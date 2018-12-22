@@ -231,17 +231,26 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         int x = agentPoint.getX();
         int y = agentPoint.getY();
-        while( isAgentInDeadZone(agentPoint) ){
-            Point des = findShortestSpot(agentPoint, new Point(y, x - 1),
-                    new Point(y, x + 1), new Point(y + 1, x),
-                    new Point(y - 1, x) );
+        int myX = getPoint().getX();
+        int myY = getPoint().getY();
 
-            moveVertical(des);
-            moveHorizontal(des);
+        int dx = x-myX;
+        int dy = y-myY;
+
+        if(Math.abs(dx) >= Math.abs(dy)){
+            if(dx > 0)
+                setDirection(Direction.RIGHT);
+            else if(dx < 0)
+                setDirection(Direction.LEFT);
         }
-
-        //This can be coded based on how you want animal to run to the agent
-
+        else{
+            if(dy > 0)
+                setDirection(Direction.DOWN);
+            else if(dy < 0)
+                setDirection(Direction.UP);
+        }
+        moveForward();
+        addMoveTime();
     }
 
     //this method will provide a list of all available points that Carnivore can find the agent
@@ -301,12 +310,10 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         for(int i = xMin; i <= xMax; ++i){
             for(int j = yMin; j <= yMax; ++j){
-//                Point point = new Point(i, j);
-                Point point = getField().getTileGrid()[j][i].getPoint();
-                if(isIncluded(point) ){
+                Point point = new Point(i, j);
+                if(isIncluded(point) && getField().inBounds(point)){
                     deadZone.add(point);
                 }
-
             }
         }
     }

@@ -23,9 +23,6 @@ public class Crocodile extends Carnivore{
 
     @Override
     public int getActionTime() {
-        return 0;
+        return actionTime;
     }
-
-    @Override
-    public int getMaxHealth(){return 0;}
 }

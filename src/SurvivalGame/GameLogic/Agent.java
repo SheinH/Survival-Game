@@ -9,6 +9,7 @@ import SurvivalGame.GameLogic.Items.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
@@ -21,10 +22,12 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
     private transient ItemsList list;
     private int equippedItemIndex;
+    private List<Runnable> observers;
 
     public Agent(int health){
         super(health);
         list = new ItemsList();
+        observers = new ArrayList<>();
     }
     public Agent(){
         this(100);
@@ -44,6 +47,18 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
     @Override
     public int getMaxHealth(){return MAX_HEALTH;}
+
+    public void addObserver(Runnable r){
+        observers.add(r);
+    }
+    @Override
+    public void update() {
+        super.update();
+    }
+
+    public void updateItems(){
+        observers.forEach(r -> r.run());
+    }
 
     @Override
     public char getChar() {

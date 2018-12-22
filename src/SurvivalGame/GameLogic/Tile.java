@@ -28,9 +28,9 @@ public class Tile {
         this.point = p;
     }
 
-    public ItemsList getItemsList() {
-        return itemsList;
-    }
+//    public ItemsList getItemsList() {
+//        return itemsList;
+//    }
 
     public Terrain getTerrain() {
         return terrain;

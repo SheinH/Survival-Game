@@ -72,6 +72,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
             moveForward();
             changeDirection();
             addMoveTime();
+//            goToAgent(); //added 5:15 test
         }
     }
 
@@ -167,6 +168,8 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
                 direction = Direction.NONE;
         }
     }
+
+    public abstract void goToAgent();    //test added 5:15AM
 
     @Override
     public int getHealth() {

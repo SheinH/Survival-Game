@@ -256,7 +256,7 @@ public class Controller {
     public void addChest(Tile t){
         if(tileStackPaneHashMap.containsKey(t))
             return;
-        tileStackPaneHashMap.get(t).getChildren().add(new ImageView())
+        tileStackPaneHashMap.get(t).getChildren().add(new ImageView());
     }
 
     private void loadTerrainImages(){
@@ -365,7 +365,7 @@ public class Controller {
         Image stickimage = new Image(toolFolder + "stick.png",32,32,true,true);
         Image stoneimage = new Image(toolFolder + "stone.png",32,32,true,true);
         Image torchimage = new Image(toolFolder + "torch.png",32,32,true,true);
-        chestImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator;
+        chestImage = new Image("file:res" + File.separator + "New_Tool_Pictures" + File.separator);
 
         itemImages.put(Berry.class,berryimage);
         itemImages.put(Hand.class,fistimage);

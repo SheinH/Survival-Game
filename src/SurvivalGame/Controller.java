@@ -74,6 +74,12 @@ public class Controller {
         updateTileGrid();
         addUpdatersToTiles();
         initializeItemBar();
+        Berry berry = new Berry();
+        berry.setQuantity(20);
+        Spear spear = new Spear();
+        spear.setQuantity(1);
+        game.getAgent().getItemsList().add(berry);
+        game.getAgent().getItemsList().add(spear);
         game.getAgent().addObserver(() -> Platform.runLater(() ->
                 itembar.showList(game.getAgent().getItemsList())));
         game.setUpdateGui(() -> updateTileGrid());
@@ -106,6 +112,7 @@ public class Controller {
         items.add(meat);
         game.getField().getTile(new Point(0,1)).getItemsList().add(meat);
         game.getField().getTile(new Point(0,1)).update();
+        game.getAgent().updateObservers();
     }
 
     public void initializeItemBar(){
@@ -121,6 +128,8 @@ public class Controller {
                     item.setQuantity(item.getQuantity() - 1);
                     Tile tile = game.getAgent().getTile();
                     tile.getItemsList().add(newItem);
+                    if(item.getQuantity() == 0)
+                        game.getAgent().getItemsList().remove(item);
                     game.getAgent().updateObservers();
                     tile.update();
                 }

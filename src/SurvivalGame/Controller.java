@@ -89,6 +89,7 @@ public class Controller {
                 agentItems.add(i);
             }
             tileItems.clear();
+            game.getGameLock().unlock();
         });
         testMethod();
         ItemsList items = new ItemsList();

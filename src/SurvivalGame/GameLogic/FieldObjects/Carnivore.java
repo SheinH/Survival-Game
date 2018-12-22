@@ -64,7 +64,9 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
     public void update(){
         Agent agent = getField().getAgent();
         boolean bool = isAgentInAttackZone(agent);
-        if(bool){
+        if (actionTime > 0)
+            actionTime--;
+        else if(bool){
             System.out.println("ATTACKING");
             attack(getField().getAgent());
             System.out.println("ATTACK SUCCESSFUL");
@@ -74,8 +76,6 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
             goToAgent();
             System.out.println("SUCCESSFULLY WENT TO AGENT");
         }
-        else if (actionTime > 0)
-            actionTime--;
         else {
             moveForward();
             changeDirection();
@@ -164,6 +164,25 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
 
         return result;
     }
+
+
+    //This function return the shortest path to go to the agent to attack
+//    private Point findShortestSpot(Point agentPoint, Point ... points ) {
+//
+//        Point result = points[0];
+//        double min = calculateDistance(getField().getAgent().getPoint(), result);
+//
+//        for(Point point : points){
+//            double distance = calculateDistance(agentPoint, point);
+//
+//            if(min > distance){
+//                min = distance;
+//                result = point;
+//            }
+//        }
+//
+//        return result;
+//    }
 
     private void moveHorizontal(Point des) {
         if(des.getX() == getPoint().getX()) {return;}
@@ -297,7 +316,6 @@ public abstract class Carnivore extends MovingFieldObject implements Attacker, H
                 if(isIncluded(point) ){
                     deadZone.add(point);
                 }
-
             }
         }
     }

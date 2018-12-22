@@ -179,7 +179,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
 
     @Override
     public void setHealth(int health) {
-        if (health <= 0) {
+        if (health < 0) {
             throw new IllegalArgumentException("health must be > 0");
         }
 

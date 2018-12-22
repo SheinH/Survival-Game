@@ -139,12 +139,13 @@ public class Field implements Iterable<Tile>{
 
         @Override
         public Tile next() {
+            Tile t =  grid[y][x];
             x++;
             if(x == width){
                 x = 0;
                 y++;
             }
-            return grid[y][x];
+            return t;
         }
     }
 }

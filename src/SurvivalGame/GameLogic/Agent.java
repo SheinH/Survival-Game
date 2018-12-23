@@ -22,6 +22,7 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
     private transient ItemsList list;
     private SimpleIntegerProperty equippedItemIndex;
+    private List<Point> path;
 
     public Agent(int health){
         super(health);
@@ -55,7 +56,32 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
 
     @Override
     public void update() {
-        super.update();
+        if (actionTime > 0)
+            actionTime--;
+        else {
+            if(path != null && !path.isEmpty()){
+                boolean b = moveTo(path.get(0));
+                if(b) {
+                    path.remove(0);
+                    addMoveTime();
+                }
+                else
+                    path.clear();
+            }
+            else {
+                moveForward();
+                if(getDirection() != Direction.NONE)
+                    addMoveTime();
+            }
+        }
+    }
+
+    public void setDestination(Point destination){
+        path = getField().findPath(this,destination);
+    }
+
+    public void clearPath(){
+        path = null;
     }
 
     @Override
@@ -72,8 +98,7 @@ public class Agent extends MovingFieldObject implements Attacker, HealthObject {
         return null;
     }
     public void addMoveTime() {
-        if(getDirection() != Direction.NONE)
-            actionTime += getMoveSpeed();
+        actionTime += getMoveSpeed();
     }
 
     @Override

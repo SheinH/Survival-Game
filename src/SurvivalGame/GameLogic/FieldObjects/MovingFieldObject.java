@@ -98,12 +98,33 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
         }
     }
 
-    private void moveTo(Point dest) {
-        if (!getField().inBounds(dest) || getField().getTile(dest).hasObject()) {
-            setDirection(Direction.NONE);
+    public void face(Point p){
+        Point offset = getPoint().offsetTo(p);
+        int dx = offset.getX();
+        int dy = offset.getY();
+
+        if(Math.abs(dx) > Math.abs(dy) || (Math.abs(dx) == Math.abs(dy) && Math.random() > 0.5) ){
+            if(dx > 0)
+                setDirection(Direction.RIGHT);
+            else if(dx < 0)
+                setDirection(Direction.LEFT);
         }
-        else if (!movableTerrains.contains(getField().getTile(dest).getTerrain())) {
+        else{
+            if(dy > 0)
+                setDirection(Direction.DOWN);
+            else if(dy < 0)
+                setDirection(Direction.UP);
+        }
+    }
+
+    public boolean canMoveTo(Point dest){
+        Tile t = getField().getTile(dest);
+        return !t.hasObject() && movableTerrains.contains(t.getTerrain());
+    }
+    public boolean moveTo(Point dest) {
+        if (!getField().inBounds(dest) || !canMoveTo(dest)) {
             setDirection(Direction.NONE);
+            return false;
         }
         else {
             Tile destTile = getField().getTile(dest);
@@ -111,6 +132,7 @@ public abstract class MovingFieldObject extends FieldObject implements HealthObj
             currentTile.getObjects().remove(this);
             destTile.getObjects().add(this);
             setPoint(dest);                             //where did you get did function
+            return true;
         }
     }
 

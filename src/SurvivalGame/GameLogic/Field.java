@@ -16,6 +16,7 @@ public class Field implements Iterable<Tile>{
     private int width;
     private List<FieldObject> fieldObjects;
     private Agent agent;
+    private Pathfinding pf;
 
 
 
@@ -24,6 +25,7 @@ public class Field implements Iterable<Tile>{
         this.width = width;
         grid = new Tile[height][width];
         fieldObjects = new ArrayList<>();
+        pf = new Pathfinding(this);
     }
 
     public SurvivalGame getGame() {
@@ -87,6 +89,10 @@ public class Field implements Iterable<Tile>{
     public boolean inBounds(Point p){
         return p.getX() >= 0 && p.getX() < width &&
                 p.getY() >= 0 && p.getY() < height;
+    }
+
+    public List<Point> findPath(MovingFieldObject obj, Point p){
+        return pf.findPath(obj,p);
     }
 
 

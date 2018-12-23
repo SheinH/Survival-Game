@@ -182,15 +182,19 @@ public class Controller {
         {
             case W:
                 game.getAgent().setDirection(Direction.UP);
+                game.getAgent().clearPath();
                 break;
             case S:
                 game.getAgent().setDirection(Direction.DOWN);
+                game.getAgent().clearPath();
                 break;
             case A:
                 game.getAgent().setDirection(Direction.LEFT);
+                game.getAgent().clearPath();
                 break;
             case D:
                 game.getAgent().setDirection(Direction.RIGHT);
+                game.getAgent().clearPath();
                 break;
             case E:
                 game.getAgent().offsetItemIndex(1);
@@ -321,6 +325,11 @@ public class Controller {
                 stackpane.getChildren().add(imageView);
                 tileStackPaneHashMap.put(tile,stackpane);
                 mainGrid.add(stackpane,x,y);
+                stackpane.setOnMouseClicked(e ->{
+                    game.getGameLock().lock();
+                    game.getAgent().setDestination(tile.getPoint());
+                    game.getGameLock().unlock();
+                });
             }
         }
     }
